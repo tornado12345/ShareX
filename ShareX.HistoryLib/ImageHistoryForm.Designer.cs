@@ -69,6 +69,7 @@
             // 
             // ilvImages
             // 
+            this.ilvImages.AllowDrag = true;
             this.ilvImages.AllowDuplicateFileNames = true;
             this.ilvImages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ilvImages.CacheLimit = "100MB";
@@ -93,6 +94,7 @@
             this.tsddbThumbnailSize,
             this.tsddbMaxImageLimit});
             this.tsMain.Name = "tsMain";
+            this.tsMain.ShowItemToolTips = false;
             // 
             // tsddbViewMode
             // 

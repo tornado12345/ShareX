@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -35,23 +35,11 @@ namespace ShareX.UploadersLib
         public long Position { get; private set; }
         public long Length { get; private set; }
 
-        public double Percentage
-        {
-            get
-            {
-                return (double)Position / Length * 100;
-            }
-        }
+        public double Percentage => (double)Position / Length * 100;
 
         public double Speed { get; private set; }
 
-        public TimeSpan Elapsed
-        {
-            get
-            {
-                return startTimer.Elapsed;
-            }
-        }
+        public TimeSpan Elapsed => startTimer.Elapsed;
 
         public TimeSpan Remaining
         {
@@ -72,9 +60,10 @@ namespace ShareX.UploadersLib
         private long speedTest;
         private FixedSizedQueue<double> averageSpeed = new FixedSizedQueue<double>(10);
 
-        public ProgressManager(long length)
+        public ProgressManager(long length, long position = 0)
         {
             Length = length;
+            Position = position;
             startTimer.Start();
             smoothTimer.Start();
         }

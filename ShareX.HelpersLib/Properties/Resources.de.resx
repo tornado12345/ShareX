@@ -141,9 +141,6 @@
   <data name="ClipboardContentViewer_ClipboardContentViewer_Load_Clipboard_is_empty_or_contains_unknown_data_" xml:space="preserve">
     <value>Zwischenablage ist leer oder enthält unbekannte Daten.</value>
   </data>
-  <data name="RegistryHelpers_ShellExtDesc_Upload_with__0_" xml:space="preserve">
-    <value>Hochladen mit {0}</value>
-  </data>
   <data name="PrintTextForm_LoadSettings_Name___0___Size___1_" xml:space="preserve">
     <value>Name {0}, Größe: {1}</value>
   </data>
@@ -178,7 +175,7 @@
     <value>Fehler</value>
   </data>
   <data name="ExportImportControl_tsmiExportClipboard_Click_Settings_copied_to_your_clipboard_" xml:space="preserve">
-    <value>Einstellungen in Zwischenbalge kopiert</value>
+    <value>Einstellungen in Zwischenablage kopiert</value>
   </data>
   <data name="DownloaderForm_DownloaderForm_Filename___0_" xml:space="preserve">
     <value>Dateiname: {0}</value>
@@ -279,7 +276,7 @@ Dateigröße: {2:n0} / {3:n0} KB</value>
     <value>Automatisch</value>
   </data>
   <data name="ProxyMethod_Manual" xml:space="preserve">
-    <value>manuell</value>
+    <value>Manuell</value>
   </data>
   <data name="ProxyMethod_None" xml:space="preserve">
     <value>Keine</value>
@@ -498,9 +495,6 @@ Möchtest du sie herunterladen und installieren?</value>
   <data name="HotkeyType_StartScreenRecorderGIF" xml:space="preserve">
     <value>Bildschirmaufnahme (GIF) starten mit der letzten Region</value>
   </data>
-  <data name="HotkeyType_Automate" xml:space="preserve">
-    <value>Öffne/Stoppe Automatisierungs-Werkzeug</value>
-  </data>
   <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
     <value>Region aufnehmen (Transparent)</value>
   </data>
@@ -524,9 +518,6 @@ Möchtest du sie herunterladen und installieren?</value>
   </data>
   <data name="HotkeyType_AutoCapture_Category" xml:space="preserve">
     <value>Bildschirmaufnahme</value>
-  </data>
-  <data name="HotkeyType_Automate_Category" xml:space="preserve">
-    <value>Werkzeuge</value>
   </data>
   <data name="HotkeyType_ClipboardUploadWithContentViewer_Category" xml:space="preserve">
     <value>Hochladen</value>
@@ -731,7 +722,7 @@ Möchtest du sie herunterladen?</value>
     <value>Nach Ordner durchsuchen...</value>
   </data>
   <data name="DNSChangerForm_DNSChangerForm_Manual" xml:space="preserve">
-    <value>manuell</value>
+    <value>Manuell</value>
   </data>
   <data name="ExeFileNameEditor_EditValue_Browse_for_executable___" xml:space="preserve">
     <value>Nach .exe durchsuchen...</value>
@@ -840,5 +831,71 @@ Möchtest du sie herunterladen?</value>
   </data>
   <data name="HotkeyType_OpenMainWindow_Category" xml:space="preserve">
     <value>Andere</value>
+  </data>
+  <data name="PNGBitDepth_Automatic" xml:space="preserve">
+    <value>Automatisch</value>
+  </data>
+  <data name="PNGBitDepth_Bit24" xml:space="preserve">
+    <value>24 Bit</value>
+  </data>
+  <data name="PNGBitDepth_Bit32" xml:space="preserve">
+    <value>32 Bit</value>
+  </data>
+  <data name="PNGBitDepth_Default" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="AfterCaptureTasks_DoOCR" xml:space="preserve">
+    <value>Text erkennen (OCR)</value>
+  </data>
+  <data name="HotkeyType_TextCapture" xml:space="preserve">
+    <value>Texterkennung (OCR)</value>
+  </data>
+  <data name="ShapeType_EffectBlur" xml:space="preserve">
+    <value>Unkenntlich machen</value>
+  </data>
+  <data name="ShapeType_EffectHighlight" xml:space="preserve">
+    <value>Hervorheben</value>
+  </data>
+  <data name="ShapeType_EffectPixelate" xml:space="preserve">
+    <value>Verpixeln</value>
+  </data>
+  <data name="ShapeType_DrawingArrow" xml:space="preserve">
+    <value>Pfeil zeichnen</value>
+  </data>
+  <data name="ShapeType_DrawingEllipse" xml:space="preserve">
+    <value>Ellipse zeichnen</value>
+  </data>
+  <data name="ShapeType_DrawingLine" xml:space="preserve">
+    <value>Linie zeichnen</value>
+  </data>
+  <data name="ShapeType_DrawingRectangle" xml:space="preserve">
+    <value>Rechteck zeichnen</value>
+  </data>
+  <data name="ShapeType_DrawingStep" xml:space="preserve">
+    <value>Schritt hinzufügen</value>
+  </data>
+  <data name="ShapeType_DrawingFreehand" xml:space="preserve">
+    <value>Freihand zeichnen</value>
+  </data>
+  <data name="ShapeType_DrawingImage" xml:space="preserve">
+    <value>Bild aus Datei hinzufügen</value>
+  </data>
+  <data name="ShapeType_DrawingSpeechBalloon" xml:space="preserve">
+    <value>Sprechblase hinzufügen</value>
+  </data>
+  <data name="ShapeType_DrawingCursor" xml:space="preserve">
+    <value>Mauszeiger einfügen</value>
+  </data>
+  <data name="ShapeType_DrawingTextOutline" xml:space="preserve">
+    <value>Text mit Umriss zeichnen</value>
+  </data>
+  <data name="ShapeType_DrawingTextBackground" xml:space="preserve">
+    <value>Text mit Hintergrund zeichnen</value>
+  </data>
+  <data name="ShapeType_ToolCrop" xml:space="preserve">
+    <value>Bild zuschneiden</value>
+  </data>
+  <data name="WavFileNameEditor_EditValue_Browse_for_a_sound_file___" xml:space="preserve">
+    <value>Nach .wav durchsuchen...</value>
   </data>
 </root>

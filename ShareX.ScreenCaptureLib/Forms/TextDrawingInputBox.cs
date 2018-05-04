@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ namespace ShareX.ScreenCaptureLib
             }
             else
             {
-                cbFonts.SelectedItem = "Arial";
+                cbFonts.SelectedItem = AnnotationOptions.DefaultFont;
             }
 
             nudTextSize.SetValue(Options.Size);
@@ -71,6 +71,20 @@ namespace ShareX.ScreenCaptureLib
 
             UpdateHorizontalAlignmentImage();
             UpdateVerticalAlignmentImage();
+
+            txtInput.SupportSelectAll();
+        }
+
+        private void Close(DialogResult result)
+        {
+            DialogResult = result;
+
+            if (result == DialogResult.OK)
+            {
+                InputText = txtInput.Text;
+            }
+
+            Close();
         }
 
         private void TextDrawingInputBox_Shown(object sender, EventArgs e)
@@ -165,20 +179,32 @@ namespace ShareX.ScreenCaptureLib
 
         private void txtInput_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == (Keys.Control | Keys.Enter))
+            if (e.KeyData == Keys.Enter || e.KeyData == Keys.Escape)
             {
-                Close();
+                e.SuppressKeyPress = true;
             }
         }
 
-        private void txtInput_TextChanged(object sender, EventArgs e)
+        private void txtInput_KeyUp(object sender, KeyEventArgs e)
         {
-            InputText = txtInput.Text;
+            if (e.KeyData == Keys.Enter)
+            {
+                Close(DialogResult.OK);
+            }
+            else if (e.KeyData == Keys.Escape)
+            {
+                Close(DialogResult.Cancel);
+            }
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void btnOK_Click(object sender, EventArgs e)
         {
-            Close();
+            Close(DialogResult.OK);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close(DialogResult.Cancel);
         }
 
         private void UpdateInputBox()
@@ -191,7 +217,7 @@ namespace ShareX.ScreenCaptureLib
             }
             catch
             {
-                Options.Font = "Arial";
+                Options.Font = AnnotationOptions.DefaultFont;
                 font = new Font(Options.Font, Options.Size, Options.Style);
             }
 

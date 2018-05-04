@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -25,53 +25,117 @@
 
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ShareX.HelpersLib
 {
     public partial class ColorPickerForm : Form
     {
-        public MyColor NewColor { get; protected set; }
+        public Func<PointInfo> OpenScreenColorPicker;
+
+        public MyColor NewColor { get; private set; }
         public MyColor OldColor { get; private set; }
+        public bool IsScreenColorPickerMode { get; private set; }
 
         private bool oldColorExist;
         private bool controlChangingColor;
 
-        public ColorPickerForm() : this(Color.Red)
-        {
-        }
-
-        public ColorPickerForm(Color currentColor)
+        public ColorPickerForm(Color currentColor, bool isScreenColorPickerMode = false)
         {
             InitializeComponent();
             Icon = ShareXResources.Icon;
 
-            SetCurrentColor(currentColor, false);
+            IsScreenColorPickerMode = isScreenColorPickerMode;
+
+            SetCurrentColor(currentColor, !IsScreenColorPickerMode);
+
+            btnOK.Visible = btnCancel.Visible = pColorPicker.Visible = !IsScreenColorPickerMode;
+            mbCopy.Visible = btnClose.Visible = pSceenColorPicker.Visible = IsScreenColorPickerMode;
+
+            if (!IsScreenColorPickerMode)
+            {
+                PrepareRecentColors();
+            }
         }
 
-        public static Color GetColor(Color currentColor)
+        public void EnableScreenColorPickerButton(Func<PointInfo> openScreenColorPicker)
+        {
+            OpenScreenColorPicker = openScreenColorPicker;
+            btnPickColor.Visible = true;
+        }
+
+        public static bool PickColor(Color currentColor, out Color newColor, Form owner = null)
         {
             using (ColorPickerForm dialog = new ColorPickerForm(currentColor))
             {
-                dialog.rbSaturation.Checked = true;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dialog.ShowDialog(owner) == DialogResult.OK)
                 {
-                    return dialog.NewColor;
+                    newColor = dialog.NewColor;
+                    return true;
                 }
             }
 
-            return currentColor;
+            newColor = currentColor;
+            return false;
+        }
+
+        private void PrepareRecentColors()
+        {
+            int length = Math.Min(HelpersOptions.RecentColors.Count, HelpersOptions.RecentColorsMax);
+
+            for (int i = 0; i < length; i++)
+            {
+                ColorButton colorButton = new ColorButton()
+                {
+                    Color = HelpersOptions.RecentColors[i],
+                    Size = new Size(16, 16),
+                    Margin = new Padding(1),
+                    BorderColor = Color.FromArgb(100, 100, 100),
+                    Offset = 0,
+                    HoverEffect = true,
+                    ManualButtonClick = true
+                };
+
+                colorButton.Click += (sender, e) => SetCurrentColor(colorButton.Color, true);
+
+                flpRecentColors.Controls.Add(colorButton);
+                if ((i + 1) % 16 == 0) flpRecentColors.SetFlowBreak(colorButton, true);
+            }
+        }
+
+        private void AddRecentColor(Color color)
+        {
+            HelpersOptions.RecentColors.Remove(color);
+
+            if (HelpersOptions.RecentColors.Count >= HelpersOptions.RecentColorsMax)
+            {
+                HelpersOptions.RecentColors.RemoveRange(HelpersOptions.RecentColorsMax - 1, HelpersOptions.RecentColors.Count - HelpersOptions.RecentColorsMax + 1);
+            }
+
+            HelpersOptions.RecentColors.Insert(0, color);
         }
 
         public void SetCurrentColor(Color currentColor, bool keepPreviousColor)
         {
             oldColorExist = keepPreviousColor;
-            colorPicker.DrawCrosshair = lblOld.Visible = oldColorExist;
+            lblOld.Visible = oldColorExist;
             NewColor = OldColor = currentColor;
             colorPicker.ChangeColor(currentColor);
             nudAlpha.SetValue(currentColor.A);
             DrawPreviewColors();
+        }
+
+        private void UpdateColor(int x, int y)
+        {
+            UpdateColor(x, y, CaptureHelpers.GetPixelColor(x, y));
+        }
+
+        private void UpdateColor(int x, int y, Color color)
+        {
+            txtX.Text = x.ToString();
+            txtY.Text = y.ToString();
+            colorPicker.ChangeColor(color);
         }
 
         private void UpdateControls(MyColor color, ColorType type)
@@ -147,6 +211,11 @@ namespace ShareX.HelpersLib
 
         #region Events
 
+        private void ColorPickerForm_Shown(object sender, EventArgs e)
+        {
+            this.ForceActivate();
+        }
+
         private void colorPicker_ColorChanged(object sender, ColorEventArgs e)
         {
             NewColor = e.Color;
@@ -155,6 +224,7 @@ namespace ShareX.HelpersLib
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            AddRecentColor(NewColor);
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -162,6 +232,11 @@ namespace ShareX.HelpersLib
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
             Close();
         }
 
@@ -205,7 +280,14 @@ namespace ShareX.HelpersLib
 
         private void cbTransparent_Click(object sender, EventArgs e)
         {
-            nudAlpha.Value = 0;
+            if (nudAlpha.Value == 0)
+            {
+                nudAlpha.Value = 255;
+            }
+            else
+            {
+                nudAlpha.Value = 0;
+            }
         }
 
         private void HSB_ValueChanged(object sender, EventArgs e)
@@ -243,9 +325,9 @@ namespace ShareX.HelpersLib
         {
             try
             {
-                if (!controlChangingColor)
+                if (!controlChangingColor && int.TryParse(txtDecimal.Text, out int dec))
                 {
-                    colorPicker.ChangeColor(ColorHelpers.DecimalToColor(Convert.ToInt32(txtDecimal.Text)), ColorType.Decimal);
+                    colorPicker.ChangeColor(ColorHelpers.DecimalToColor(dec), ColorType.Decimal);
                 }
             }
             catch
@@ -258,6 +340,70 @@ namespace ShareX.HelpersLib
             if (e.Button == MouseButtons.Left && oldColorExist)
             {
                 colorPicker.ChangeColor(OldColor);
+            }
+        }
+
+        private void tsmiCopyAll_Click(object sender, EventArgs e)
+        {
+            string colors = colorPicker.SelectedColor.ToString();
+            colors += Environment.NewLine + string.Format("Cursor position (X, Y) = {0}, {1}", txtX.Text, txtY.Text);
+            ClipboardHelpers.CopyText(colors);
+        }
+
+        private void tsmiCopyRGB_Click(object sender, EventArgs e)
+        {
+            RGBA rgba = colorPicker.SelectedColor.RGBA;
+            ClipboardHelpers.CopyText($"{rgba.Red}, {rgba.Green}, {rgba.Blue}");
+        }
+
+        private void tsmiCopyHexadecimal_Click(object sender, EventArgs e)
+        {
+            string hex = ColorHelpers.ColorToHex(colorPicker.SelectedColor, ColorFormat.RGB);
+            ClipboardHelpers.CopyText("#" + hex);
+        }
+
+        private void tsmiCopyCMYK_Click(object sender, EventArgs e)
+        {
+            CMYK cmyk = colorPicker.SelectedColor.CMYK;
+            ClipboardHelpers.CopyText($"{cmyk.Cyan100:0.0}%, {cmyk.Magenta100:0.0}%, {cmyk.Yellow100:0.0}%, {cmyk.Key100:0.0}%");
+        }
+
+        private void tsmiCopyHSB_Click(object sender, EventArgs e)
+        {
+            HSB hsb = colorPicker.SelectedColor.HSB;
+            ClipboardHelpers.CopyText($"{hsb.Hue360:0.0}°, {hsb.Saturation100:0.0}%, {hsb.Brightness100:0.0}%");
+        }
+
+        private void tsmiCopyDecimal_Click(object sender, EventArgs e)
+        {
+            int dec = ColorHelpers.ColorToDecimal(colorPicker.SelectedColor, ColorFormat.RGB);
+            ClipboardHelpers.CopyText(dec.ToString());
+        }
+
+        private void tsmiCopyPosition_Click(object sender, EventArgs e)
+        {
+            ClipboardHelpers.CopyText($"{txtX.Text}, {txtY.Text}");
+        }
+
+        private void btnPickColor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetCurrentColor(NewColor, true);
+
+                Hide();
+                Thread.Sleep(250);
+
+                PointInfo pointInfo = OpenScreenColorPicker();
+
+                if (pointInfo != null)
+                {
+                    UpdateColor(pointInfo.Position.X, pointInfo.Position.Y, pointInfo.Color);
+                }
+            }
+            finally
+            {
+                this.ForceActivate();
             }
         }
 

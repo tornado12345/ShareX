@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -86,8 +86,30 @@ namespace ShareX
 
             timers.Add(new WatchFolderDuplicateEventTimer(path));
 
-            Action onCompleted = () => context.Post(state => OnFileWatcherTrigger(path), null);
-            Helpers.WaitWhileAsync(() => Helpers.IsFileLocked(path), 250, 5000, onCompleted, 1000);
+            int successCount = 0;
+            long previousSize = -1;
+
+            Helpers.WaitWhileAsync(() =>
+            {
+                if (!Helpers.IsFileLocked(path))
+                {
+                    long currentSize = Helpers.GetFileSize(path);
+
+                    if (currentSize > 0 && currentSize == previousSize)
+                    {
+                        successCount++;
+                    }
+
+                    previousSize = currentSize;
+                    return successCount < 4;
+                }
+
+                previousSize = -1;
+                return true;
+            }, 250, 5000, () =>
+            {
+                context.Post(state => OnFileWatcherTrigger(path), null);
+            }, 1000);
         }
 
         protected void CleanElapsedTimers()

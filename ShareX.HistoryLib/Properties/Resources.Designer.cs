@@ -19,7 +19,7 @@ namespace ShareX.HistoryLib.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -230,6 +230,33 @@ namespace ShareX.HistoryLib.Properties {
         internal static string HistoryItemManager_InitializeComponent_Image_preview {
             get {
                 return ResourceManager.GetString("HistoryItemManager_InitializeComponent_Image_preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown image.
+        /// </summary>
+        internal static string HistoryItemManager_InitializeComponent_Markdown__image {
+            get {
+                return ResourceManager.GetString("HistoryItemManager_InitializeComponent_Markdown__image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown link.
+        /// </summary>
+        internal static string HistoryItemManager_InitializeComponent_Markdown__link {
+            get {
+                return ResourceManager.GetString("HistoryItemManager_InitializeComponent_Markdown__link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Markdown linked image.
+        /// </summary>
+        internal static string HistoryItemManager_InitializeComponent_Markdown__linked_image {
+            get {
+                return ResourceManager.GetString("HistoryItemManager_InitializeComponent_Markdown__linked_image", resourceCulture);
             }
         }
         

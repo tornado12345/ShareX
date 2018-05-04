@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -30,19 +30,19 @@ using System.Text;
 
 namespace ShareX.HelpersLib
 {
+    #region Delegates
+
+    public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+    #endregion Delegates
+
     public static partial class NativeMethods
     {
-        #region Delegates
-
-        public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
-
-        #endregion Delegates
-
         #region user32.dll
 
-        [DllImport("user32")]
+        [DllImport("user32.dll")]
         public static extern bool AnimateWindow(IntPtr hwnd, int time, AnimateWindowFlags flags);
 
         [DllImport("user32.dll")]
@@ -99,6 +99,12 @@ namespace ShareX.HelpersLib
         public static extern IntPtr GetActiveWindow();
 
         [DllImport("user32.dll")]
+        public static extern uint GetClassLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
         public static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
 
         [DllImport("user32.dll")]
@@ -116,9 +122,6 @@ namespace ShareX.HelpersLib
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
-
-        [DllImport("gdi32.dll")]
-        public static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
 
         [DllImport("user32.dll")]
         public static extern bool GetIconInfo(IntPtr hIcon, out IconInfo piconinfo);
@@ -190,7 +193,10 @@ namespace ShareX.HelpersLib
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsZoomed(IntPtr hWnd);
 
-        [DllImport("User32.dll")]
+        [DllImport("user32.dll")]
+        public static extern IntPtr LoadCursor(IntPtr hInstance, int iconId);
+
+        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
 
@@ -281,6 +287,10 @@ namespace ShareX.HelpersLib
 
         #region kernel32.dll
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes, ref SECURITY_ATTRIBUTES lpThreadAttributes,
+            bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
+
         [DllImport("kernel32.dll")]
         public static extern int ResumeThread(IntPtr hThread);
 
@@ -298,12 +308,6 @@ namespace ShareX.HelpersLib
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern ushort GlobalDeleteAtom(ushort nAtom);
-
-        [DllImport("user32.dll")]
-        public static extern uint GetClassLong(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex);
 
         [DllImport("kernel32.dll")]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
@@ -346,6 +350,9 @@ namespace ShareX.HelpersLib
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref BITMAPINFOHEADER pbmi, uint pila, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
 
+        [DllImport("gdi32.dll")]
+        public static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+
         #endregion gdi32.dll
 
         #region gdiplus.dll
@@ -372,9 +379,11 @@ namespace ShareX.HelpersLib
         [DllImport("shell32.dll")]
         public static extern IntPtr SHAppBarMessage(uint dwMessage, [In] ref APPBARDATA pData);
 
-        // http://stackoverflow.com/questions/14600987/code-to-open-windows-explorer-or-focus-if-exists-with-file-selected
         [DllImport("shell32.dll")]
         public static extern int SHOpenFolderAndSelectItems(IntPtr pidlFolder, int cild, IntPtr apidl, int dwFlags);
+
+        [DllImport("shell32.dll")]
+        public static extern void SHChangeNotify(HChangeNotifyEventID wEventId, HChangeNotifyFlags uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
         [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         public static extern IntPtr ILCreateFromPathW(string pszPath);

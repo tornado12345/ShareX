@@ -278,9 +278,6 @@ Bạn có muốn khởi động lại ShareX không?</value>
   <data name="ChromeForm_btnUnregister_Click_Chrome_support_disabled_" xml:space="preserve">
     <value>Hỗ trợ từ Chrome đã tắt</value>
   </data>
-  <data name="AboutForm_AboutForm_Issues" xml:space="preserve">
-    <value>Các vấn đề</value>
-  </data>
   <data name="AutoCaptureForm_Execute_Start" xml:space="preserve">
     <value>Bắt đầu</value>
   </data>
@@ -454,5 +451,8 @@ Nhấn "Không" để hủy tiến trình tải lên hiện tại và tắt ch�
   </data>
   <data name="TaskHelpers_OpenFTPClient_Unable_to_find_valid_FTP_account_" xml:space="preserve">
     <value>Không thể tìm thấy tài khoản FTP hợp lệ.</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Chạy ShareX cùng Windows</value>
   </data>
 </root>

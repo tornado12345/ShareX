@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ namespace ShareX.HelpersLib
     public class MyListView : ListView
     {
         public delegate void ListViewItemMovedEventHandler(object sender, int oldIndex, int newIndex);
+
         public event ListViewItemMovedEventHandler ItemMoved;
 
         [DefaultValue(false)]
@@ -52,8 +53,7 @@ namespace ShareX.HelpersLib
         [DefaultValue(false)]
         public bool DisableDeselect { get; set; }
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedIndex
         {
             get
@@ -309,7 +309,12 @@ namespace ShareX.HelpersLib
                     lvwColumnSorter.Order = SortOrder.Ascending;
                 }
 
+                // if the column is tagged as a DateTime, then sort by date
+                lvwColumnSorter.SortByDate = Columns[e.Column].Tag is DateTime;
+
+                Cursor.Current = Cursors.WaitCursor;
                 Sort();
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -324,6 +329,15 @@ namespace ShareX.HelpersLib
 
                 Point[] rightTriangle = new Point[] { new Point(right, y - 4), new Point(right - 8, y), new Point(right, y + 4) };
                 g.FillPolygon(SystemBrushes.HotTrack, rightTriangle);
+            }
+        }
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+            foreach (ColumnHeader column in Columns)
+            {
+                column.Width = (int)Math.Round(column.Width * factor.Width);
             }
         }
     }

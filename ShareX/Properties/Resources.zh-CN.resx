@@ -164,16 +164,16 @@
     <value>更新日志</value>
   </data>
   <data name="HotkeyManager_ShowFailedHotkeys_hotkey" xml:space="preserve">
-    <value>热键</value>
+    <value>快捷键</value>
   </data>
   <data name="HotkeySelectionControl_StartEditing_Select_a_hotkey___" xml:space="preserve">
-    <value>选择热键…</value>
+    <value>选择快捷键…</value>
   </data>
   <data name="TaskSettingsForm_UpdateWindowTitle_Task_settings" xml:space="preserve">
     <value>任务设置</value>
   </data>
   <data name="BeforeUploadForm_BeforeUploadForm_Please_choose_a_destination_" xml:space="preserve">
-    <value>请选择一个目的地.</value>
+    <value>请选择一个上传地址.</value>
   </data>
   <data name="UploadTask_Prepare_Starting" xml:space="preserve">
     <value>开始</value>
@@ -193,7 +193,7 @@
     <value>单击托盘图标停止录制.</value>
   </data>
   <data name="MainForm_UpdateWorkflowsMenu_You_can_add_workflows_from_hotkey_settings___" xml:space="preserve">
-    <value>您可以从热键设置添加快捷动作...</value>
+    <value>您可以从快捷键设置添加快捷动作...</value>
   </data>
   <data name="TaskHelpers_OpenFTPClient_FTP_client_only_supports_FTP_or_FTPS_" xml:space="preserve">
     <value>FTP客户端只支持FTP和FTPS。</value>
@@ -233,7 +233,7 @@
     <value>扩展不能为空.</value>
   </data>
   <data name="TaskSettingsForm_UpdateUploaderMenuNames_After_capture___0_" xml:space="preserve">
-    <value>捕获后: {0}</value>
+    <value>捕捉后: {0}</value>
   </data>
   <data name="TaskSettingsForm_ConfigureEncoder_Configure_CLI_video_encoders_____" xml:space="preserve">
     <value>配置CLI视频编码器---&gt;</value>
@@ -248,7 +248,7 @@
     <value>无法创建文件夹:</value>
   </data>
   <data name="MainForm_UpdateMainFormTip_Currently_configured_hotkeys_" xml:space="preserve">
-    <value>当前配置的热键:</value>
+    <value>当前配置的快捷键:</value>
   </data>
   <data name="RecentManager_UpdateRecentMenu_Left_click_to_copy_URL_to_clipboard__Right_click_to_open_URL_" xml:space="preserve">
     <value>左键点击复制网址到剪贴板，右键点击打开网址。</value>
@@ -281,9 +281,6 @@
   <data name="ChromeForm_btnUnregister_Click_Chrome_support_disabled_" xml:space="preserve">
     <value>Chrome浏览器扩展支持已禁用。</value>
   </data>
-  <data name="AboutForm_AboutForm_Issues" xml:space="preserve">
-    <value>问题</value>
-  </data>
   <data name="AutoCaptureForm_Execute_Start" xml:space="preserve">
     <value>开始</value>
   </data>
@@ -291,7 +288,7 @@
     <value>关闭</value>
   </data>
   <data name="TaskSettingsForm_txtNameFormatPatternActiveWindow_TextChanged_Preview_" xml:space="preserve">
-    <value>预览:</value>
+    <value>预览：</value>
   </data>
   <data name="MainForm_tsmiTestTextUpload_Click_Text_upload_test" xml:space="preserve">
     <value>文字上传测试</value>
@@ -309,7 +306,7 @@
     <value>完成</value>
   </data>
   <data name="BeforeUploadForm_BeforeUploadForm__0__is_about_to_be_uploaded_to__1___You_may_choose_a_different_destination_" xml:space="preserve">
-    <value>{0} 是将要上载至 {1}. 您可以选择不同的目的地.</value>
+    <value>{0} 是将要上载至 {1}. 您可以选择不同的上传地址.</value>
   </data>
   <data name="AboutForm_AboutForm_Website" xml:space="preserve">
     <value>网站</value>
@@ -338,7 +335,7 @@
     <value>图片上传: {0}</value>
   </data>
   <data name="TaskHelpers_OpenQuickScreenColorPicker_Copied_to_clipboard___0_" xml:space="preserve">
-    <value>已复制到剪切板: {0}</value>
+    <value>已复制到剪贴板: {0}</value>
   </data>
   <data name="MainForm_UpdateMenu_Hide_menu" xml:space="preserve">
     <value>隐藏菜单</value>
@@ -356,19 +353,19 @@
     <value>选择一个文件夹来保存</value>
   </data>
   <data name="MainForm_UpdateToggleHotkeyButton_Enable_hotkeys" xml:space="preserve">
-    <value>启用热键</value>
+    <value>启用快捷键</value>
   </data>
   <data name="HotkeyManager_ShowFailedHotkeys_Hotkey_registration_failed" xml:space="preserve">
-    <value>热键注册失败</value>
+    <value>快捷键注册失败</value>
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_disabled_" xml:space="preserve">
-    <value>热键已禁用。</value>
+    <value>快捷键已禁用。</value>
   </data>
   <data name="UploadManager_IsUploadConfirmed_Upload_files" xml:space="preserve">
     <value>上传文件</value>
   </data>
   <data name="HotkeyManager_ShowFailedHotkeys_These_applications_could_be_conflicting_" xml:space="preserve">
-    <value>有可能是一个应用程序的冲突：</value>
+    <value>可能存在程序冲突：</value>
   </data>
   <data name="TaskManager_task_UploadCompleted_Error" xml:space="preserve">
     <value>错误</value>
@@ -381,10 +378,10 @@
 这里</value>
   </data>
   <data name="TaskHelpers_ToggleHotkeys_Hotkeys_enabled_" xml:space="preserve">
-    <value>热键已启用。</value>
+    <value>快捷键已启用。</value>
   </data>
   <data name="HotkeyManager_ShowFailedHotkeys_hotkeys" xml:space="preserve">
-    <value>热键</value>
+    <value>快捷键</value>
   </data>
   <data name="EncoderProgramForm_btnOK_Click_Path_can_t_be_empty_" xml:space="preserve">
     <value>路径不能为空。</value>
@@ -396,7 +393,7 @@
     <value>项目页面</value>
   </data>
   <data name="TaskHelpers_TweetMessage_Tweet_successfully_sent_" xml:space="preserve">
-    <value>推特发送成功。</value>
+    <value>Tweet发送成功。</value>
   </data>
   <data name="EncoderProgramForm_btnPathBrowse_Click_Choose_encoder_path" xml:space="preserve">
     <value>选择编码器路径</value>
@@ -409,13 +406,13 @@
     <value>CLI视频编码器的文件不存在:</value>
   </data>
   <data name="ApplicationSettingsForm_cbSteamShowInApp_CheckedChanged_For_settings_to_take_effect_ShareX_needs_to_be_reopened_from_Steam_" xml:space="preserve">
-    <value>为了使设置生效，ShareX需要从Steam重新开放。</value>
+    <value>为了使设置生效，ShareX需要从Steam重新开启。</value>
   </data>
   <data name="ActionsForm_btnOK_Click_Name_can_t_be_empty_" xml:space="preserve">
     <value>名称不能为空。</value>
   </data>
   <data name="MainForm_UpdateToggleHotkeyButton_Disable_hotkeys" xml:space="preserve">
-    <value>禁用热键</value>
+    <value>禁用快捷键</value>
   </data>
   <data name="TaskManager_task_UploadCompleted_ShareX___Task_completed" xml:space="preserve">
     <value>任务完成</value>
@@ -449,7 +446,7 @@
 按"否",   取消当前文件的上传和禁用自动截图上传。</value>
   </data>
   <data name="UploadTask_DoUploadJob_Uploading" xml:space="preserve">
-    <value>上传</value>
+    <value>上传中</value>
   </data>
   <data name="ScreenRecordForm_StartRecording_There_is_no_valid_CLI_video_encoder_selected_" xml:space="preserve">
     <value>没有选定有效的CLI视频编码器。</value>
@@ -462,7 +459,7 @@
     <value>无法找到有效的FTP帐户。</value>
   </data>
   <data name="HotkeySettingsForm_Reset_all_hotkeys_to_defaults_Confirmation" xml:space="preserve">
-    <value>重置所有热键为默认值？</value>
+    <value>重置所有快捷键为默认值？</value>
   </data>
   <data name="MainForm_UpdateMainWindowLayout_Show_columns" xml:space="preserve">
     <value>显示列</value>
@@ -473,29 +470,6 @@
   <data name="TaskManager_CreateListViewItem_History" xml:space="preserve">
     <value>历史</value>
   </data>
-  <data name="MainForm_UpdateMainFormTip_Tips" xml:space="preserve">
-    <value>主窗口提示：
-- 拖动文件，图片或文本主窗口上传。
-- 从任务列表中拖动项目可以将文件复制到任何地方。拖动前按住“Ctrl”键复制URL或文件路径来代替文件。
-
-主窗口任务列表中的快捷键：
-[Enter] 打开网址或文件
-[Ctrl + Enter] 打开文件
-[Ctrl+ C] 复制网址或文件路径
-[Shift+ C] 复制文件
-[Ctrl + Shift+ C] 复制文件路径
-[Ctrl + X] 复制网址或文件路径然后从列表中删除项目
-[Ctrl + V] 在图片查看其中打开剪贴板中的内容，因此你可以上传剪贴板中的内容
-[Delete] 从列表中删除选择项目
-[Shift + Delete] 删除本地文件，并从列表中删除
-[Esc] 关闭主窗口
-
-托盘图标任务：
-[左键单击] {0}
-[左键双击] {1}
-[单击鼠标中键] {2}
-- 您可以在“应用程序设置”窗口中更改这些托盘图标任务。</value>
-  </data>
   <data name="QuickTaskMenuEditorForm_Reset_all_quick_tasks_to_defaults_Confirmation" xml:space="preserve">
     <value>重置所有快速任务为默认值？</value>
   </data>
@@ -503,12 +477,77 @@
     <value>编辑此菜单...</value>
   </data>
   <data name="WorkerTask_GetInvalidConfigResult__0__configuration_is_invalid_or_missing__Please_check__Destination_settings__window_to_configure_it_" xml:space="preserve">
-    <value>{0} 配置无效或丢失。请查阅“目的地设置”窗口中进行配置。</value>
+    <value>{0} 配置无效或丢失。请转到“上传至...”窗口中进行设置。</value>
   </data>
   <data name="MainForm_UpdateMainWindowLayout_Hide_columns" xml:space="preserve">
     <value>隐藏列</value>
   </data>
   <data name="QuickTaskMenu_ShowMenu_Continue" xml:space="preserve">
     <value>继续</value>
+  </data>
+  <data name="IntegrationHelpers_UploadWithShareX" xml:space="preserve">
+    <value>上传至Sharex</value>
+  </data>
+  <data name="ActionsToolbarEditForm_Separator" xml:space="preserve">
+    <value>分隔符</value>
+  </data>
+  <data name="ActionsToolbar_Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="ActionsToolbar__LockPosition" xml:space="preserve">
+    <value>锁定位置</value>
+  </data>
+  <data name="ActionsToolbar_StayTopMost" xml:space="preserve">
+    <value>保持在其他窗口前端</value>
+  </data>
+  <data name="ActionsToolbar_OpenAtShareXStartup" xml:space="preserve">
+    <value>和ShareX一起打开</value>
+  </data>
+  <data name="ActionsToolbar_Edit" xml:space="preserve">
+    <value>编辑...</value>
+  </data>
+  <data name="ActionsToolbar_Tip" xml:space="preserve">
+    <value>按住鼠标左键拖拽
+单击右键打开菜单
+单击中键关闭</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_tr" xml:space="preserve">
+    <value>土耳其语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_de" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_fr" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_zh_CH" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_hu" xml:space="preserve">
+    <value>匈牙利语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_ko_KR" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_es" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_nl_NL" xml:space="preserve">
+    <value>荷兰语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_pt_BR" xml:space="preserve">
+    <value>葡萄牙语 - 巴西</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_vi_VN" xml:space="preserve">
+    <value>越南语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_ru" xml:space="preserve">
+    <value>俄语</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_zh_TW" xml:space="preserve">
+    <value>繁体中文</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_Text" xml:space="preserve">
+    <value>Windows 启动时运行 ShareX</value>
   </data>
 </root>

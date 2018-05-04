@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using ShareX.HelpersLib;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -32,20 +33,44 @@ namespace ShareX.ScreenCaptureLib
     {
         public override ShapeType ShapeType { get; } = ShapeType.DrawingArrow;
 
-        protected override void DrawLine(Graphics g, Pen pen)
-        {
-            using (AdjustableArrowCap arrowCap = new AdjustableArrowCap(4, 6))
-            {
-                pen.CustomEndCap = arrowCap;
+        public bool ArrowHeadsBothSide { get; set; }
 
-                if (CenterNodeActive)
+        public override void OnConfigLoad()
+        {
+            base.OnConfigLoad();
+            ArrowHeadsBothSide = AnnotationOptions.ArrowHeadsBothSide;
+        }
+
+        public override void OnConfigSave()
+        {
+            base.OnConfigSave();
+            AnnotationOptions.ArrowHeadsBothSide = ArrowHeadsBothSide;
+        }
+
+        protected override Pen CreatePen(Color borderColor, int borderSize)
+        {
+            using (GraphicsPath gp = new GraphicsPath())
+            {
+                int arrowWidth = 2, arrowHeight = 6, arrowCurve = 1;
+                gp.AddLine(new Point(0, 0), new Point(-arrowWidth, -arrowHeight));
+                gp.AddCurve(new Point[] { new Point(-arrowWidth, -arrowHeight), new Point(0, -arrowHeight + arrowCurve), new Point(arrowWidth, -arrowHeight) });
+                gp.CloseFigure();
+
+                CustomLineCap lineCap = new CustomLineCap(gp, null)
                 {
-                    g.DrawCurve(pen, new Point[] { StartPosition, CenterPosition, EndPosition });
-                }
-                else
+                    BaseInset = arrowHeight - arrowCurve
+                };
+
+                Pen pen = new Pen(borderColor, borderSize);
+                pen.CustomEndCap = lineCap;
+
+                if (ArrowHeadsBothSide && MathHelpers.Distance(Points[0], Points[Points.Length - 1]) > arrowHeight * borderSize * 2)
                 {
-                    g.DrawLine(pen, StartPosition, EndPosition);
+                    pen.CustomStartCap = lineCap;
                 }
+
+                pen.LineJoin = LineJoin.Round;
+                return pen;
             }
         }
     }

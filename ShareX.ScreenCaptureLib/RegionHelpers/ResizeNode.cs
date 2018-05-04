@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -28,8 +28,10 @@ using System.Drawing;
 
 namespace ShareX.ScreenCaptureLib
 {
-    internal class ResizeNode : DrawableObject
+    internal class ResizeNode : ImageEditorControl
     {
+        public const int DefaultSize = 13;
+
         private Point position;
 
         public Point Position
@@ -50,14 +52,23 @@ namespace ShareX.ScreenCaptureLib
 
         public NodeShape Shape { get; set; }
 
+        public Image CustomNodeImage { get; private set; }
+
         public ResizeNode(int x = 0, int y = 0)
         {
-            Size = 13;
             Shape = NodeShape.Square;
             Position = new Point(x, y);
+            Size = DefaultSize;
         }
 
-        public override void Draw(Graphics g)
+        public void SetCustomNode(Image customNodeImage)
+        {
+            Shape = NodeShape.CustomNode;
+            CustomNodeImage = customNodeImage;
+            Size = CustomNodeImage.Width;
+        }
+
+        public override void OnDraw(Graphics g)
         {
             Rectangle rect = Rectangle.SizeOffset(-1);
 
@@ -74,6 +85,9 @@ namespace ShareX.ScreenCaptureLib
                 case NodeShape.Diamond:
                     g.DrawDiamond(Pens.White, rect.Offset(-1));
                     g.DrawDiamond(Pens.Black, rect);
+                    break;
+                case NodeShape.CustomNode when CustomNodeImage != null:
+                    g.DrawImage(CustomNodeImage, Rectangle);
                     break;
             }
         }

@@ -195,9 +195,6 @@
   <data name="tsmiScreenColorPicker.Text" xml:space="preserve">
     <value>Pantalla de selector de color...</value>
   </data>
-  <data name="tsmiImageEditor.Text" xml:space="preserve">
-    <value>Editor de imágenes...</value>
-  </data>
   <data name="tsmiImageEffects.Text" xml:space="preserve">
     <value>Efectos de imágenes...</value>
   </data>
@@ -212,9 +209,6 @@
   </data>
   <data name="tsmiRuler.Text" xml:space="preserve">
     <value>Regla...</value>
-  </data>
-  <data name="tsmiAutomate.Text" xml:space="preserve">
-    <value>Automatizar...</value>
   </data>
   <data name="tsmiIndexFolder.Text" xml:space="preserve">
     <value>Carpeta de índice...</value>
@@ -293,12 +287,6 @@
   </data>
   <data name="tsmiTestURLSharing.Text" xml:space="preserve">
     <value>Prueba de compartir URL</value>
-  </data>
-  <data name="tsmiDonate.Text" xml:space="preserve">
-    <value>Donar...</value>
-  </data>
-  <data name="tsmiAbout.Text" xml:space="preserve">
-    <value>Sobre...</value>
   </data>
   <data name="tsmiShowErrors.Text" xml:space="preserve">
     <value>Mostrar errores</value>
@@ -483,9 +471,6 @@
   <data name="tsmiTrayScreenColorPicker.Text" xml:space="preserve">
     <value>Pantalla de selector de color...</value>
   </data>
-  <data name="tsmiTrayImageEditor.Text" xml:space="preserve">
-    <value>Editor de imágenes...</value>
-  </data>
   <data name="tsmiTrayImageEffects.Text" xml:space="preserve">
     <value>Efectos de imágenes...</value>
   </data>
@@ -500,9 +485,6 @@
   </data>
   <data name="tsmiTrayRuler.Text" xml:space="preserve">
     <value>Regla...</value>
-  </data>
-  <data name="tsmiTrayAutomate.Text" xml:space="preserve">
-    <value>Automatizar...</value>
   </data>
   <data name="tsmiTrayIndexFolder.Text" xml:space="preserve">
     <value>Carpeta de índice...</value>

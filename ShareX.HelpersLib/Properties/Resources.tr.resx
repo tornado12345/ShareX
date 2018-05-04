@@ -172,7 +172,7 @@
     <value>Güncel saniye</value>
   </data>
   <data name="ReplCodeMenuEntry_pn_Process_name_of_active_window" xml:space="preserve">
-    <value>Aktif pencerenin işlem ismi</value>
+    <value>Pencerenin işlem ismi</value>
   </data>
   <data name="ReplCodeMenuEntry_ra_Random_alphanumeric_char" xml:space="preserve">
     <value>Rastgele alfanumerik karakter. {n} haneli</value>
@@ -181,7 +181,7 @@
     <value>Rastgele 0 ile 9 arasında sayı. {n} haneli</value>
   </data>
   <data name="ReplCodeMenuEntry_t_Title_of_active_window" xml:space="preserve">
-    <value>Aktif pencerenin başlığı</value>
+    <value>Pencerenin başlığı</value>
   </data>
   <data name="ReplCodeMenuEntry_y_Current_year" xml:space="preserve">
     <value>Güncel yıl</value>
@@ -224,9 +224,6 @@
   </data>
   <data name="ClipboardContentViewer_ClipboardContentViewer_Load_Clipboard_is_empty_or_contains_unknown_data_" xml:space="preserve">
     <value>Pano boş veya bilinmeyen içeriğe sahip.</value>
-  </data>
-  <data name="RegistryHelpers_ShellExtDesc_Upload_with__0_" xml:space="preserve">
-    <value>{0} ile yükle</value>
   </data>
   <data name="PrintTextForm_LoadSettings_Name___0___Size___1_" xml:space="preserve">
     <value>Ad: {0}, Boyut: {1}</value>
@@ -582,9 +579,6 @@ Dosya boyutu: {2:n0} / {3:n0} KB</value>
   <data name="HotkeyType_StartScreenRecorderGIF" xml:space="preserve">
     <value>Son bölgeyi kullanarak ekran kaydet (GIF)</value>
   </data>
-  <data name="HotkeyType_Automate" xml:space="preserve">
-    <value>Aç/Durdur otomatikleştirme aracını</value>
-  </data>
   <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
     <value>Bölge yakala (Saydam)</value>
   </data>
@@ -608,9 +602,6 @@ Dosya boyutu: {2:n0} / {3:n0} KB</value>
   </data>
   <data name="HotkeyType_AutoCapture_Category" xml:space="preserve">
     <value>Ekran yakalama</value>
-  </data>
-  <data name="HotkeyType_Automate_Category" xml:space="preserve">
-    <value>Araçlar</value>
   </data>
   <data name="HotkeyType_ClipboardUploadWithContentViewer_Category" xml:space="preserve">
     <value>Yükle</value>
@@ -867,5 +858,11 @@ Dosya boyutu: {2:n0} / {3:n0} KB</value>
   </data>
   <data name="HotkeyType_AbortScreenRecording" xml:space="preserve">
     <value>Ekran kaydetme iptal et</value>
+  </data>
+  <data name="HotkeyType_ExitShareX_Category" xml:space="preserve">
+    <value>Diğer</value>
+  </data>
+  <data name="HotkeyType_ToggleActionsToolbar_Category" xml:space="preserve">
+    <value>Diğer</value>
   </data>
 </root>

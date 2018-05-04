@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -234,7 +234,6 @@ namespace ShareX.ScreenCaptureLib
             isCapturing = false;
 
             if (Options.AutoUpload) StartProcess();
-            if (Options.AutoClose) Close();
         }
 
         private void Clean()
@@ -663,11 +662,6 @@ namespace ShareX.ScreenCaptureLib
         private void chkAutoUpload_CheckedChanged(object sender, EventArgs e)
         {
             Options.AutoUpload = chkAutoUpload.Checked;
-        }
-
-        private void cbAutoClose_CheckedChanged(object sender, EventArgs e)
-        {
-            Options.AutoClose = cbAutoClose.Checked;
         }
 
         private Padding GuessEdges(Image img1, Image img2)

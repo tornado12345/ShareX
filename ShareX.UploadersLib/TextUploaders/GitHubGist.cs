@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@ using ShareX.HelpersLib;
 using ShareX.UploadersLib.Properties;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 
@@ -41,21 +42,18 @@ namespace ShareX.UploadersLib.TextUploaders
 
         public override Icon ServiceIcon => Resources.GitHub;
 
-        public override bool CheckConfig(UploadersConfig config) => true;
+        public override bool CheckConfig(UploadersConfig config)
+        {
+            return OAuth2Info.CheckOAuth(config.GistOAuth2Info);
+        }
 
         public override GenericUploader CreateUploader(UploadersConfig config, TaskReferenceHelper taskInfo)
         {
-            OAuth2Info oauth = null;
-
-            if (!config.GistAnonymousLogin)
-            {
-                oauth = config.GistOAuth2Info;
-            }
-
-            return new GitHubGist(oauth)
+            return new GitHubGist(config.GistOAuth2Info)
             {
                 PublicUpload = config.GistPublishPublic,
-                RawURL = config.GistRawURL
+                RawURL = config.GistRawURL,
+                CustomURLAPI = config.GistCustomURL
             };
         }
 
@@ -64,17 +62,13 @@ namespace ShareX.UploadersLib.TextUploaders
 
     public sealed class GitHubGist : TextUploader, IOAuth2Basic
     {
-        private const string URLAPI = "https://api.github.com/";
-        private const string URLGists = URLAPI + "gists";
+        private const string URLAPI = "https://api.github.com";
 
         public OAuth2Info AuthInfo { get; private set; }
 
         public bool PublicUpload { get; set; }
         public bool RawURL { get; set; }
-
-        public GitHubGist()
-        {
-        }
+        public string CustomURLAPI { get; set; }
 
         public GitHubGist(OAuth2Info oAuthInfos)
         {
@@ -88,7 +82,7 @@ namespace ShareX.UploadersLib.TextUploaders
             args.Add("redirect_uri", Links.URL_CALLBACK);
             args.Add("scope", "gist");
 
-            return CreateQuery("https://github.com/login/oauth/authorize", args);
+            return URLHelpers.CreateQuery("https://github.com/login/oauth/authorize", args);
         }
 
         public bool GetAccessToken(string code)
@@ -101,7 +95,7 @@ namespace ShareX.UploadersLib.TextUploaders
             WebHeaderCollection headers = new WebHeaderCollection();
             headers.Add("Accept", ContentTypeJSON);
 
-            string response = SendRequest(HttpMethod.POST, "https://github.com/login/oauth/access_token", args, headers);
+            string response = SendRequestMultiPart("https://github.com/login/oauth/access_token", args, headers);
 
             if (!string.IsNullOrEmpty(response))
             {
@@ -132,31 +126,54 @@ namespace ShareX.UploadersLib.TextUploaders
                     }
                 };
 
-                string argsJson = JsonConvert.SerializeObject(gistUploadObject);
+                string url;
 
-                string url = URLGists;
-
-                if (AuthInfo != null)
+                if (!string.IsNullOrEmpty(CustomURLAPI))
                 {
-                    url += "?access_token=" + AuthInfo.Token.access_token;
+                    url = CustomURLAPI;
+                }
+                else
+                {
+                    url = URLAPI;
                 }
 
-                string response = SendRequestJSON(url, argsJson);
+                url = URLHelpers.CombineURL(url, "gists");
+
+                string json = JsonConvert.SerializeObject(gistUploadObject);
+
+                Dictionary<string, string> args = new Dictionary<string, string>();
+                args.Add("access_token", AuthInfo.Token.access_token);
+
+                string response = SendRequest(HttpMethod.POST, url, json, ContentTypeJSON, args);
+
+                GistResponse gistResponse = JsonConvert.DeserializeObject<GistResponse>(response);
 
                 if (response != null)
                 {
                     if (RawURL)
                     {
-                        ur.URL = Helpers.ParseJSON(response, "files.*.raw_url");
+                        ur.URL = gistResponse.files.First().Value.raw_url;
                     }
                     else
                     {
-                        ur.URL = Helpers.ParseJSON(response, "html_url");
+                        ur.URL = gistResponse.html_url;
                     }
                 }
             }
 
             return ur;
+        }
+
+        private class GistResponse
+        {
+            public string html_url { get; set; }
+            public Dictionary<string, GistFileInfo> files { get; set; }
+        }
+
+        private class GistFileInfo
+        {
+            public string filename { get; set; }
+            public string raw_url { get; set; }
         }
     }
 }

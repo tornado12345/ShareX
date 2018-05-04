@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -167,6 +167,39 @@ namespace ShareX.HelpersLib
             return text;
         }
 
+        public static string BatchReplace(this string text, Dictionary<string, string> replace)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                string current = text.Substring(i);
+
+                bool replaced = false;
+
+                foreach (KeyValuePair<string, string> entry in replace)
+                {
+                    if (current.StartsWith(entry.Key))
+                    {
+                        if (!string.IsNullOrEmpty(entry.Value))
+                        {
+                            sb.Append(entry.Value);
+                        }
+                        i += entry.Key.Length - 1;
+                        replaced = true;
+                        continue;
+                    }
+                }
+
+                if (!replaced)
+                {
+                    sb.Append(text[i]);
+                }
+            }
+
+            return sb.ToString();
+        }
+
         public static string RemoveWhiteSpaces(this string str)
         {
             return new string(str.Where(c => !char.IsWhiteSpace(c)).ToArray());
@@ -209,16 +242,6 @@ namespace ShareX.HelpersLib
             }
 
             return str;
-        }
-
-        public static bool IsValidUrl(this string url)
-        {
-            return Uri.IsWellFormedUriString(url.Trim(), UriKind.Absolute);
-        }
-
-        public static string CombineURL(this string url, string url2)
-        {
-            return URLHelpers.CombineURL(url, url2);
         }
 
         public static byte[] HexToBytes(this string hex)

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -98,7 +98,7 @@ namespace ShareX.UploadersLib.FileUploaders
                 { "password", password }
             };
 
-            string response = SendRequest(HttpMethod.POST, url, args);
+            string response = SendRequestMultiPart(url, args);
 
             if (!string.IsNullOrEmpty(response))
             {
@@ -365,7 +365,7 @@ namespace ShareX.UploadersLib.FileUploaders
                     sslBypassHelper = new SSLBypassHelper();
                 }
 
-                string response = SendRequest(HttpMethod.POST, url, args, headers);
+                string response = SendRequestMultiPart(url, args, headers);
 
                 if (!string.IsNullOrEmpty(response))
                 {
@@ -442,7 +442,7 @@ namespace ShareX.UploadersLib.FileUploaders
                 args.Add("filename", fileName);
                 args.Add("parent_dir", Path);
 
-                UploadResult result = UploadData(stream, responseURL, fileName, "file", args, headers);
+                UploadResult result = SendRequestFile(responseURL, stream, fileName, "file", args, headers);
 
                 if (!IsError)
                 {
@@ -491,7 +491,7 @@ namespace ShareX.UploadersLib.FileUploaders
                     sslBypassHelper = new SSLBypassHelper();
                 }
 
-                return SendRequestURLEncoded(url, args, headers, method: HttpMethod.PUT, responseType: ResponseType.LocationHeader);
+                return SendRequestURLEncoded(HttpMethod.PUT, url, args, headers, null, ResponseType.LocationHeader);
             }
             finally
             {

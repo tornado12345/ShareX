@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -85,29 +85,34 @@ namespace ShareX.UploadersLib.TextUploaders
             string requestURL = customUploader.GetRequestURL();
 
             if ((customUploader.RequestType != CustomUploaderRequestType.POST || string.IsNullOrEmpty(customUploader.FileFormName)) &&
-                (customUploader.Arguments == null || !customUploader.Arguments.Any(x => x.Value.Contains("$input$") || x.Value.Contains("%input"))))
-                throw new Exception("Atleast one '$input$' required for argument value.");
+                ((customUploader.Arguments == null || !customUploader.Arguments.Any(x => x.Value.Contains("$input$"))) &&
+                (customUploader.Headers == null || !customUploader.Headers.Any(x => x.Value.Contains("$input$")))))
+                throw new Exception("Atleast one '$input$' required for argument or header value.");
 
-            Dictionary<string, string> args = customUploader.GetArguments(text);
+            CustomUploaderArgumentInput input = new CustomUploaderArgumentInput(fileName, text);
+
+            Dictionary<string, string> args = customUploader.GetArguments(input);
 
             if (customUploader.RequestType == CustomUploaderRequestType.POST)
             {
                 if (string.IsNullOrEmpty(customUploader.FileFormName))
                 {
-                    result.Response = SendRequest(HttpMethod.POST, requestURL, args, customUploader.GetHeaders(), responseType: customUploader.ResponseType);
+                    result.Response = SendRequestMultiPart(requestURL, args, customUploader.GetHeaders(input), responseType: customUploader.ResponseType);
                 }
                 else
                 {
                     byte[] byteArray = Encoding.UTF8.GetBytes(text);
                     using (MemoryStream stream = new MemoryStream(byteArray))
                     {
-                        result = UploadData(stream, requestURL, fileName, customUploader.GetFileFormName(), args, customUploader.GetHeaders(), responseType: customUploader.ResponseType);
+                        result = SendRequestFile(requestURL, stream, fileName, customUploader.GetFileFormName(), args, customUploader.GetHeaders(input),
+                            responseType: customUploader.ResponseType);
                     }
                 }
             }
             else
             {
-                result.Response = SendRequest(customUploader.GetHttpMethod(), requestURL, args, customUploader.GetHeaders(), responseType: customUploader.ResponseType);
+                result.Response = SendRequest(customUploader.GetHttpMethod(), requestURL, args, customUploader.GetHeaders(input),
+                    responseType: customUploader.ResponseType);
             }
 
             try

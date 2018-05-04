@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,7 +24,6 @@
 #endregion License Information (GPL v3)
 
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using ShareX.HelpersLib.Properties;
 using System;
 using System.Collections.Generic;
@@ -41,6 +40,8 @@ using System.Resources;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Security.Permissions;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -63,12 +64,32 @@ namespace ShareX.HelpersLib
         public const string ValidURLCharacters = URLPathCharacters + ":?#[]@!$&'()*+,;= ";
 
         public static readonly string[] ImageFileExtensions = new string[] { "jpg", "jpeg", "png", "gif", "bmp", "ico", "tif", "tiff" };
-        public static readonly string[] TextFileExtensions = new string[] { "txt", "log", "nfo", "c", "cpp", "cc", "cxx", "h", "hpp", "hxx", "cs", "vb", "html", "htm", "xhtml", "xht", "xml", "css", "js", "php", "bat", "java", "lua", "py", "pl", "cfg", "ini", "dart" };
+        public static readonly string[] TextFileExtensions = new string[] { "txt", "log", "nfo", "c", "cpp", "cc", "cxx", "h", "hpp", "hxx", "cs", "vb", "html", "htm", "xhtml", "xht", "xml", "css", "js", "php", "bat", "java", "lua", "py", "pl", "cfg", "ini", "dart", "go", "gohtml" };
         public static readonly string[] VideoFileExtensions = new string[] { "mp4", "webm", "mkv", "avi", "vob", "ogv", "ogg", "mov", "qt", "wmv", "m4p", "m4v", "mpg", "mp2", "mpeg", "mpe", "mpv", "m2v", "m4v", "flv", "f4v" };
 
         public static readonly Version OSVersion = Environment.OSVersion.Version;
 
-        // Extension without dot
+        private static Cursor[] _cursorList;
+        public static Cursor[] CursorList
+        {
+            get
+            {
+                if (_cursorList == null)
+                {
+                    _cursorList = new Cursor[] {
+                        Cursors.AppStarting, Cursors.Arrow, Cursors.Cross, Cursors.Default, Cursors.Hand, Cursors.Help,
+                        Cursors.HSplit, Cursors.IBeam, Cursors.No, Cursors.NoMove2D, Cursors.NoMoveHoriz, Cursors.NoMoveVert,
+                        Cursors.PanEast, Cursors.PanNE, Cursors.PanNorth, Cursors.PanNW, Cursors.PanSE, Cursors.PanSouth,
+                        Cursors.PanSW, Cursors.PanWest, Cursors.SizeAll, Cursors.SizeNESW, Cursors.SizeNS, Cursors.SizeNWSE,
+                        Cursors.SizeWE, Cursors.UpArrow, Cursors.VSplit, Cursors.WaitCursor
+                    };
+                }
+
+                return _cursorList;
+            }
+        }
+
+        /// <summary>Get file name extension without dot.</summary>
         public static string GetFilenameExtension(string filePath)
         {
             if (!string.IsNullOrEmpty(filePath))
@@ -124,6 +145,26 @@ namespace ShareX.HelpersLib
 
                     return filePath + "." + extension;
                 }
+            }
+
+            return filePath;
+        }
+
+        public static string RenameFile(string filePath, string newFileName)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    string directory = Path.GetDirectoryName(filePath);
+                    string newPath = Path.Combine(directory, newFileName);
+                    File.Move(filePath, newPath);
+                    return newPath;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Rename error:\r\n" + e.ToString(), "ShareX - " + Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return filePath;
@@ -238,6 +279,22 @@ namespace ShareX.HelpersLib
             return Encoding.UTF8.GetString(Enumerable.Range(1, 255).Select(i => (byte)i).ToArray());
         }
 
+        public static string GetRandomLine(string text)
+        {
+            string[] lines = text.Trim().Lines();
+            if (lines != null && lines.Length > 0)
+            {
+                return lines[MathHelpers.Random(0, lines.Length - 1)];
+            }
+            return null;
+        }
+
+        public static string GetRandomLineFromFile(string path)
+        {
+            string text = File.ReadAllText(path);
+            return GetRandomLine(text);
+        }
+
         public static string GetValidFileName(string fileName, string separator = "")
         {
             char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
@@ -280,7 +337,7 @@ namespace ShareX.HelpersLib
         {
             if (!string.IsNullOrEmpty(fileName))
             {
-                string ext = Path.GetExtension(fileName).ToLower();
+                string ext = Path.GetExtension(fileName).ToLowerInvariant();
 
                 if (!string.IsNullOrEmpty(ext))
                 {
@@ -291,17 +348,11 @@ namespace ShareX.HelpersLib
                         return mimeType;
                     }
 
-                    using (RegistryKey regKey = Registry.ClassesRoot.OpenSubKey(ext))
-                    {
-                        if (regKey != null && regKey.GetValue("Content Type") != null)
-                        {
-                            mimeType = regKey.GetValue("Content Type").ToString();
+                    mimeType = RegistryHelpers.GetRegistryValue(ext, "Content Type", RegistryHive.ClassesRoot);
 
-                            if (!string.IsNullOrEmpty(mimeType))
-                            {
-                                return mimeType;
-                            }
-                        }
+                    if (!string.IsNullOrEmpty(mimeType))
+                    {
+                        return mimeType;
                     }
                 }
             }
@@ -799,6 +850,19 @@ namespace ShareX.HelpersLib
             return false;
         }
 
+        public static long GetFileSize(string path)
+        {
+            try
+            {
+                return new FileInfo(path).Length;
+            }
+            catch
+            {
+            }
+
+            return -1;
+        }
+
         public static void CreateDirectoryFromDirectoryPath(string path)
         {
             if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
@@ -950,6 +1014,7 @@ namespace ShareX.HelpersLib
                     using (WebClient wc = new WebClient())
                     {
                         wc.Encoding = Encoding.UTF8;
+                        wc.Headers.Add(HttpRequestHeader.UserAgent, ShareXResources.UserAgent);
                         wc.Proxy = HelpersOptions.CurrentProxy.GetWebProxy();
                         return wc.DownloadString(url);
                     }
@@ -1048,11 +1113,6 @@ namespace ShareX.HelpersLib
             return true;
         }
 
-        public static void ShowError(Exception e)
-        {
-            MessageBox.Show(e.ToString(), "ShareX - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
         public static void CopyAll(string sourceDirectory, string targetDirectory)
         {
             DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
@@ -1094,12 +1154,6 @@ namespace ShareX.HelpersLib
             }
         }
 
-        // http://goessner.net/articles/JsonPath/
-        public static string ParseJSON(string text, string jsonPath)
-        {
-            return (string)JToken.Parse(text).SelectToken("$." + jsonPath);
-        }
-
         public static T[] GetInstances<T>() where T : class
         {
             IEnumerable<T> instances = from t in Assembly.GetCallingAssembly().GetTypes()
@@ -1113,16 +1167,11 @@ namespace ShareX.HelpersLib
         {
             try
             {
-                RegistryKey rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+                string productName = RegistryHelpers.GetRegistryValue(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName", RegistryHive.LocalMachine);
 
-                if (rk != null)
+                if (!string.IsNullOrEmpty(productName))
                 {
-                    string productName = rk.GetValue("ProductName") as string;
-
-                    if (!string.IsNullOrEmpty(productName))
-                    {
-                        return productName;
-                    }
+                    return productName;
                 }
             }
             catch
@@ -1137,6 +1186,115 @@ namespace ShareX.HelpersLib
             using (MemoryStream ms = new MemoryStream(data))
             {
                 return new Cursor(ms);
+            }
+        }
+
+        public static string EscapeCLIText(string text)
+        {
+            return string.Format("\"{0}\"", text.Replace("\\", "\\\\").Replace("\"", "\\\""));
+        }
+
+        public static string BytesToHex(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte x in bytes)
+            {
+                sb.Append(string.Format("{0:x2}", x));
+            }
+            return sb.ToString();
+        }
+
+        public static byte[] ComputeSHA256(byte[] data)
+        {
+            using (SHA256Managed hashAlgorithm = new SHA256Managed())
+            {
+                return hashAlgorithm.ComputeHash(data);
+            }
+        }
+
+        public static byte[] ComputeSHA256(string data)
+        {
+            return ComputeSHA256(Encoding.UTF8.GetBytes(data));
+        }
+
+        public static byte[] ComputeHMACSHA256(byte[] data, byte[] key)
+        {
+            using (HMACSHA256 hashAlgorithm = new HMACSHA256(key))
+            {
+                return hashAlgorithm.ComputeHash(data);
+            }
+        }
+
+        public static byte[] ComputeHMACSHA256(string data, string key)
+        {
+            return ComputeHMACSHA256(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] ComputeHMACSHA256(byte[] data, string key)
+        {
+            return ComputeHMACSHA256(data, Encoding.UTF8.GetBytes(key));
+        }
+
+        public static byte[] ComputeHMACSHA256(string data, byte[] key)
+        {
+            return ComputeHMACSHA256(Encoding.UTF8.GetBytes(data), key);
+        }
+
+        public static void CreateEmptyFile(string path)
+        {
+            File.Create(path).Dispose();
+        }
+
+        public static string SafeStringFormat(string format, params object[] args)
+        {
+            return SafeStringFormat(null, format, args);
+        }
+
+        public static string SafeStringFormat(IFormatProvider provider, string format, params object[] args)
+        {
+            try
+            {
+                if (provider != null)
+                {
+                    return string.Format(provider, format, args);
+                }
+
+                return string.Format(format, args);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+            }
+
+            return format;
+        }
+
+        public static string NumberToLetters(int num)
+        {
+            string result = "";
+            while (--num >= 0)
+            {
+                result = (char)('A' + num % 26) + result;
+                num /= 26;
+            }
+            return result;
+        }
+
+        [ReflectionPermission(SecurityAction.Assert, MemberAccess = true)]
+        public static bool TryFixHandCursor()
+        {
+            try
+            {
+                // https://referencesource.microsoft.com/#System.Windows.Forms/winforms/Managed/System/WinForms/Cursors.cs,423
+                typeof(Cursors).GetField("hand", BindingFlags.NonPublic | BindingFlags.Static)
+                    .SetValue(null, new Cursor(NativeMethods.LoadCursor(IntPtr.Zero, NativeConstants.IDC_HAND)));
+
+                return true;
+            }
+            catch
+            {
+                // If it fails, we'll just have to live with the old hand.
+                return false;
             }
         }
     }

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@ namespace ShareX.UploadersLib
         public string Client_ID { get; set; }
         public string Client_Secret { get; set; }
         public OAuth2Token Token { get; set; }
+        public OAuth2ProofKey Proof { get; set; }
 
         public OAuth2Info(string client_id, string client_secret)
         {

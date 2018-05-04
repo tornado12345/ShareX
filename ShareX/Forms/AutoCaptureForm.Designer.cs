@@ -77,6 +77,7 @@
             // 
             // tsslStatus
             // 
+            this.tsslStatus.BackColor = System.Drawing.Color.Transparent;
             this.tsslStatus.Name = "tsslStatus";
             resources.ApplyResources(this.tsslStatus, "tsslStatus");
             // 
@@ -115,6 +116,7 @@
             // 
             // nudRepeatTime
             // 
+            this.nudRepeatTime.DecimalPlaces = 1;
             resources.ApplyResources(this.nudRepeatTime, "nudRepeatTime");
             this.nudRepeatTime.Maximum = new decimal(new int[] {
             86400,

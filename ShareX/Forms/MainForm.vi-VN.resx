@@ -168,14 +168,8 @@
   <data name="tsddbDebug.Text" xml:space="preserve">
     <value>Bắt lỗi</value>
   </data>
-  <data name="tsmiAbout.Text" xml:space="preserve">
-    <value>Giới thiệu...</value>
-  </data>
   <data name="tsmiAutoCapture.Text" xml:space="preserve">
     <value>Tự động chụp...</value>
-  </data>
-  <data name="tsmiAutomate.Text" xml:space="preserve">
-    <value>Tự động hóa...</value>
   </data>
   <data name="tsmiClearList.Text" xml:space="preserve">
     <value>Xóa danh sách</value>
@@ -264,9 +258,6 @@
   <data name="tsmiDNSChanger.Text" xml:space="preserve">
     <value>Trình đổi DNS</value>
   </data>
-  <data name="tsmiDonate.Text" xml:space="preserve">
-    <value>Quyên góp...</value>
-  </data>
   <data name="tsmiEditSelectedFile.Text" xml:space="preserve">
     <value>Chỉnh sửa ảnh...</value>
   </data>
@@ -287,9 +278,6 @@
   </data>
   <data name="tsmiImageCombiner.Text" xml:space="preserve">
     <value>Trình gộp ảnh...</value>
-  </data>
-  <data name="tsmiImageEditor.Text" xml:space="preserve">
-    <value>Trình chỉnh sửa ảnh...</value>
   </data>
   <data name="tsmiImageEffects.Text" xml:space="preserve">
     <value>Hiệu ứng ảnh...</value>
@@ -426,9 +414,6 @@
   <data name="tsmiTrayAutoCapture.Text" xml:space="preserve">
     <value>Tự động chụp...</value>
   </data>
-  <data name="tsmiTrayAutomate.Text" xml:space="preserve">
-    <value>Tự động hóa...</value>
-  </data>
   <data name="tsmiTrayCapture.Text" xml:space="preserve">
     <value>Chụp</value>
   </data>
@@ -467,9 +452,6 @@
   </data>
   <data name="tsmiTrayImageCombiner.Text" xml:space="preserve">
     <value>Trình gộp ảnh...</value>
-  </data>
-  <data name="tsmiTrayImageEditor.Text" xml:space="preserve">
-    <value>Trình sửa ảnh...</value>
   </data>
   <data name="tsmiTrayImageEffects.Text" xml:space="preserve">
     <value>Hiệu ứng ảnh...</value>

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -54,6 +54,7 @@ namespace ShareX.UploadersLib.FileUploaders
                 Path = config.OwnCloudPath,
                 CreateShare = config.OwnCloudCreateShare,
                 DirectLink = config.OwnCloudDirectLink,
+                PreviewLink = config.OwnCloudUsePreviewLinks,
                 IsCompatibility81 = config.OwnCloud81Compatibility
             };
         }
@@ -69,6 +70,7 @@ namespace ShareX.UploadersLib.FileUploaders
         public string Path { get; set; }
         public bool CreateShare { get; set; }
         public bool DirectLink { get; set; }
+        public bool PreviewLink { get; set; }
         public bool IsCompatibility81 { get; set; }
 
         public OwnCloud(string host, string username, string password)
@@ -102,9 +104,11 @@ namespace ShareX.UploadersLib.FileUploaders
 
             string url = URLHelpers.CombineURL(Host, "remote.php/webdav", encodedPath);
             url = URLHelpers.FixPrefix(url);
-            NameValueCollection headers = CreateAuthenticationHeader(Username, Password);
 
-            string response = SendRequestStream(url, stream, Helpers.GetMimeType(fileName), headers, method: HttpMethod.PUT);
+            NameValueCollection headers = CreateAuthenticationHeader(Username, Password);
+            headers["OCS-APIREQUEST"] = "true";
+
+            string response = SendRequest(HttpMethod.PUT, url, stream, Helpers.GetMimeType(fileName), null, headers);
 
             UploadResult result = new UploadResult(response);
 
@@ -137,8 +141,11 @@ namespace ShareX.UploadersLib.FileUploaders
 
             string url = URLHelpers.CombineURL(Host, "ocs/v1.php/apps/files_sharing/api/v1/shares?format=json");
             url = URLHelpers.FixPrefix(url);
+
             NameValueCollection headers = CreateAuthenticationHeader(Username, Password);
-            string response = SendRequest(HttpMethod.POST, url, args, headers);
+            headers["OCS-APIREQUEST"] = "true";
+
+            string response = SendRequestMultiPart(url, args, headers);
 
             if (!string.IsNullOrEmpty(response))
             {
@@ -150,7 +157,14 @@ namespace ShareX.UploadersLib.FileUploaders
                     {
                         OwnCloudShareResponseData data = ((JObject)result.ocs.data).ToObject<OwnCloudShareResponseData>();
                         string link = data.url;
-                        if (DirectLink) link += IsCompatibility81 ? "/download" : "&download";
+                        if (PreviewLink)
+                        {
+                            link += Helpers.IsImageFile(path) ? "/preview" : "/download";
+                        }
+                        else if (DirectLink)
+                        {
+                            link += (IsCompatibility81 ? "/" : "&") + "download";
+                        }
                         return link;
                     }
                     else

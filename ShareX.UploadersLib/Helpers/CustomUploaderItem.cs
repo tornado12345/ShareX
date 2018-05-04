@@ -1,8 +1,8 @@
-﻿#region License Information (GPL v3)
+#region License Information (GPL v3)
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -23,10 +23,13 @@
 
 #endregion License Information (GPL v3)
 
+using Newtonsoft.Json.Linq;
 using ShareX.HelpersLib;
+using ShareX.UploadersLib.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -36,16 +39,48 @@ namespace ShareX.UploadersLib
 {
     public class CustomUploaderItem
     {
+        [DefaultValue("")]
         public string Name { get; set; }
+
+        public bool ShouldSerializeName() => !string.IsNullOrEmpty(Name) && Name != URLHelpers.GetHostName(RequestURL);
+
+        [DefaultValue(CustomUploaderDestinationType.None)]
+        public CustomUploaderDestinationType DestinationType { get; set; }
+
+        [DefaultValue(CustomUploaderRequestType.POST)]
         public CustomUploaderRequestType RequestType { get; set; }
+
+        [DefaultValue("")]
         public string RequestURL { get; set; }
+
+        [DefaultValue("")]
         public string FileFormName { get; set; }
+
+        [DefaultValue(null)]
         public Dictionary<string, string> Arguments { get; set; }
+
+        public bool ShouldSerializeArguments() => Arguments != null && Arguments.Count > 0;
+
+        [DefaultValue(null)]
         public Dictionary<string, string> Headers { get; set; }
+
+        public bool ShouldSerializeHeaders() => Headers != null && Headers.Count > 0;
+
+        [DefaultValue(ResponseType.Text)]
         public ResponseType ResponseType { get; set; }
+
+        [DefaultValue(null)]
         public List<string> RegexList { get; set; }
+
+        public bool ShouldSerializeRegexList() => RegexList != null && RegexList.Count > 0;
+
+        [DefaultValue("")]
         public string URL { get; set; }
+
+        [DefaultValue("")]
         public string ThumbnailURL { get; set; }
+
+        [DefaultValue("")]
         public string DeletionURL { get; set; }
 
         private string response;
@@ -55,14 +90,26 @@ namespace ShareX.UploadersLib
         {
         }
 
-        public CustomUploaderItem(string name)
-        {
-            Name = name;
-        }
-
         public override string ToString()
         {
-            return Name;
+            if (!string.IsNullOrEmpty(Name))
+            {
+                return Name;
+            }
+
+            string name = URLHelpers.GetHostName(RequestURL);
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+
+            return "Name";
+        }
+
+        public string GetFileName()
+        {
+            return ToString() + ".sxcu";
         }
 
         public HttpMethod GetHttpMethod()
@@ -87,23 +134,25 @@ namespace ShareX.UploadersLib
         {
             if (string.IsNullOrEmpty(RequestURL))
             {
-                throw new Exception("'Request URL' must be not empty.");
+                throw new Exception(Resources.CustomUploaderItem_GetRequestURL_RequestURLMustBeConfigured);
             }
 
-            return URLHelpers.FixPrefix(RequestURL);
+            string url = ParseURL(RequestURL, false);
+
+            return URLHelpers.FixPrefix(url);
         }
 
         public string GetFileFormName()
         {
             if (string.IsNullOrEmpty(FileFormName))
             {
-                throw new Exception("'File form name' must be not empty.");
+                throw new Exception(Resources.CustomUploaderItem_GetFileFormName_FileFormNameMustBeConfigured);
             }
 
             return FileFormName;
         }
 
-        public Dictionary<string, string> GetArguments(string input = null)
+        public Dictionary<string, string> GetArguments(CustomUploaderArgumentInput input)
         {
             Dictionary<string, string> arguments = new Dictionary<string, string>();
 
@@ -111,20 +160,14 @@ namespace ShareX.UploadersLib
             {
                 foreach (KeyValuePair<string, string> arg in Arguments)
                 {
-                    string value = arg.Value;
-
-                    value = value.Replace("%input", "$input$"); // For backward compatibility
-                    value = NameParser.Parse(NameParserType.Text, value);
-                    value = value.Replace("$input$", input);
-
-                    arguments.Add(arg.Key, value);
+                    arguments.Add(arg.Key, input.Parse(arg.Value));
                 }
             }
 
             return arguments;
         }
 
-        public NameValueCollection GetHeaders()
+        public NameValueCollection GetHeaders(CustomUploaderArgumentInput input)
         {
             if (Headers != null && Headers.Count > 0)
             {
@@ -132,7 +175,7 @@ namespace ShareX.UploadersLib
 
                 foreach (KeyValuePair<string, string> header in Headers)
                 {
-                    collection.Add(header.Key, header.Value);
+                    collection.Add(header.Key, input.Parse(header.Value));
                 }
 
                 return collection;
@@ -152,7 +195,7 @@ namespace ShareX.UploadersLib
 
                 if (!string.IsNullOrEmpty(URL))
                 {
-                    url = ParseURL(URL);
+                    url = ParseURL(URL, true);
                 }
                 else
                 {
@@ -168,8 +211,8 @@ namespace ShareX.UploadersLib
                     result.URL = url;
                 }
 
-                result.ThumbnailURL = ParseURL(ThumbnailURL);
-                result.DeletionURL = ParseURL(DeletionURL);
+                result.ThumbnailURL = ParseURL(ThumbnailURL, true);
+                result.DeletionURL = ParseURL(DeletionURL, true);
             }
         }
 
@@ -186,7 +229,7 @@ namespace ShareX.UploadersLib
             }
         }
 
-        private string ParseURL(string url)
+        public string ParseURL(string url, bool output)
         {
             if (string.IsNullOrEmpty(url))
             {
@@ -196,78 +239,106 @@ namespace ShareX.UploadersLib
             StringBuilder result = new StringBuilder();
 
             bool syntaxStart = false;
-            CustomUploaderResponseParseType parseType = CustomUploaderResponseParseType.Regex;
             int syntaxStartIndex = 0;
+            bool escape = false;
 
             for (int i = 0; i < url.Length; i++)
             {
-                if (url[i] == '$')
+                if (url[i] == '$' && !escape)
                 {
                     if (!syntaxStart)
                     {
                         syntaxStart = true;
-
-                        string syntaxCheck = url.Substring(i + 1);
-
-                        if (syntaxCheck.StartsWith("regex:", StringComparison.InvariantCultureIgnoreCase)) // Example: $regex:1,1$
-                        {
-                            parseType = CustomUploaderResponseParseType.Regex;
-                            syntaxStartIndex = i + 7;
-                        }
-                        else if (syntaxCheck.StartsWith("json:", StringComparison.InvariantCultureIgnoreCase)) // Example: $json:Files[0].URL$
-                        {
-                            parseType = CustomUploaderResponseParseType.Json;
-                            syntaxStartIndex = i + 6;
-                        }
-                        else if (syntaxCheck.StartsWith("xml:", StringComparison.InvariantCultureIgnoreCase)) // Example: $xml:/Files/File[1]/URL$
-                        {
-                            parseType = CustomUploaderResponseParseType.Xml;
-                            syntaxStartIndex = i + 5;
-                        }
-                        else
-                        {
-                            parseType = CustomUploaderResponseParseType.Regex;
-                            syntaxStartIndex = i + 1;
-                        }
+                        syntaxStartIndex = i + 1;
                     }
                     else
                     {
-                        string parseText = url.Substring(syntaxStartIndex, i - syntaxStartIndex).Trim();
+                        syntaxStart = false;
+                        int syntaxLength = i - syntaxStartIndex;
 
-                        if (!string.IsNullOrEmpty(parseText))
+                        if (syntaxLength > 0)
                         {
-                            string resultText;
+                            string syntax = url.Substring(syntaxStartIndex, syntaxLength);
+                            string syntaxResult = ParseSyntax(syntax, output);
 
-                            switch (parseType)
+                            if (!string.IsNullOrEmpty(syntaxResult))
                             {
-                                default:
-                                case CustomUploaderResponseParseType.Regex:
-                                    resultText = ParseRegexSyntax(parseText);
-                                    break;
-                                case CustomUploaderResponseParseType.Json:
-                                    resultText = ParseJsonSyntax(parseText);
-                                    break;
-                                case CustomUploaderResponseParseType.Xml:
-                                    resultText = ParseXmlSyntax(parseText);
-                                    break;
-                            }
-
-                            if (!string.IsNullOrEmpty(resultText))
-                            {
-                                result.Append(resultText);
+                                result.Append(syntaxResult);
                             }
                         }
-
-                        syntaxStart = false;
                     }
+
+                    escape = false;
+                }
+                else if (url[i] == '\\' && !escape)
+                {
+                    escape = true;
                 }
                 else if (!syntaxStart)
                 {
                     result.Append(url[i]);
+                    escape = false;
                 }
             }
 
             return result.ToString();
+        }
+
+        private string ParseSyntax(string syntax, bool output)
+        {
+            CustomUploaderResponseParseType parseType;
+
+            if (syntax.Equals("response", StringComparison.InvariantCultureIgnoreCase)) // Example: $response$
+            {
+                return response;
+            }
+            else if (syntax.StartsWith("regex:", StringComparison.InvariantCultureIgnoreCase)) // Example: $regex:1,1$
+            {
+                parseType = CustomUploaderResponseParseType.Regex;
+                syntax = syntax.Substring(6);
+            }
+            else if (syntax.StartsWith("json:", StringComparison.InvariantCultureIgnoreCase)) // Example: $json:Files[0].URL$
+            {
+                parseType = CustomUploaderResponseParseType.Json;
+                syntax = syntax.Substring(5);
+            }
+            else if (syntax.StartsWith("xml:", StringComparison.InvariantCultureIgnoreCase)) // Example: $xml:/Files/File[1]/URL$
+            {
+                parseType = CustomUploaderResponseParseType.Xml;
+                syntax = syntax.Substring(4);
+            }
+            else if (syntax.StartsWith("random:", StringComparison.InvariantCultureIgnoreCase)) // Example: $random:domain1.com|domain2.com$
+            {
+                parseType = CustomUploaderResponseParseType.Random;
+                syntax = syntax.Substring(7);
+            }
+            else // Example: $1,1$
+            {
+                parseType = CustomUploaderResponseParseType.Regex;
+            }
+
+            if (!string.IsNullOrEmpty(syntax))
+            {
+                if (output)
+                {
+                    switch (parseType)
+                    {
+                        case CustomUploaderResponseParseType.Regex:
+                            return ParseRegexSyntax(syntax);
+                        case CustomUploaderResponseParseType.Json:
+                            return ParseJsonSyntax(syntax);
+                        case CustomUploaderResponseParseType.Xml:
+                            return ParseXmlSyntax(syntax);
+                    }
+                }
+
+                if (parseType == CustomUploaderResponseParseType.Random)
+                {
+                    return ParseRandomSyntax(syntax);
+                }
+            }
+
+            return null;
         }
 
         private string ParseRegexSyntax(string syntax)
@@ -320,7 +391,7 @@ namespace ShareX.UploadersLib
         // http://goessner.net/articles/JsonPath/
         private string ParseJsonSyntax(string syntaxJsonPath)
         {
-            return Helpers.ParseJSON(response, syntaxJsonPath);
+            return (string)JToken.Parse(response).SelectToken("$." + syntaxJsonPath);
         }
 
         // http://www.w3schools.com/xsl/xpath_syntax.asp
@@ -340,6 +411,18 @@ namespace ShareX.UploadersLib
             }
 
             return null;
+        }
+
+        private string ParseRandomSyntax(string syntax)
+        {
+            string[] values = syntax.Split('|');
+
+            if (values.Length > 0)
+            {
+                return values[MathHelpers.Random(values.Length - 1)];
+            }
+
+            return "";
         }
     }
 }

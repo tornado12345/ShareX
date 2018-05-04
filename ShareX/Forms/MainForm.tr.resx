@@ -192,9 +192,6 @@
   <data name="tsmiScreenColorPicker.Text" xml:space="preserve">
     <value>Ekrandan renk seçici...</value>
   </data>
-  <data name="tsmiImageEditor.Text" xml:space="preserve">
-    <value>Resim düzenleyici...</value>
-  </data>
   <data name="tsmiImageEffects.Text" xml:space="preserve">
     <value>Resim efektleri...</value>
   </data>
@@ -287,12 +284,6 @@
   </data>
   <data name="tsmiTestURLSharing.Text" xml:space="preserve">
     <value>URL paylaşım testi</value>
-  </data>
-  <data name="tsmiDonate.Text" xml:space="preserve">
-    <value>Bağış...</value>
-  </data>
-  <data name="tsmiAbout.Text" xml:space="preserve">
-    <value>Hakkında...</value>
   </data>
   <data name="tsmiShowErrors.Text" xml:space="preserve">
     <value>Hataları göster</value>
@@ -474,9 +465,6 @@
   <data name="tsmiTrayScreenColorPicker.Text" xml:space="preserve">
     <value>Ekrandan renk seçici...</value>
   </data>
-  <data name="tsmiTrayImageEditor.Text" xml:space="preserve">
-    <value>Resim düzenleyici...</value>
-  </data>
   <data name="tsmiTrayImageEffects.Text" xml:space="preserve">
     <value>Resim efektleri...</value>
   </data>
@@ -578,12 +566,6 @@
   </data>
   <data name="tsmiTrayRecentItems.Text" xml:space="preserve">
     <value>Son adresler</value>
-  </data>
-  <data name="tsmiAutomate.Text" xml:space="preserve">
-    <value>Otomatikleştirmek...</value>
-  </data>
-  <data name="tsmiTrayAutomate.Text" xml:space="preserve">
-    <value>Otomatikleştirmek...</value>
   </data>
   <data name="tsmiRectangleTransparent.Text" xml:space="preserve">
     <value>Bölge (Saydam)</value>

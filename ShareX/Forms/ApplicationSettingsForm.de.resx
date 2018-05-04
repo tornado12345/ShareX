@@ -171,14 +171,8 @@
   <data name="cbSendToMenu.Text" xml:space="preserve">
     <value>Zeige ShareX im Menü "Senden an"</value>
   </data>
-  <data name="cbStartWithWindows.Text" xml:space="preserve">
-    <value>ShareX beim Starten von Windows ausführen</value>
-  </data>
   <data name="cbRememberMainFormPosition.Text" xml:space="preserve">
     <value>Behalte Hauptfensterposition</value>
-  </data>
-  <data name="btnChromeSupport.Text" xml:space="preserve">
-    <value>Chrome-Erweiterung...</value>
   </data>
   <data name="btnEditQuickTaskMenu.Text" xml:space="preserve">
     <value>Schnellzugriff Menü bearbeiten...</value>
@@ -329,5 +323,23 @@
   </data>
   <data name="lblTrayLeftClickAction.Text" xml:space="preserve">
     <value>Tray Symbol Linksklick Aktion:</value>
+  </data>
+  <data name="btnChromeOpenExtensionPage.Text" xml:space="preserve">
+    <value>ShareX Chrome-Erweiterung installieren...</value>
+  </data>
+  <data name="btnFirefoxOpenAddonPage.Text" xml:space="preserve">
+    <value>ShareX Firefox-Erweiterung installieren...</value>
+  </data>
+  <data name="btnResetSettings.Text" xml:space="preserve">
+    <value>Einstellungen zurücksetzen...</value>
+  </data>
+  <data name="cbCheckPreReleaseUpdates.Text" xml:space="preserve">
+    <value>Nach Vorabversion-Updates suchen</value>
+  </data>
+  <data name="cbChromeExtensionSupport.Text" xml:space="preserve">
+    <value>Aktiviere Chrome-Erweiterungsunterstützung</value>
+  </data>
+  <data name="cbFirefoxAddonSupport.Text" xml:space="preserve">
+    <value>Aktiviere Firefox-Erweiterungsunterstützung</value>
   </data>
 </root>

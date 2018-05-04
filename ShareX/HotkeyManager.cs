@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -154,7 +154,7 @@ namespace ShareX
             {
                 foreach (HotkeySettings hotkeySetting in Hotkeys.ToArray())
                 {
-                    if (!temporary || (temporary && hotkeySetting.TaskSettings.Job != HotkeyType.DisableHotkeys))
+                    if (!temporary || hotkeySetting.TaskSettings.Job != HotkeyType.DisableHotkeys)
                     {
                         UnregisterHotkey(hotkeySetting, removeFromList);
                     }
@@ -223,7 +223,8 @@ namespace ShareX
                 new HotkeySettings(HotkeyType.RectangleRegion, Keys.Control | Keys.PrintScreen),
                 new HotkeySettings(HotkeyType.PrintScreen, Keys.PrintScreen),
                 new HotkeySettings(HotkeyType.ActiveWindow, Keys.Alt | Keys.PrintScreen),
-                new HotkeySettings(HotkeyType.ScreenRecorder, Keys.Shift | Keys.PrintScreen)
+                new HotkeySettings(HotkeyType.ScreenRecorder, Keys.Shift | Keys.PrintScreen),
+                new HotkeySettings(HotkeyType.ScreenRecorderGIF, Keys.Control | Keys.Shift | Keys.PrintScreen)
             };
         }
     }

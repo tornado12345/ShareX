@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,137 +24,81 @@
 #endregion License Information (GPL v3)
 
 using Microsoft.Win32;
-using ShareX.HelpersLib.Properties;
 using System;
 using System.IO;
-using System.Windows.Forms;
 
 namespace ShareX.HelpersLib
 {
     public static class RegistryHelpers
     {
-        private static readonly string WindowsStartupRun = @"Software\Microsoft\Windows\CurrentVersion\Run";
-        private static readonly string ApplicationName = "ShareX";
-        private static readonly string ApplicationPath = string.Format("\"{0}\"", Application.ExecutablePath);
-        private static readonly string StartupPath = ApplicationPath + " -silent";
-
-        private static readonly string ShellExtMenuFiles = @"Software\Classes\*\shell\" + ApplicationName;
-        private static readonly string ShellExtMenuFilesCmd = ShellExtMenuFiles + @"\command";
-
-        private static readonly string ShellExtMenuDirectory = @"Software\Classes\Directory\shell\" + ApplicationName;
-        private static readonly string ShellExtMenuDirectoryCmd = ShellExtMenuDirectory + @"\command";
-
-        private static readonly string ShellExtMenuFolders = @"Software\Classes\Folder\shell\" + ApplicationName;
-        private static readonly string ShellExtMenuFoldersCmd = ShellExtMenuFolders + @"\command";
-
-        private static readonly string ShellExtDesc = string.Format(Resources.RegistryHelpers_ShellExtDesc_Upload_with__0_, ApplicationName);
-        private static readonly string ShellExtIcon = ApplicationPath + ",0";
-        private static readonly string ShellExtPath = ApplicationPath + " \"%1\"";
-
-        private static readonly string ChromeNativeMessagingHosts = @"SOFTWARE\Google\Chrome\NativeMessagingHosts\com.getsharex.sharex";
-
-        public static bool CheckStartWithWindows()
+        public static void CreateRegistry(string path, string value, RegistryHive root = RegistryHive.CurrentUser)
         {
-            try
-            {
-                return CheckRegistry(WindowsStartupRun, ApplicationName, StartupPath);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
+            CreateRegistry(path, null, value, root);
         }
 
-        public static void SetStartWithWindows(bool startWithWindows)
+        public static void CreateRegistry(string path, string name, string value, RegistryHive root = RegistryHive.CurrentUser)
         {
-            try
+            using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default).CreateSubKey(path))
             {
-                using (RegistryKey regkey = Registry.CurrentUser.OpenSubKey(WindowsStartupRun, true))
+                if (rk != null)
                 {
-                    if (regkey != null)
+                    rk.SetValue(name, value, RegistryValueKind.String);
+                }
+            }
+        }
+
+        public static void CreateRegistry(string path, int value, RegistryHive root = RegistryHive.CurrentUser)
+        {
+            CreateRegistry(path, null, value, root);
+        }
+
+        public static void CreateRegistry(string path, string name, int value, RegistryHive root = RegistryHive.CurrentUser)
+        {
+            using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default).CreateSubKey(path))
+            {
+                if (rk != null)
+                {
+                    rk.SetValue(name, value, RegistryValueKind.DWord);
+                }
+            }
+        }
+
+        public static void RemoveRegistry(string path, bool recursive = false, RegistryHive root = RegistryHive.CurrentUser)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default))
+                {
+                    if (recursive)
                     {
-                        if (startWithWindows)
-                        {
-                            regkey.SetValue(ApplicationName, StartupPath, RegistryValueKind.String);
-                        }
-                        else
-                        {
-                            regkey.DeleteValue(ApplicationName, false);
-                        }
+                        rk.DeleteSubKeyTree(path, false);
+                    }
+                    else
+                    {
+                        rk.DeleteSubKey(path, false);
                     }
                 }
             }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
         }
 
-        public static bool CheckShellContextMenu()
+        public static string GetRegistryValue(string path, string name = null, RegistryHive root = RegistryHive.CurrentUser)
         {
-            try
+            using (RegistryKey rk = RegistryKey.OpenBaseKey(root, RegistryView.Default).OpenSubKey(path))
             {
-                return CheckRegistry(ShellExtMenuFilesCmd, null, ShellExtPath) && CheckRegistry(ShellExtMenuDirectoryCmd, null, ShellExtPath);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
-
-            return false;
-        }
-
-        public static void SetShellContextMenu(bool register)
-        {
-            try
-            {
-                if (register)
+                if (rk != null)
                 {
-                    UnregisterShellContextMenu();
-                    RegisterShellContextMenu();
-                }
-                else
-                {
-                    UnregisterShellContextMenu();
+                    return rk.GetValue(name, null) as string;
                 }
             }
-            catch (Exception e)
-            {
-                DebugHelper.WriteException(e);
-            }
+
+            return null;
         }
 
-        public static void RegisterShellContextMenu()
+        public static bool CheckRegistry(string path, string name = null, string value = null, RegistryHive root = RegistryHive.CurrentUser)
         {
-            CreateRegistry(ShellExtMenuFiles, ShellExtDesc);
-            CreateRegistry(ShellExtMenuFiles, "Icon", ShellExtIcon);
-            CreateRegistry(ShellExtMenuFilesCmd, ShellExtPath);
+            string registryValue = GetRegistryValue(path, name, root);
 
-            CreateRegistry(ShellExtMenuDirectory, ShellExtDesc);
-            CreateRegistry(ShellExtMenuDirectory, "Icon", ShellExtIcon);
-            CreateRegistry(ShellExtMenuDirectoryCmd, ShellExtPath);
-        }
-
-        public static void UnregisterShellContextMenu()
-        {
-            RemoveRegistry(ShellExtMenuFilesCmd);
-            RemoveRegistry(ShellExtMenuFiles);
-            RemoveRegistry(ShellExtMenuDirectoryCmd);
-            RemoveRegistry(ShellExtMenuDirectory);
-            RemoveRegistry(ShellExtMenuFoldersCmd);
-            RemoveRegistry(ShellExtMenuFolders);
-        }
-
-        public static void RegisterChromeSupport(string filepath)
-        {
-            CreateRegistry(ChromeNativeMessagingHosts, filepath);
-        }
-
-        public static void UnregisterChromeSupport()
-        {
-            RemoveRegistry(ChromeNativeMessagingHosts);
+            return registryValue != null && (value == null || registryValue.Equals(value, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public static ExternalProgram FindProgram(string name, string filename)
@@ -199,74 +143,6 @@ namespace ShareX.HelpersLib
                             }
                         }
                     }
-                }
-            }
-
-            return null;
-        }
-
-        public static void CreateRegistry(string path, string value)
-        {
-            CreateRegistry(path, null, value);
-        }
-
-        public static void CreateRegistry(string path, string name, string value)
-        {
-            using (RegistryKey rk = Registry.CurrentUser.CreateSubKey(path))
-            {
-                if (rk != null)
-                {
-                    rk.SetValue(name, value, RegistryValueKind.String);
-                }
-            }
-        }
-
-        public static void CreateRegistry(string path, int value)
-        {
-            CreateRegistry(path, null, value);
-        }
-
-        public static void CreateRegistry(string path, string name, int value)
-        {
-            using (RegistryKey rk = Registry.CurrentUser.CreateSubKey(path))
-            {
-                if (rk != null)
-                {
-                    rk.SetValue(name, value, RegistryValueKind.DWord);
-                }
-            }
-        }
-
-        public static void RemoveRegistry(string path)
-        {
-            using (RegistryKey rk = Registry.CurrentUser.OpenSubKey(path))
-            {
-                if (rk != null)
-                {
-                    Registry.CurrentUser.DeleteSubKey(path);
-                }
-            }
-        }
-
-        public static bool CheckRegistry(string path, string name = null, string value = null)
-        {
-            string registryValue = GetRegistryValue(path, name);
-
-            if (registryValue != null)
-            {
-                return value == null || registryValue.Equals(value, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return false;
-        }
-
-        public static string GetRegistryValue(string path, string name = null)
-        {
-            using (RegistryKey rk = Registry.CurrentUser.OpenSubKey(path))
-            {
-                if (rk != null)
-                {
-                    return rk.GetValue(name, null) as string;
                 }
             }
 

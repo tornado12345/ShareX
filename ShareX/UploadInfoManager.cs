@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -229,6 +229,21 @@ namespace ShareX
             if (IsItemSelected) CopyTexts(SelectedItems.Where(x => x.IsImageURL && x.IsThumbnailURLExist).Select(x => parser.Parse(x.Info, UploadInfoParser.ForumLinkedImage)));
         }
 
+        public void CopyMarkdownLink()
+        {
+            if (IsItemSelected) CopyTexts(SelectedItems.Where(x => x.IsURLExist).Select(x => parser.Parse(x.Info, UploadInfoParser.MarkdownLink)));
+        }
+
+        public void CopyMarkdownImage()
+        {
+            if (IsItemSelected) CopyTexts(SelectedItems.Where(x => x.IsImageURL).Select(x => parser.Parse(x.Info, UploadInfoParser.MarkdownImage)));
+        }
+
+        public void CopyMarkdownLinkedImage()
+        {
+            if (IsItemSelected) CopyTexts(SelectedItems.Where(x => x.IsImageURL && x.IsThumbnailURLExist).Select(x => parser.Parse(x.Info, UploadInfoParser.MarkdownLinkedImage)));
+        }
+
         public void CopyFilePath()
         {
             if (IsItemSelected) CopyTexts(SelectedItems.Where(x => x.IsFilePathValid).Select(x => x.Info.FilePath));
@@ -310,7 +325,7 @@ namespace ShareX
 
         public void EditImage()
         {
-            if (IsItemSelected && SelectedItem.IsImageFile) TaskHelpers.AnnotateImage(SelectedItem.Info.FilePath);
+            if (IsItemSelected && SelectedItem.IsImageFile) TaskHelpers.AnnotateImageFromFile(SelectedItem.Info.FilePath);
         }
 
         public void DeleteFiles()
@@ -337,9 +352,32 @@ namespace ShareX
             if (IsItemSelected && SelectedItem.IsURLExist) UploadManager.ShareURL(SelectedItem.Info.Result.ToString(), urlSharingService);
         }
 
+        public void SearchImage()
+        {
+            if (IsItemSelected && SelectedItem.IsURLExist) TaskHelpers.SearchImage(SelectedItem.Info.Result.URL);
+        }
+
         public void ShowQRCode()
         {
             if (IsItemSelected && SelectedItem.IsURLExist) new QRCodeForm(SelectedItem.Info.Result.URL).Show();
+        }
+
+        public void OCRImage()
+        {
+            if (IsItemSelected && SelectedItem.IsImageFile) TaskHelpers.OCRImage(SelectedItem.Info.FilePath);
+        }
+
+        public void CombineImages()
+        {
+            if (SelectedItems != null)
+            {
+                IEnumerable<string> imageFiles = SelectedItems.Where(x => x.IsImageFile).Select(x => x.Info.FilePath);
+
+                if (imageFiles.Count() > 1)
+                {
+                    TaskHelpers.OpenImageCombiner(null, imageFiles);
+                }
+            }
         }
 
         public void ShowResponse()

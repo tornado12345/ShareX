@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,30 +24,33 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ShareX.HelpersLib
 {
     public class InputBox : Form
     {
-        public string Title { get; set; }
-        public string InputText { get; set; }
+        public string InputText { get; private set; }
 
-        public InputBox(string title = null, string inputText = null)
+        public InputBox(string title = null, string inputText = null, string okText = null, string cancelText = null)
         {
             InitializeComponent();
             Icon = ShareXResources.Icon;
 
-            Title = title;
             InputText = inputText;
 
-            if (!string.IsNullOrEmpty(Title)) Text = Title;
+            if (!string.IsNullOrEmpty(title)) Text = title;
             if (!string.IsNullOrEmpty(InputText)) txtInputText.Text = InputText;
+            if (!string.IsNullOrEmpty(okText)) btnOK.Text = okText;
+            if (!string.IsNullOrEmpty(cancelText)) btnCancel.Text = cancelText;
         }
 
         private void InputBox_Shown(object sender, EventArgs e)
         {
             this.ForceActivate();
+            this.MinimumSize = new Size(384, this.Size.Height);
+            this.MaximumSize = new Size(1000, this.Size.Height);
 
             txtInputText.SelectionLength = txtInputText.Text.Length;
         }
@@ -66,9 +69,9 @@ namespace ShareX.HelpersLib
             Close();
         }
 
-        public static string GetInputText(string title = null, string inputText = null)
+        public static string GetInputText(string title = null, string inputText = null, string okText = null, string cancelText = null)
         {
-            using (InputBox form = new InputBox(title, inputText))
+            using (InputBox form = new InputBox(title, inputText, okText, cancelText))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -99,28 +102,28 @@ namespace ShareX.HelpersLib
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtInputText = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            //
+            // 
             // btnOK
-            //
+            // 
             resources.ApplyResources(this.btnOK, "btnOK");
             this.btnOK.Name = "btnOK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            //
+            // 
             // btnCancel
-            //
+            // 
             resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            //
+            // 
             // txtInputText
-            //
+            // 
             resources.ApplyResources(this.txtInputText, "txtInputText");
             this.txtInputText.Name = "txtInputText";
-            //
+            // 
             // InputBox
-            //
+            // 
             this.AcceptButton = this.btnOK;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -132,6 +135,7 @@ namespace ShareX.HelpersLib
             this.MinimizeBox = false;
             this.Name = "InputBox";
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.TopMost = true;
             this.Shown += new System.EventHandler(this.InputBox_Shown);
             this.ResumeLayout(false);

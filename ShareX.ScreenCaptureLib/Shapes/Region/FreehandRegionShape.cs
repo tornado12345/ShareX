@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -67,7 +67,7 @@ namespace ShareX.ScreenCaptureLib
                 }
                 else
                 {
-                    Point pos = InputManager.MousePosition0Based;
+                    Point pos = InputManager.ClientMousePosition;
 
                     if (points.Count == 0 || (!Manager.IsProportionalResizing && LastPosition != pos))
                     {
@@ -124,7 +124,6 @@ namespace ShareX.ScreenCaptureLib
 
         public override void OnNodeVisible()
         {
-            Manager.ResizeNodes[(int)NodePosition.TopLeft].Shape = NodeShape.Circle;
             Manager.ResizeNodes[(int)NodePosition.TopLeft].Visible = true;
         }
 

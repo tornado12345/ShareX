@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -44,6 +44,7 @@ namespace ShareX.UploadersLib
             InitializeComponent();
             Icon = ShareXResources.Icon;
             cbLanguages.Items.AddRange(Helpers.GetEnumDescriptions<OCRSpaceLanguages>());
+            txtResult.SupportSelectAll();
         }
 
         public OCRSpaceForm(Stream data, string filename) : this()
@@ -105,6 +106,8 @@ namespace ShareX.UploadersLib
                         UpdateControls();
                         cbLanguages.Enabled = btnStartOCR.Enabled = txtResult.Enabled = true;
                         pbProgress.Visible = false;
+                        txtResult.Focus();
+                        llGoogleTranslate.Enabled = true;
                     }
                 });
             }
@@ -123,6 +126,12 @@ namespace ShareX.UploadersLib
         private void llAttribution_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             URLHelpers.OpenURL("https://ocr.space");
+        }
+
+        private void llGoogleTranslate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            URLHelpers.OpenURL("https://translate.google.com/#auto/en/" + Uri.EscapeDataString(txtResult.Text));
+            this.Close();
         }
     }
 }

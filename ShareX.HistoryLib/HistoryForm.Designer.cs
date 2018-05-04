@@ -30,17 +30,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HistoryForm));
-            this.btnApplyFilters = new System.Windows.Forms.Button();
             this.scMain = new ShareX.HelpersLib.SplitContainerCustomSplitter();
             this.lvHistory = new ShareX.HelpersLib.MyListView();
             this.chIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDateTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chURL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pbThumbnail = new ShareX.HelpersLib.MyPictureBox();
             this.gbFilters = new System.Windows.Forms.GroupBox();
             this.cbHostFilterSelection = new System.Windows.Forms.ComboBox();
             this.btnRemoveFilters = new System.Windows.Forms.Button();
+            this.btnApplyFilters = new System.Windows.Forms.Button();
             this.cbTypeFilterSelection = new System.Windows.Forms.ComboBox();
             this.cbHostFilter = new System.Windows.Forms.CheckBox();
             this.cbTypeFilter = new System.Windows.Forms.CheckBox();
@@ -56,15 +57,9 @@
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
             this.scMain.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.gbFilters.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnApplyFilters
-            // 
-            resources.ApplyResources(this.btnApplyFilters, "btnApplyFilters");
-            this.btnApplyFilters.Name = "btnApplyFilters";
-            this.btnApplyFilters.UseVisualStyleBackColor = true;
-            this.btnApplyFilters.Click += new System.EventHandler(this.btnApplyFilters_Click);
             // 
             // scMain
             // 
@@ -78,8 +73,7 @@
             // 
             // scMain.Panel2
             // 
-            this.scMain.Panel2.Controls.Add(this.pbThumbnail);
-            this.scMain.Panel2.Controls.Add(this.gbFilters);
+            this.scMain.Panel2.Controls.Add(this.panel1);
             this.scMain.SplitterColor = System.Drawing.Color.DarkGray;
             this.scMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scMain_SplitterMoved);
             // 
@@ -99,6 +93,7 @@
             this.lvHistory.Name = "lvHistory";
             this.lvHistory.UseCompatibleStateImageBehavior = false;
             this.lvHistory.View = System.Windows.Forms.View.Details;
+            this.lvHistory.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvHistory_ItemDrag);
             this.lvHistory.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvHistory_ItemSelectionChanged);
             this.lvHistory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvHistory_KeyDown);
             this.lvHistory.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvHistory_MouseDoubleClick);
@@ -120,9 +115,17 @@
             // 
             resources.ApplyResources(this.chURL, "chURL");
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pbThumbnail);
+            this.panel1.Controls.Add(this.gbFilters);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
             // pbThumbnail
             // 
             resources.ApplyResources(this.pbThumbnail, "pbThumbnail");
+            this.pbThumbnail.BackColor = System.Drawing.SystemColors.Window;
             this.pbThumbnail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbThumbnail.DrawCheckeredBackground = true;
             this.pbThumbnail.FullscreenOnClick = true;
@@ -161,6 +164,13 @@
             this.btnRemoveFilters.Name = "btnRemoveFilters";
             this.btnRemoveFilters.UseVisualStyleBackColor = true;
             this.btnRemoveFilters.Click += new System.EventHandler(this.btnRemoveFilters_Click);
+            // 
+            // btnApplyFilters
+            // 
+            resources.ApplyResources(this.btnApplyFilters, "btnApplyFilters");
+            this.btnApplyFilters.Name = "btnApplyFilters";
+            this.btnApplyFilters.UseVisualStyleBackColor = true;
+            this.btnApplyFilters.Click += new System.EventHandler(this.btnApplyFilters_Click);
             // 
             // cbTypeFilterSelection
             // 
@@ -233,7 +243,6 @@
             // 
             // HistoryForm
             // 
-            this.AcceptButton = this.btnApplyFilters;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
@@ -247,6 +256,7 @@
             this.scMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
             this.scMain.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.gbFilters.ResumeLayout(false);
             this.gbFilters.PerformLayout();
             this.ResumeLayout(false);
@@ -259,23 +269,24 @@
         private System.Windows.Forms.ColumnHeader chFilename;
         private System.Windows.Forms.ColumnHeader chDateTime;
         private System.Windows.Forms.ColumnHeader chURL;
-        private System.Windows.Forms.DateTimePicker dtpFilterFrom;
-        private System.Windows.Forms.CheckBox cbDateFilter;
-        private System.Windows.Forms.Label lblFilterFrom;
-        private System.Windows.Forms.Label lblFilterTo;
-        private System.Windows.Forms.DateTimePicker dtpFilterTo;
-        private System.Windows.Forms.Button btnApplyFilters;
-        private System.Windows.Forms.TextBox txtFilenameFilter;
-        private System.Windows.Forms.ComboBox cbFilenameFilterMethod;
-        private System.Windows.Forms.CheckBox cbFilenameFilter;
-        private ShareX.HelpersLib.MyPictureBox pbThumbnail;
+        private System.Windows.Forms.ColumnHeader chIcon;
+        private ShareX.HelpersLib.SplitContainerCustomSplitter scMain;
+        private System.Windows.Forms.Panel panel1;
+        private HelpersLib.MyPictureBox pbThumbnail;
         private System.Windows.Forms.GroupBox gbFilters;
+        private System.Windows.Forms.ComboBox cbHostFilterSelection;
         private System.Windows.Forms.Button btnRemoveFilters;
+        private System.Windows.Forms.Button btnApplyFilters;
         private System.Windows.Forms.ComboBox cbTypeFilterSelection;
         private System.Windows.Forms.CheckBox cbHostFilter;
         private System.Windows.Forms.CheckBox cbTypeFilter;
-        private System.Windows.Forms.ColumnHeader chIcon;
-        private ShareX.HelpersLib.SplitContainerCustomSplitter scMain;
-        private System.Windows.Forms.ComboBox cbHostFilterSelection;
+        private System.Windows.Forms.DateTimePicker dtpFilterFrom;
+        private System.Windows.Forms.Label lblFilterFrom;
+        private System.Windows.Forms.CheckBox cbFilenameFilter;
+        private System.Windows.Forms.Label lblFilterTo;
+        private System.Windows.Forms.CheckBox cbDateFilter;
+        private System.Windows.Forms.DateTimePicker dtpFilterTo;
+        private System.Windows.Forms.TextBox txtFilenameFilter;
+        private System.Windows.Forms.ComboBox cbFilenameFilterMethod;
     }
 }

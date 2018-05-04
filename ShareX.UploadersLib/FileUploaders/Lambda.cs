@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -47,6 +47,12 @@ namespace ShareX.UploadersLib.FileUploaders
 
         public override GenericUploader CreateUploader(UploadersConfig config, TaskReferenceHelper taskInfo)
         {
+            // Correct old URLs
+            if (config.LambdaSettings != null && config.LambdaSettings.UploadURL == "https://λ.pw/")
+            {
+                config.LambdaSettings.UploadURL = "https://lbda.net/";
+            }
+
             return new Lambda(config.LambdaSettings);
         }
 
@@ -62,15 +68,15 @@ namespace ShareX.UploadersLib.FileUploaders
             Config = config;
         }
 
-        private const string uploadUrl = "https://lambda.sx/api/upload";
+        private const string uploadUrl = "https://lbda.net/api/upload";
 
-        public static string[] UploadURLs = new string[] { "https://λ.pw/", "https://lambda.sx/" };
+        public static string[] UploadURLs = new string[] { "https://lbda.net/", "https://lambda.sx/" };
 
         public override UploadResult Upload(Stream stream, string fileName)
         {
             Dictionary<string, string> arguments = new Dictionary<string, string>();
             arguments.Add("api_key", Config.UserAPIKey);
-            UploadResult result = UploadData(stream, uploadUrl, fileName, "file", arguments, method: HttpMethod.PUT);
+            UploadResult result = SendRequestFile(uploadUrl, stream, fileName, "file", arguments, method: HttpMethod.PUT);
 
             if (result.Response == null)
             {
@@ -109,6 +115,6 @@ namespace ShareX.UploadersLib.FileUploaders
     public class LambdaSettings
     {
         public string UserAPIKey = "";
-        public string UploadURL = "https://λ.pw/";
+        public string UploadURL = "https://lbda.net/";
     }
 }

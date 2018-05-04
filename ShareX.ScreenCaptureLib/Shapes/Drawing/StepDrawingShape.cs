@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -23,20 +23,22 @@
 
 #endregion License Information (GPL v3)
 
+using ShareX.HelpersLib;
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 
 namespace ShareX.ScreenCaptureLib
 {
-    public class StepDrawingShape : BaseDrawingShape
+    public class StepDrawingShape : EllipseDrawingShape
     {
         private const int DefaultSize = 30;
 
         public override ShapeType ShapeType { get; } = ShapeType.DrawingStep;
 
+        public int FontSize { get; set; }
         public int Number { get; set; }
+        public bool UseLetters { get; set; }
 
         public StepDrawingShape()
         {
@@ -50,7 +52,7 @@ namespace ShareX.ScreenCaptureLib
         public override void OnCreating()
         {
             Manager.IsMoving = true;
-            Point pos = InputManager.MousePosition0Based;
+            Point pos = InputManager.ClientMousePosition;
             Rectangle = new Rectangle(new Point(pos.X - Rectangle.Width / 2, pos.Y - Rectangle.Height / 2), Rectangle.Size);
         }
 
@@ -59,6 +61,11 @@ namespace ShareX.ScreenCaptureLib
             BorderColor = AnnotationOptions.StepBorderColor;
             BorderSize = AnnotationOptions.StepBorderSize;
             FillColor = AnnotationOptions.StepFillColor;
+            Shadow = AnnotationOptions.Shadow;
+            ShadowColor = AnnotationOptions.ShadowColor;
+            ShadowOffset = AnnotationOptions.ShadowOffset;
+            FontSize = AnnotationOptions.StepFontSize;
+            UseLetters = AnnotationOptions.StepUseLetters;
         }
 
         public override void OnConfigSave()
@@ -66,66 +73,52 @@ namespace ShareX.ScreenCaptureLib
             AnnotationOptions.StepBorderColor = BorderColor;
             AnnotationOptions.StepBorderSize = BorderSize;
             AnnotationOptions.StepFillColor = FillColor;
+            AnnotationOptions.Shadow = Shadow;
+            AnnotationOptions.ShadowColor = ShadowColor;
+            AnnotationOptions.ShadowOffset = ShadowOffset;
+            AnnotationOptions.StepFontSize = FontSize;
+            AnnotationOptions.StepUseLetters = UseLetters;
         }
 
         public override void OnDraw(Graphics g)
         {
-            g.SmoothingMode = SmoothingMode.HighQuality;
+            DrawNumber(g);
+        }
 
-            if (FillColor.A > 0)
+        protected void DrawNumber(Graphics g)
+        {
+            string text = UseLetters ? Helpers.NumberToLetters(Number) : Number.ToString();
+
+            using (Font font = new Font(FontFamily.GenericSansSerif, FontSize, FontStyle.Bold))
             {
-                using (Brush brush = new SolidBrush(FillColor))
-                {
-                    g.FillEllipse(brush, Rectangle);
-                }
-            }
+                Size textSize = g.MeasureString(text, font).ToSize();
+                int maxSize = Math.Max(textSize.Width, textSize.Height);
+                int padding = 3;
 
-            if (BorderSize > 0 && BorderColor.A > 0)
-            {
-                //g.DrawEllipse(Pens.Black, Rectangle.LocationOffset(0, 1));
+                Point center = Rectangle.Center();
+                Rectangle = new Rectangle(center.X - maxSize / 2 - padding, center.Y - maxSize / 2 - padding, maxSize + padding * 2, maxSize + padding * 2);
 
-                using (Pen pen = new Pen(BorderColor, BorderSize))
-                {
-                    g.DrawEllipse(pen, Rectangle);
-                }
-            }
+                DrawEllipse(g);
 
-            g.SmoothingMode = SmoothingMode.None;
-
-            if (Rectangle.Width > 20 && Rectangle.Height > 20)
-            {
-                int offset;
-
-                if (Number > 99)
+                if (Shadow)
                 {
-                    offset = 20;
-                }
-                else if (Number > 9)
-                {
-                    offset = 15;
-                }
-                else
-                {
-                    offset = 10;
+                    DrawNumber(g, text, font, ShadowColor, Rectangle.LocationOffset(ShadowOffset));
                 }
 
-                int fontSize = Math.Min(Rectangle.Width, Rectangle.Height) - offset;
-
-                using (Font font = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Bold, GraphicsUnit.Pixel))
-                using (StringFormat sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
-                using (Brush textBrush = new SolidBrush(BorderColor))
-                {
-                    g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                    //g.DrawString(Number.ToString(), font, Brushes.Black, Rectangle.LocationOffset(1, 1), sf);
-                    g.DrawString(Number.ToString(), font, textBrush, Rectangle, sf);
-                    g.TextRenderingHint = TextRenderingHint.SystemDefault;
-                }
+                DrawNumber(g, text, font, BorderColor, Rectangle);
             }
         }
 
-        public override void OnShapePathRequested(GraphicsPath gp, Rectangle rect)
+        protected void DrawNumber(Graphics g, string text, Font font, Color textColor, Rectangle rect)
         {
-            gp.AddEllipse(rect);
+            using (StringFormat sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+            using (Brush textBrush = new SolidBrush(textColor))
+            {
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                rect = rect.LocationOffset(0, 1);
+                g.DrawString(text, font, textBrush, rect, sf);
+                g.TextRenderingHint = TextRenderingHint.SystemDefault;
+            }
         }
 
         public override void Resize(int x, int y, bool fromBottomRight)

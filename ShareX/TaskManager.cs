@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -134,6 +134,9 @@ namespace ShareX
         public static void UpdateMainFormTip()
         {
             Program.MainForm.lblMainFormTip.Visible = Program.Settings.ShowMainWindowTip && Tasks.Count == 0;
+            Program.MainForm.flpCommunity.Visible = Tasks.Count == 0 && (Program.Settings.ShowDiscordButton || Program.Settings.ShowPatreonButton);
+            Program.MainForm.flpDiscord.Visible = Program.Settings.ShowDiscordButton;
+            Program.MainForm.flpPatreon.Visible = Program.Settings.ShowPatreonButton;
         }
 
         private static ListViewItem FindListViewItem(WorkerTask task)
@@ -441,7 +444,7 @@ namespace ShareX
 
                     if (Program.Settings.SaveSettingsAfterTaskCompleted && !IsBusy)
                     {
-                        Program.SaveAllSettingsAsync();
+                        SettingManager.SaveAllSettingsAsync();
                     }
                 }
             }
@@ -454,14 +457,14 @@ namespace ShareX
 
         public static void UpdateProgressUI()
         {
-            bool isWorkingTasks = false;
+            bool isTasksWorking = false;
             double averageProgress = 0;
 
             IEnumerable<WorkerTask> workingTasks = Tasks.Where(x => x != null && x.Status == TaskStatus.Working && x.Info != null);
 
             if (workingTasks.Count() > 0)
             {
-                isWorkingTasks = true;
+                isTasksWorking = true;
 
                 workingTasks = workingTasks.Where(x => x.Info.Progress != null);
 
@@ -471,25 +474,16 @@ namespace ShareX
                 }
             }
 
-            int progress = isWorkingTasks ? ((int)averageProgress).Between(0, 99) : -1;
-            UpdateTrayIcon(progress);
-
-            string title;
-
-            if (isWorkingTasks)
+            if (isTasksWorking)
             {
-                title = string.Format("{0} - {1:0.0}%", Program.Title, averageProgress);
+                Program.MainForm.Text = string.Format("{0} - {1:0.0}%", Program.Title, averageProgress);
+                UpdateTrayIcon((int)averageProgress);
                 TaskbarManager.SetProgressValue(Program.MainForm, (int)averageProgress);
             }
             else
             {
-                title = Program.Title;
-            }
-
-            Program.MainForm.Text = title;
-
-            if (!IsBusy)
-            {
+                Program.MainForm.Text = Program.Title;
+                UpdateTrayIcon(-1);
                 TaskbarManager.SetProgressState(Program.MainForm, TaskbarProgressBarStatus.NoProgress);
             }
         }
@@ -527,6 +521,26 @@ namespace ShareX
 
                 lastIconStatus = progress;
             }
+        }
+
+        public static void TestTrayIcon()
+        {
+            Timer timer = new Timer();
+            timer.Interval = 50;
+            int i = 0;
+            timer.Tick += (sender, e) =>
+            {
+                if (i > 99)
+                {
+                    timer.Stop();
+                    UpdateTrayIcon();
+                }
+                else
+                {
+                    UpdateTrayIcon(i++);
+                }
+            };
+            timer.Start();
         }
 
         public static void AddRecentTasksToMainWindow()

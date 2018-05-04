@@ -162,9 +162,6 @@
   <data name="cbRememberMainFormPosition.Text" xml:space="preserve">
     <value>Lembrar posição da janela principal</value>
   </data>
-  <data name="btnChromeSupport.Text" xml:space="preserve">
-    <value>Extensão do Chrome...</value>
-  </data>
   <data name="btnBrowseCustomScreenshotsPath.Text" xml:space="preserve">
     <value>Procurar...</value>
   </data>
@@ -254,9 +251,6 @@
   </data>
   <data name="cbSendToMenu.Text" xml:space="preserve">
     <value>Mostrar ShareX no menu de "Enviar para"</value>
-  </data>
-  <data name="cbStartWithWindows.Text" xml:space="preserve">
-    <value>Executar ShareX quando o Windows iniciar</value>
   </data>
   <data name="gbSecondaryTextUploaders.Text" xml:space="preserve">
     <value>Hospedagem de texto </value>

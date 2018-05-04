@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -32,8 +32,18 @@ namespace ShareX.UploadersLib.OtherServices
 {
     public enum OCRSpaceLanguages
     {
+        [Description("Arabic")]
+        ara,
+        [Description("Bulgarian")]
+        bul,
+        [Description("Chinese (Simplified)")]
+        chs,
+        [Description("Chinese (Traditional)")]
+        cht,
+        [Description("Croatian")]
+        hrv,
         [Description("Czech")]
-        ce,
+        cze,
         [Description("Danish")]
         dan,
         [Description("Dutch")]
@@ -46,34 +56,32 @@ namespace ShareX.UploadersLib.OtherServices
         fre,
         [Description("German")]
         ger,
+        [Description("Greek")]
+        gre,
         [Description("Hungarian")]
         hun,
+        [Description("Korean")]
+        kor,
         [Description("Italian")]
         ita,
+        [Description("Japanese")]
+        jpn,
         [Description("Norwegian")]
         nor,
         [Description("Polish")]
         pol,
         [Description("Portuguese")]
         por,
+        [Description("Russian")]
+        rus,
+        [Description("Slovenian")]
+        slv,
         [Description("Spanish")]
         spa,
         [Description("Swedish")]
         swe,
-        [Description("Chinese Simplified")]
-        chs,
-        [Description("Greek")]
-        gre,
-        [Description("Japanese")]
-        jpn,
-        [Description("Russian")]
-        rus,
         [Description("Turkish")]
-        tur,
-        [Description("Chinese Traditional")]
-        cht,
-        [Description("Korean")]
-        kor
+        tur
     }
 
     public class OCRSpace : Uploader
@@ -100,7 +108,7 @@ namespace ShareX.UploadersLib.OtherServices
             arguments.Add("language", Language.ToString());
             arguments.Add("isOverlayRequired", Overlay.ToString());
 
-            UploadResult ur = UploadData(stream, APIURLUSA, fileName, "file", arguments);
+            UploadResult ur = SendRequestFile(APIURLUSA, stream, fileName, args: arguments);
 
             if (ur.IsSuccess)
             {

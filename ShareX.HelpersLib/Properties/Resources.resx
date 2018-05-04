@@ -121,9 +121,6 @@
   <data name="Loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Loading.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tick" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Crosshair" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\crosshair.cur;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -149,10 +146,10 @@
     <value>File path without extension + "Output file name extension"</value>
   </data>
   <data name="ReplCodeMenuEntry_t_Title_of_active_window" xml:space="preserve">
-    <value>Title of active window</value>
+    <value>Title of window</value>
   </data>
   <data name="ReplCodeMenuEntry_pn_Process_name_of_active_window" xml:space="preserve">
-    <value>Process name of active window</value>
+    <value>Process name of window</value>
   </data>
   <data name="ReplCodeMenuEntry_y_Current_year" xml:space="preserve">
     <value>Current year</value>
@@ -246,9 +243,6 @@
   </data>
   <data name="ClipboardContentViewer_ClipboardContentViewer_Load_Clipboard_is_empty_or_contains_unknown_data_" xml:space="preserve">
     <value>Clipboard is empty or contains unknown data.</value>
-  </data>
-  <data name="RegistryHelpers_ShellExtDesc_Upload_with__0_" xml:space="preserve">
-    <value>Upload with {0}</value>
   </data>
   <data name="PrintTextForm_LoadSettings_Name___0___Size___1_" xml:space="preserve">
     <value>Name: {0}, Size: {1}</value>
@@ -454,7 +448,7 @@ File size: {2:n0} / {3:n0} KB</value>
     <value>Screen color picker</value>
   </data>
   <data name="HotkeyType_ScreenRecorder" xml:space="preserve">
-    <value>Start/Stop screen recording</value>
+    <value>Start/Stop screen recording using custom region</value>
   </data>
   <data name="HotkeyType_StopUploads" xml:space="preserve">
     <value>Stop all active uploads</value>
@@ -583,7 +577,7 @@ File size: {2:n0} / {3:n0} KB</value>
     <value>Start auto capture using last region</value>
   </data>
   <data name="HotkeyType_StartScreenRecorder" xml:space="preserve">
-    <value>Start screen recording using last region</value>
+    <value>Start/Stop screen recording using last region</value>
   </data>
   <data name="UpdateMessageBox_UpdateMessageBox_" xml:space="preserve">
     <value>A newer version of {0} is available.
@@ -599,19 +593,16 @@ Would you like to download and install it?</value>
     <value>Color picker</value>
   </data>
   <data name="HotkeyType_ScreenRecorderGIF" xml:space="preserve">
-    <value>Start/Stop screen recording (GIF)</value>
+    <value>Start/Stop screen recording (GIF) using custom region</value>
   </data>
   <data name="HotkeyType_StartScreenRecorderGIF" xml:space="preserve">
-    <value>Start screen recording (GIF) using last region</value>
-  </data>
-  <data name="HotkeyType_Automate" xml:space="preserve">
-    <value>Open/Stop Automate tool</value>
+    <value>Start/Stop screen recording (GIF) using last region</value>
   </data>
   <data name="HotkeyType_RectangleTransparent" xml:space="preserve">
     <value>Capture region (Transparent)</value>
   </data>
   <data name="HotkeyType_CustomRegion" xml:space="preserve">
-    <value>Capture custom region</value>
+    <value>Capture pre configured region</value>
   </data>
   <data name="ScreenRecordGIFEncoding_FFmpeg" xml:space="preserve">
     <value>FFmpeg (Good quality)</value>
@@ -630,9 +621,6 @@ Would you like to download and install it?</value>
   </data>
   <data name="HotkeyType_AutoCapture_Category" xml:space="preserve">
     <value>Screen capture</value>
-  </data>
-  <data name="HotkeyType_Automate_Category" xml:space="preserve">
-    <value>Tools</value>
   </data>
   <data name="HotkeyType_ClipboardUploadWithContentViewer_Category" xml:space="preserve">
     <value>Upload</value>
@@ -722,13 +710,13 @@ Would you like to download and install it?</value>
     <value>Screen capture</value>
   </data>
   <data name="HotkeyType_ScreenRecorderActiveWindow" xml:space="preserve">
-    <value>Start screen recording using active window region</value>
+    <value>Start/Stop screen recording using active window region</value>
   </data>
   <data name="HotkeyType_ScreenRecorderActiveWindow_Category" xml:space="preserve">
     <value>Screen record</value>
   </data>
   <data name="HotkeyType_ScreenRecorderGIFActiveWindow" xml:space="preserve">
-    <value>Start screen recording (GIF) using active window region</value>
+    <value>Start/Stop screen recording (GIF) using active window region</value>
   </data>
   <data name="HotkeyType_ScreenRecorderGIFActiveWindow_Category" xml:space="preserve">
     <value>Screen record</value>
@@ -864,13 +852,13 @@ Would you like to download it?</value>
     <value>Other</value>
   </data>
   <data name="HotkeyType_ScreenRecorderCustomRegion" xml:space="preserve">
-    <value>Start screen recording using custom region</value>
+    <value>Start/Stop screen recording using pre configured region</value>
   </data>
   <data name="HotkeyType_ScreenRecorderCustomRegion_Category" xml:space="preserve">
     <value>Screen record</value>
   </data>
   <data name="HotkeyType_ScreenRecorderGIFCustomRegion" xml:space="preserve">
-    <value>Start screen recording (GIF) using custom region</value>
+    <value>Start/Stop screen recording (GIF) using pre configured region</value>
   </data>
   <data name="HotkeyType_ScreenRecorderGIFCustomRegion_Category" xml:space="preserve">
     <value>Screen record</value>
@@ -906,43 +894,34 @@ Would you like to download it?</value>
     <value>Swap tool type</value>
   </data>
   <data name="ShapeType_DrawingArrow" xml:space="preserve">
-    <value>Drawing: Arrow</value>
+    <value>Drawing: Arrow (A)</value>
   </data>
   <data name="ShapeType_EffectBlur" xml:space="preserve">
-    <value>Effect: Blur</value>
+    <value>Effect: Blur (B)</value>
   </data>
   <data name="ShapeType_DrawingEllipse" xml:space="preserve">
-    <value>Drawing: Ellipse</value>
+    <value>Drawing: Ellipse (E)</value>
   </data>
   <data name="ShapeType_EffectHighlight" xml:space="preserve">
-    <value>Effect: Highlight</value>
+    <value>Effect: Highlight (H)</value>
   </data>
   <data name="ShapeType_DrawingLine" xml:space="preserve">
-    <value>Drawing: Line</value>
+    <value>Drawing: Line (L)</value>
   </data>
   <data name="ShapeType_EffectPixelate" xml:space="preserve">
-    <value>Effect: Pixelate</value>
+    <value>Effect: Pixelate (P)</value>
   </data>
   <data name="ShapeType_DrawingRectangle" xml:space="preserve">
-    <value>Drawing: Rectangle</value>
-  </data>
-  <data name="ShapeType_DrawingRoundedRectangle" xml:space="preserve">
-    <value>Drawing: Rounded rectangle</value>
+    <value>Drawing: Rectangle (R)</value>
   </data>
   <data name="ShapeType_DrawingStep" xml:space="preserve">
-    <value>Drawing: Step</value>
-  </data>
-  <data name="ShapeType_DrawingText" xml:space="preserve">
-    <value>Drawing: Text</value>
+    <value>Drawing: Step (I)</value>
   </data>
   <data name="ShapeType_RegionEllipse" xml:space="preserve">
     <value>Region: Ellipse</value>
   </data>
   <data name="ShapeType_RegionRectangle" xml:space="preserve">
     <value>Region: Rectangle</value>
-  </data>
-  <data name="ShapeType_RegionRoundedRectangle" xml:space="preserve">
-    <value>Region: Rounded rectangle</value>
   </data>
   <data name="ScrollingCaptureScrollMethod_Automatic" xml:space="preserve">
     <value>Automatically try all methods until one works</value>
@@ -978,12 +957,219 @@ Would you like to download it?</value>
     <value>Region: Freehand</value>
   </data>
   <data name="ShapeType_DrawingFreehand" xml:space="preserve">
-    <value>Drawing: Freehand</value>
+    <value>Drawing: Freehand (F)</value>
   </data>
   <data name="ShapeType_DrawingImage" xml:space="preserve">
-    <value>Drawing: Image</value>
+    <value>Drawing: Image (File)</value>
   </data>
   <data name="ShapeType_DrawingSpeechBalloon" xml:space="preserve">
-    <value>Drawing: Speech balloon</value>
+    <value>Drawing: Speech balloon (S)</value>
+  </data>
+  <data name="HotkeyType_ToggleActionsToolbar" xml:space="preserve">
+    <value>Toggle actions toolbar</value>
+  </data>
+  <data name="HotkeyType_ToggleActionsToolbar_Category" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="HotkeyType_ExitShareX" xml:space="preserve">
+    <value>Exit ShareX</value>
+  </data>
+  <data name="HotkeyType_ExitShareX_Category" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ShapeType_DrawingTextOutline" xml:space="preserve">
+    <value>Drawing: Text (Outline) (O)</value>
+  </data>
+  <data name="ShapeType_DrawingTextBackground" xml:space="preserve">
+    <value>Drawing: Text (Background) (T)</value>
+  </data>
+  <data name="ShapeType_ToolCrop" xml:space="preserve">
+    <value>Tool: Crop image (C)</value>
+  </data>
+  <data name="ShapeType_DrawingImageScreen" xml:space="preserve">
+    <value>Drawing: Image (Screen)</value>
+  </data>
+  <data name="URLSharingServices_GoogleImageSearch" xml:space="preserve">
+    <value>Google image search</value>
+  </data>
+  <data name="CustomUploaderDestinationType_URLShortener" xml:space="preserve">
+    <value>URL shortener</value>
+  </data>
+  <data name="CustomUploaderDestinationType_FileUploader" xml:space="preserve">
+    <value>File uploader</value>
+  </data>
+  <data name="CustomUploaderDestinationType_TextUploader" xml:space="preserve">
+    <value>Text uploader</value>
+  </data>
+  <data name="CustomUploaderDestinationType_ImageUploader" xml:space="preserve">
+    <value>Image uploader</value>
+  </data>
+  <data name="PNGBitDepth_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="PNGBitDepth_Automatic" xml:space="preserve">
+    <value>Automatically detect</value>
+  </data>
+  <data name="PNGBitDepth_Bit32" xml:space="preserve">
+    <value>32 bit</value>
+  </data>
+  <data name="PNGBitDepth_Bit24" xml:space="preserve">
+    <value>24 bit</value>
+  </data>
+  <data name="ShapeType_DrawingCursor" xml:space="preserve">
+    <value>Drawing: Cursor</value>
+  </data>
+  <data name="HotkeyType_ShortenURL" xml:space="preserve">
+    <value>Shorten URL</value>
+  </data>
+  <data name="HotkeyType_ShortenURL_Category" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="HotkeyType_UploadText" xml:space="preserve">
+    <value>Upload text</value>
+  </data>
+  <data name="HotkeyType_UploadText_Category" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="CustomUploaderDestinationType_URLSharingService" xml:space="preserve">
+    <value>URL sharing service</value>
+  </data>
+  <data name="URLSharingServices_CustomURLSharingService" xml:space="preserve">
+    <value>Custom URL sharing service</value>
+  </data>
+  <data name="LinearGradientMode_BackwardDiagonal" xml:space="preserve">
+    <value>Backward diagonal</value>
+  </data>
+  <data name="LinearGradientMode_ForwardDiagonal" xml:space="preserve">
+    <value>Forward diagonal</value>
+  </data>
+  <data name="LinearGradientMode_Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="LinearGradientMode_Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="AmazonS3StorageClass_STANDARD" xml:space="preserve">
+    <value>Standard storage</value>
+  </data>
+  <data name="AmazonS3StorageClass_STANDARD_IA" xml:space="preserve">
+    <value>Standard infrequent access storage</value>
+  </data>
+  <data name="ImgurThumbnailType_Big_Square" xml:space="preserve">
+    <value>Big square</value>
+  </data>
+  <data name="ImgurThumbnailType_Huge_Thumbnail" xml:space="preserve">
+    <value>Huge thumbnail</value>
+  </data>
+  <data name="ImgurThumbnailType_Large_Thumbnail" xml:space="preserve">
+    <value>Large thumbnail</value>
+  </data>
+  <data name="ImgurThumbnailType_Medium_Thumbnail" xml:space="preserve">
+    <value>Medium thumbnail</value>
+  </data>
+  <data name="ImgurThumbnailType_Small_Square" xml:space="preserve">
+    <value>Small square</value>
+  </data>
+  <data name="ImgurThumbnailType_Small_Thumbnail" xml:space="preserve">
+    <value>Small thumbnail</value>
+  </data>
+  <data name="PastebinPrivacy_Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="PastebinPrivacy_Unlisted" xml:space="preserve">
+    <value>Unlisted</value>
+  </data>
+  <data name="PastebinPrivacy_Private" xml:space="preserve">
+    <value>Private (members only)</value>
+  </data>
+  <data name="PastebinExpiration_N" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="PastebinExpiration_M10" xml:space="preserve">
+    <value>10 Minutes</value>
+  </data>
+  <data name="PastebinExpiration_H1" xml:space="preserve">
+    <value>1 Hour</value>
+  </data>
+  <data name="PastebinExpiration_D1" xml:space="preserve">
+    <value>1 Day</value>
+  </data>
+  <data name="PastebinExpiration_W1" xml:space="preserve">
+    <value>1 Week</value>
+  </data>
+  <data name="PastebinExpiration_W2" xml:space="preserve">
+    <value>2 Weeks</value>
+  </data>
+  <data name="PastebinExpiration_M1" xml:space="preserve">
+    <value>1 Month</value>
+  </data>
+  <data name="UpdateMessageBox_UpdateMessageBox_CurrentVersion" xml:space="preserve">
+    <value>Current version</value>
+  </data>
+  <data name="UpdateMessageBox_UpdateMessageBox_LatestVersion" xml:space="preserve">
+    <value>Latest version</value>
+  </data>
+  <data name="ImageEditorStartMode_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="ImageEditorStartMode_Maximized" xml:space="preserve">
+    <value>Maximized</value>
+  </data>
+  <data name="ImageEditorStartMode_PreviousState" xml:space="preserve">
+    <value>Previous state</value>
+  </data>
+  <data name="ImageEditorStartMode_Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="ImageEditorStartMode_AutoSize" xml:space="preserve">
+    <value>Auto size</value>
+  </data>
+  <data name="ImageEditorInterpolationMode_HighQualityBicubic" xml:space="preserve">
+    <value>High quality bicubic</value>
+  </data>
+  <data name="ImageEditorInterpolationMode_Bicubic" xml:space="preserve">
+    <value>Bicubic</value>
+  </data>
+  <data name="ImageEditorInterpolationMode_HighQualityBilinear" xml:space="preserve">
+    <value>High quality bilinear</value>
+  </data>
+  <data name="ImageEditorInterpolationMode_Bilinear" xml:space="preserve">
+    <value>Bilinear</value>
+  </data>
+  <data name="ImageEditorInterpolationMode_NearestNeighbor" xml:space="preserve">
+    <value>Nearest neighbor</value>
+  </data>
+  <data name="adjectives" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\adjectives.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="animals" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\animals.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReplCodeMenuEntry_rf_Random_line_from_file" xml:space="preserve">
+    <value>Random line from a file. Use {filepath} to determine the file</value>
+  </data>
+  <data name="ShapeType_DrawingSticker" xml:space="preserve">
+    <value>Drawing: Sticker</value>
+  </data>
+  <data name="CodeMenuEntryFilename_RandomAnimal" xml:space="preserve">
+    <value>Random animal</value>
+  </data>
+  <data name="CodeMenuEntryFilename_RandomAdjective" xml:space="preserve">
+    <value>Random adjective</value>
+  </data>
+  <data name="WavFileNameEditor_EditValue_Browse_for_a_sound_file___" xml:space="preserve">
+    <value>Browse for a sound file...</value>
+  </data>
+  <data name="AfterCaptureTasks_ScanQRCode" xml:space="preserve">
+    <value>Scan QR code</value>
+  </data>
+  <data name="YouTubeVideoPrivacy_Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="YouTubeVideoPrivacy_Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="YouTubeVideoPrivacy_Unlisted" xml:space="preserve">
+    <value>Unlisted</value>
   </data>
 </root>

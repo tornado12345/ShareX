@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -44,36 +45,15 @@ namespace ShareX
         public delegate void TaskEventHandler(WorkerTask task);
         public delegate void UploaderServiceEventHandler(IUploaderService uploaderService);
 
-        public event TaskEventHandler StatusChanged;
-        public event TaskEventHandler UploadStarted;
-        public event TaskEventHandler UploadProgressChanged;
-        public event TaskEventHandler UploadCompleted;
-        public event TaskEventHandler TaskCompleted;
+        public event TaskEventHandler StatusChanged, UploadStarted, UploadProgressChanged, UploadCompleted, TaskCompleted;
         public event UploaderServiceEventHandler UploadersConfigWindowRequested;
 
         public TaskInfo Info { get; private set; }
-
         public TaskStatus Status { get; private set; }
-
-        public bool IsBusy
-        {
-            get
-            {
-                return Status == TaskStatus.InQueue || IsWorking;
-            }
-        }
-
-        public bool IsWorking
-        {
-            get
-            {
-                return Status == TaskStatus.Preparing || Status == TaskStatus.Working || Status == TaskStatus.Stopping;
-            }
-        }
-
+        public bool IsBusy => Status == TaskStatus.InQueue || IsWorking;
+        public bool IsWorking => Status == TaskStatus.Preparing || Status == TaskStatus.Working || Status == TaskStatus.Stopping;
         public bool StopRequested { get; private set; }
         public bool RequestSettingUpdate { get; private set; }
-
         public Stream Data { get; private set; }
 
         private Image tempImage;
@@ -102,7 +82,7 @@ namespace ShareX
             task.Info.Result.ThumbnailURL = recentTask.ThumbnailURL;
             task.Info.Result.DeletionURL = recentTask.DeletionURL;
             task.Info.Result.ShortenedURL = recentTask.ShortenedURL;
-            task.Info.TaskEndTime = recentTask.Time.ToLocalTime();
+            task.Info.TaskEndTime = recentTask.Time;
 
             return task;
         }
@@ -147,7 +127,7 @@ namespace ShareX
             return task;
         }
 
-        public static WorkerTask CreateImageUploaderTask(Image image, TaskSettings taskSettings, string customFileName = null)
+        public static WorkerTask CreateImageUploaderTask(ImageInfo imageInfo, TaskSettings taskSettings, string customFileName = null)
         {
             WorkerTask task = new WorkerTask(taskSettings);
             task.Info.Job = TaskJob.Job;
@@ -159,10 +139,10 @@ namespace ShareX
             }
             else
             {
-                task.Info.FileName = TaskHelpers.GetFilename(taskSettings, "bmp", image);
+                task.Info.FileName = TaskHelpers.GetFilename(taskSettings, "bmp", imageInfo);
             }
 
-            task.tempImage = image;
+            task.tempImage = imageInfo.Image;
             return task;
         }
 
@@ -227,7 +207,6 @@ namespace ShareX
         {
             WorkerTask task = new WorkerTask(taskSettings);
             task.Info.Job = upload ? TaskJob.DownloadUpload : TaskJob.Download;
-            task.Info.DataType = TaskHelpers.FindDataType(url, taskSettings);
 
             string filename = URLHelpers.URLDecode(url, 10);
             filename = URLHelpers.GetFileName(filename);
@@ -245,6 +224,7 @@ namespace ShareX
             }
 
             task.Info.FileName = filename;
+            task.Info.DataType = TaskHelpers.FindDataType(task.Info.FileName, taskSettings);
             task.Info.Result.URL = url;
             return task;
         }
@@ -255,7 +235,7 @@ namespace ShareX
         {
             if (Status == TaskStatus.InQueue && !StopRequested)
             {
-                Info.TaskStartTime = DateTime.UtcNow;
+                Info.TaskStartTime = DateTime.Now;
 
                 threadWorker = new ThreadWorker();
                 Prepare();
@@ -279,8 +259,6 @@ namespace ShareX
                     Info.Status = Resources.UploadTask_Prepare_Starting;
                     break;
             }
-
-            TaskbarManager.SetProgressState(Program.MainForm, TaskbarProgressBarStatus.Indeterminate);
 
             OnStatusChanged();
         }
@@ -392,10 +370,7 @@ namespace ShareX
             {
                 Program.Settings.ShowUploadWarning = false;
 
-                if (Program.UploadersConfig == null)
-                {
-                    Program.UploaderSettingsResetEvent.WaitOne();
-                }
+                SettingManager.WaitUploadersConfig();
 
                 Status = TaskStatus.Working;
                 Info.Status = Resources.UploadTask_DoUploadJob_Uploading;
@@ -406,8 +381,10 @@ namespace ShareX
 
                 if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.ShowBeforeUploadWindow))
                 {
-                    BeforeUploadForm form = new BeforeUploadForm(Info);
-                    cancelUpload = form.ShowDialog() != DialogResult.OK;
+                    using (BeforeUploadForm form = new BeforeUploadForm(Info))
+                    {
+                        cancelUpload = form.ShowDialog() != DialogResult.OK;
+                    }
                 }
 
                 if (!cancelUpload)
@@ -588,7 +565,7 @@ namespace ShareX
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.AddImageEffects))
             {
-                tempImage = TaskHelpers.AddImageEffects(tempImage, Info.TaskSettings);
+                tempImage = TaskHelpers.AddImageEffects(tempImage, Info.TaskSettings.ImageSettingsReference);
 
                 if (tempImage == null)
                 {
@@ -599,7 +576,7 @@ namespace ShareX
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.AnnotateImage))
             {
-                tempImage = TaskHelpers.AnnotateImageUsingGreenshot(tempImage, Info.FileName);
+                tempImage = TaskHelpers.AnnotateImage(tempImage, Info.FileName, Info.TaskSettings, true);
 
                 if (tempImage == null)
                 {
@@ -742,6 +719,11 @@ namespace ShareX
                 {
                     Helpers.OpenFolderWithFile(Info.FilePath);
                 }
+
+                if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.ScanQRCode) && Info.DataType == EDataType.Image)
+                {
+                    QRCodeForm.DecodeFile(Info.FilePath).ShowDialog();
+                }
             }
         }
 
@@ -770,9 +752,7 @@ namespace ShareX
             {
                 if (Info.TaskSettings.AdvancedSettings.ResultForceHTTPS)
                 {
-                    Info.Result.URL = URLHelpers.ForcePrefix(Info.Result.URL);
-                    Info.Result.ThumbnailURL = URLHelpers.ForcePrefix(Info.Result.ThumbnailURL);
-                    Info.Result.DeletionURL = URLHelpers.ForcePrefix(Info.Result.DeletionURL);
+                    Info.Result.ForceHTTPS();
                 }
 
                 if (Info.Job != TaskJob.ShareURL && (Info.TaskSettings.AfterUploadJob.HasFlag(AfterUploadTasks.UseURLShortener) || Info.Job == TaskJob.ShortenURL ||
@@ -861,11 +841,31 @@ namespace ShareX
             if (uploader != null)
             {
                 uploader.BufferSize = (int)Math.Pow(2, Program.Settings.BufferSizePower) * 1024;
+
+                if (Program.Settings.VerboseRequestLogs)
+                {
+                    uploader.VerboseLogs = true;
+                    uploader.VerboseLogsPath = Program.RequestLogsFilePath;
+                }
+
                 uploader.ProgressChanged += uploader_ProgressChanged;
 
                 if (Info.TaskSettings.AfterUploadJob.HasFlag(AfterUploadTasks.CopyURLToClipboard) && Info.TaskSettings.AdvancedSettings.EarlyCopyURL)
                 {
                     uploader.EarlyURLCopyRequested += url => ClipboardHelpers.CopyText(url);
+                }
+
+                if (Info.TaskSettings.UploadSettings.FileUploadReplaceProblematicCharacters)
+                {
+                    // http://www.ietf.org/rfc/rfc3986.txt
+                    // Section 2.3:
+                    //   Characters that are allowed in a URI but do not have a reserved
+                    //   purpose are called unreserved.  These include uppercase and lowercase
+                    //   letters, decimal digits, hyphen, period, underscore, and tilde.
+                    //      unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
+                    //
+                    // \w takes care of alpha, digit and _ for us
+                    fileName = Regex.Replace(fileName, @"[^\w-.~]", "_");
                 }
 
                 Info.UploadDuration = Stopwatch.StartNew();
@@ -953,9 +953,12 @@ namespace ShareX
                     return GetInvalidConfigResult(service);
                 }
 
-                service.ShareURL(url, Program.UploadersConfig);
+                URLSharer urlSharer = service.CreateSharer(Program.UploadersConfig, taskReferenceHelper);
 
-                return new UploadResult() { URL = url };
+                if (urlSharer != null)
+                {
+                    return urlSharer.ShareURL(url);
+                }
             }
 
             return null;
@@ -992,6 +995,7 @@ namespace ShareX
 
                     using (WebClient wc = new WebClient())
                     {
+                        wc.Headers.Add(HttpRequestHeader.UserAgent, ShareXResources.UserAgent);
                         wc.Proxy = HelpersOptions.CurrentProxy.GetWebProxy();
                         wc.DownloadFile(url, Info.FilePath);
                     }
@@ -1017,12 +1021,7 @@ namespace ShareX
         {
             if (Data != null && Info.DataType == EDataType.Image)
             {
-                using (OCRSpaceForm form = new OCRSpaceForm(Data, Info.FileName))
-                {
-                    form.Language = Program.Settings.OCRLanguage;
-                    form.ShowDialog();
-                    Program.Settings.OCRLanguage = form.Language;
-                }
+                TaskHelpers.OCRImage(Data, Info.FileName);
             }
         }
 
@@ -1034,7 +1033,7 @@ namespace ShareX
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "ShareX - " + Resources.TaskManager_task_UploadCompleted_Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.ShowError();
                 return false;
             }
 
@@ -1090,7 +1089,7 @@ namespace ShareX
 
         private void OnTaskCompleted()
         {
-            Info.TaskEndTime = DateTime.UtcNow;
+            Info.TaskEndTime = DateTime.Now;
 
             Status = TaskStatus.Completed;
 

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -37,25 +37,29 @@ namespace ShareX
     {
         public event Action StopRequested;
 
+        public bool IsWorking { get; private set; }
         public bool IsRecording { get; private set; }
         public bool IsCountdown { get; set; }
         public TimeSpan Countdown { get; set; }
         public Stopwatch Timer { get; private set; }
         public ManualResetEvent RecordResetEvent { get; set; }
-        public bool AbortRequested { get; private set; }
+        public bool IsStopRequested { get; private set; }
+        public bool IsAbortRequested { get; private set; }
 
+        private TaskSettings taskSettings;
         private Color borderColor = Color.Red;
         private Rectangle borderRectangle;
         private Rectangle borderRectangle0Based;
         private bool activateWindow;
         private float duration;
 
-        public ScreenRecordForm(Rectangle regionRectangle, bool activateWindow = true, float duration = 0)
+        public ScreenRecordForm(Rectangle regionRectangle, TaskSettings taskSettings, bool activateWindow = true, float duration = 0)
         {
             InitializeComponent();
             Icon = ShareXResources.Icon;
             niTray.Icon = ShareXResources.Icon;
 
+            this.taskSettings = taskSettings;
             this.activateWindow = activateWindow;
             this.duration = duration;
 
@@ -101,7 +105,7 @@ namespace ShareX
             get
             {
                 CreateParams createParams = base.CreateParams;
-                createParams.ExStyle |= (int)WindowStyles.WS_EX_TOPMOST;
+                createParams.ExStyle |= (int)(WindowStyles.WS_EX_TOPMOST | WindowStyles.WS_EX_TOOLWINDOW);
                 return createParams;
             }
         }
@@ -129,6 +133,14 @@ namespace ShareX
             if (activateWindow)
             {
                 this.ForceActivate();
+            }
+        }
+
+        private void ScreenRecordForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!IsStopRequested)
+            {
+                AbortRecording();
             }
         }
 
@@ -216,14 +228,25 @@ namespace ShareX
         {
             if (e.Button == MouseButtons.Left)
             {
-                AbortRecording();
+                if (!taskSettings.CaptureSettings.ScreenRecordAskConfirmationOnAbort ||
+                    MessageBox.Show(Resources.ScreenRecord_ConfirmCancel, "ShareX", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    AbortRecording();
+                }
             }
         }
 
         public void StartStopRecording()
         {
-            if (IsRecording)
+            if (IsWorking)
             {
+                IsStopRequested = true;
+
+                if (!IsRecording)
+                {
+                    IsAbortRequested = true;
+                }
+
                 OnStopRequested();
             }
             else if (RecordResetEvent != null)
@@ -234,7 +257,7 @@ namespace ShareX
 
         public void AbortRecording()
         {
-            AbortRequested = true;
+            IsAbortRequested = true;
             StartStopRecording();
         }
 
@@ -258,14 +281,15 @@ namespace ShareX
                         cmsMain.Enabled = true;
                         break;
                     case ScreenRecordState.AfterStart:
+                        IsWorking = true;
                         string trayTextAfterStart = "ShareX - " + Resources.ScreenRecordForm_StartRecording_Click_tray_icon_to_stop_recording_;
                         niTray.Text = trayTextAfterStart.Truncate(63);
                         niTray.Icon = Resources.control_record.ToIcon();
                         tsmiStart.Text = Resources.AutoCaptureForm_Execute_Stop;
                         btnStart.Text = Resources.AutoCaptureForm_Execute_Stop;
-                        IsRecording = true;
                         break;
                     case ScreenRecordState.AfterRecordingStart:
+                        IsRecording = true;
                         StartRecordingTimer();
                         break;
                     case ScreenRecordState.AfterStop:

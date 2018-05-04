@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -30,6 +30,10 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
+#if WindowsStore
+using Windows.ApplicationModel;
+#endif
 
 namespace ShareX
 {
@@ -68,6 +72,14 @@ namespace ShareX
             }
         }
 
+        private void tttvMain_TabChanged(TabPage tabPage)
+        {
+            if (tabPage == tpIntegration)
+            {
+                UpdateStartWithWindows();
+            }
+        }
+
         private void InitializeControls()
         {
             InitializeComponent();
@@ -75,7 +87,7 @@ namespace ShareX
             foreach (SupportedLanguage language in Helpers.GetEnums<SupportedLanguage>())
             {
                 ToolStripMenuItem tsmi = new ToolStripMenuItem(language.GetLocalizedDescription());
-                tsmi.Image = GetLanguageIcon(language);
+                tsmi.Image = LanguageHelper.GetLanguageIcon(language);
                 tsmi.ImageScaling = ToolStripItemImageScaling.None;
                 SupportedLanguage lang = language;
                 tsmi.Click += (sender, e) => ChangeLanguage(lang);
@@ -113,16 +125,28 @@ namespace ShareX
             cbTrayLeftClickAction.SelectedIndex = (int)Program.Settings.TrayLeftClickAction;
             cbTrayMiddleClickAction.SelectedIndex = (int)Program.Settings.TrayMiddleClickAction;
 
-#if STEAM
+#if STEAM || WindowsStore
             cbCheckPreReleaseUpdates.Visible = false;
 #else
             cbCheckPreReleaseUpdates.Checked = Program.Settings.CheckPreReleaseUpdates;
 #endif
 
             // Integration
-            cbStartWithWindows.Checked = IntegrationHelpers.CheckStartupShortcut();
+#if WindowsStore
+            gbWindows.Height = 56;
+            cbShellContextMenu.Visible = false;
+            cbSendToMenu.Visible = false;
+            gbChrome.Visible = false;
+            gbFirefox.Visible = false;
+#else
             cbShellContextMenu.Checked = IntegrationHelpers.CheckShellContextMenuButton();
+            cbEditWithShareX.Checked = IntegrationHelpers.CheckEditShellContextMenuButton();
             cbSendToMenu.Checked = IntegrationHelpers.CheckSendToMenuButton();
+            cbChromeExtensionSupport.Checked = IntegrationHelpers.CheckChromeExtensionSupport();
+            btnChromeOpenExtensionPage.Enabled = cbChromeExtensionSupport.Checked;
+            cbFirefoxAddonSupport.Checked = IntegrationHelpers.CheckFirefoxAddonSupport();
+            btnFirefoxOpenAddonPage.Enabled = cbFirefoxAddonSupport.Checked;
+#endif
 
 #if STEAM
             cbSteamShowInApp.Checked = IntegrationHelpers.CheckSteamShowInApp();
@@ -137,12 +161,6 @@ namespace ShareX
             cbUseCustomScreenshotsPath.Checked = Program.Settings.UseCustomScreenshotsPath;
             txtCustomScreenshotsPath.Text = Program.Settings.CustomScreenshotsPath;
             txtSaveImageSubFolderPattern.Text = Program.Settings.SaveImageSubFolderPattern;
-
-            // Export / Import
-            cbExportSettings.Checked = Program.Settings.ExportSettings;
-            cbExportHistory.Checked = Program.Settings.ExportHistory;
-            cbExportLogs.Checked = Program.Settings.ExportLogs;
-            UpdateExportButton();
 
             // Proxy
             cbProxyMethod.SelectedIndex = (int)Program.Settings.ProxySettings.ProxyMethod;
@@ -211,61 +229,10 @@ namespace ShareX
             ready = true;
         }
 
-        private Image GetLanguageIcon(SupportedLanguage language)
-        {
-            Image icon;
-
-            switch (language)
-            {
-                default:
-                case SupportedLanguage.Automatic:
-                    icon = Resources.globe;
-                    break;
-                case SupportedLanguage.Dutch:
-                    icon = Resources.nl;
-                    break;
-                case SupportedLanguage.English:
-                    icon = Resources.us;
-                    break;
-                case SupportedLanguage.French:
-                    icon = Resources.fr;
-                    break;
-                case SupportedLanguage.German:
-                    icon = Resources.de;
-                    break;
-                case SupportedLanguage.Hungarian:
-                    icon = Resources.hu;
-                    break;
-                case SupportedLanguage.Korean:
-                    icon = Resources.kr;
-                    break;
-                case SupportedLanguage.PortugueseBrazil:
-                    icon = Resources.br;
-                    break;
-                case SupportedLanguage.Russian:
-                    icon = Resources.ru;
-                    break;
-                case SupportedLanguage.SimplifiedChinese:
-                    icon = Resources.cn;
-                    break;
-                case SupportedLanguage.Spanish:
-                    icon = Resources.es;
-                    break;
-                case SupportedLanguage.Turkish:
-                    icon = Resources.tr;
-                    break;
-                case SupportedLanguage.Vietnamese:
-                    icon = Resources.vn;
-                    break;
-            }
-
-            return icon;
-        }
-
         private void ChangeLanguage(SupportedLanguage language)
         {
             btnLanguages.Text = language.GetLocalizedDescription();
-            btnLanguages.Image = GetLanguageIcon(language);
+            btnLanguages.Image = LanguageHelper.GetLanguageIcon(language);
 
             if (ready)
             {
@@ -278,6 +245,35 @@ namespace ShareX
                     Program.Restart();
                 }
             }
+        }
+
+        private void UpdateStartWithWindows()
+        {
+            ready = false;
+
+            cbStartWithWindows.Text = Resources.ApplicationSettingsForm_cbStartWithWindows_Text;
+            cbStartWithWindows.Enabled = false;
+
+            try
+            {
+                var state = StartupManagerSingletonProvider.CurrentStartupManager.State;
+                cbStartWithWindows.Checked = state == StartupTaskState.Enabled;
+
+                if (state == StartupTaskState.DisabledByUser)
+                {
+                    cbStartWithWindows.Text = Resources.ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text;
+                }
+                else
+                {
+                    cbStartWithWindows.Enabled = true;
+                }
+            }
+            catch (Exception e)
+            {
+                e.ShowError();
+            }
+
+            ready = true;
         }
 
         private void UpdateProxyControls()
@@ -323,11 +319,6 @@ namespace ShareX
             }
 
             lblPreviewPersonalFolderPath.Text = personalPath;
-        }
-
-        private void UpdateExportButton()
-        {
-            btnExport.Enabled = Program.Settings.ExportSettings || Program.Settings.ExportHistory || Program.Settings.ExportLogs;
         }
 
         #region General
@@ -399,6 +390,16 @@ namespace ShareX
             Program.Settings.CheckPreReleaseUpdates = cbCheckPreReleaseUpdates.Checked;
         }
 
+        private void cbCheckPreReleaseUpdates_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                Cursor = Cursors.WaitCursor;
+                TaskHelpers.DownloadAppVeyorBuild();
+                Cursor = Cursors.Default;
+            }
+        }
+
         #endregion General
 
         #region Integration
@@ -407,7 +408,15 @@ namespace ShareX
         {
             if (ready)
             {
-                IntegrationHelpers.CreateStartupShortcut(cbStartWithWindows.Checked);
+                try
+                {
+                    StartupManagerSingletonProvider.CurrentStartupManager.State = cbStartWithWindows.Checked ? StartupTaskState.Enabled : StartupTaskState.Disabled;
+                    UpdateStartWithWindows();
+                }
+                catch (Exception ex)
+                {
+                    ex.ShowError();
+                }
             }
         }
 
@@ -419,6 +428,14 @@ namespace ShareX
             }
         }
 
+        private void cbEditWithShareX_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                IntegrationHelpers.CreateEditShellContextMenuButton(cbEditWithShareX.Checked);
+            }
+        }
+
         private void cbSendToMenu_CheckedChanged(object sender, EventArgs e)
         {
             if (ready)
@@ -427,9 +444,32 @@ namespace ShareX
             }
         }
 
-        private void btnChromeSupport_Click(object sender, EventArgs e)
+        private void cbChromeExtensionSupport_CheckedChanged(object sender, EventArgs e)
         {
-            new ChromeForm().Show();
+            if (ready)
+            {
+                IntegrationHelpers.CreateChromeExtensionSupport(cbChromeExtensionSupport.Checked);
+                btnChromeOpenExtensionPage.Enabled = cbChromeExtensionSupport.Checked;
+            }
+        }
+
+        private void btnChromeOpenExtensionPage_Click(object sender, EventArgs e)
+        {
+            URLHelpers.OpenURL("https://chrome.google.com/webstore/detail/sharex/nlkoigbdolhchiicbonbihbphgamnaoc");
+        }
+
+        private void cbFirefoxAddonSupport_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ready)
+            {
+                IntegrationHelpers.CreateFirefoxAddonSupport(cbFirefoxAddonSupport.Checked);
+                btnFirefoxOpenAddonPage.Enabled = cbFirefoxAddonSupport.Checked;
+            }
+        }
+
+        private void btnFirefoxOpenAddonPage_Click(object sender, EventArgs e)
+        {
+            URLHelpers.OpenURL("https://addons.mozilla.org/en-US/firefox/addon/sharex/");
         }
 
         private void cbSteamShowInApp_CheckedChanged(object sender, EventArgs e)
@@ -491,24 +531,6 @@ namespace ShareX
 
         #region Export / Import
 
-        private void cbExportSettings_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.ExportSettings = cbExportSettings.Checked;
-            UpdateExportButton();
-        }
-
-        private void cbExportHistory_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.ExportHistory = cbExportHistory.Checked;
-            UpdateExportButton();
-        }
-
-        private void cbExportLogs_CheckedChanged(object sender, EventArgs e)
-        {
-            Program.Settings.ExportLogs = cbExportLogs.Checked;
-            UpdateExportButton();
-        }
-
         private void btnExport_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
@@ -521,17 +543,17 @@ namespace ShareX
                 {
                     btnExport.Enabled = false;
                     btnImport.Enabled = false;
+                    pbExportImport.Location = btnExport.Location;
                     pbExportImport.Visible = true;
 
                     string exportPath = sfd.FileName;
 
-                    DebugHelper.WriteLine("Export started: " + exportPath);
+                    DebugHelper.WriteLine($"Export started: {exportPath}");
 
                     TaskEx.Run(() =>
                     {
-                        Program.SaveAllSettings();
-
-                        ExportImportManager.Export(exportPath);
+                        SettingManager.SaveAllSettings();
+                        SettingManager.Export(exportPath);
                     },
                     () =>
                     {
@@ -542,7 +564,7 @@ namespace ShareX
                             btnImport.Enabled = true;
                         }
 
-                        DebugHelper.WriteLine("Export completed: " + exportPath);
+                        DebugHelper.WriteLine($"Export completed: {exportPath}");
                     });
                 }
             }
@@ -558,17 +580,17 @@ namespace ShareX
                 {
                     btnExport.Enabled = false;
                     btnImport.Enabled = false;
+                    pbExportImport.Location = btnImport.Location;
                     pbExportImport.Visible = true;
 
                     string importPath = ofd.FileName;
 
-                    DebugHelper.WriteLine("Import started: " + importPath);
+                    DebugHelper.WriteLine($"Import started: {importPath}");
 
                     TaskEx.Run(() =>
                     {
-                        ExportImportManager.Import(importPath);
-
-                        Program.LoadAllSettings();
+                        SettingManager.Import(importPath);
+                        SettingManager.LoadAllSettings();
                     },
                     () =>
                     {
@@ -585,9 +607,26 @@ namespace ShareX
 
                         Program.MainForm.UpdateControls();
 
-                        DebugHelper.WriteLine("Import completed: " + importPath);
+                        DebugHelper.WriteLine($"Import completed: {importPath}");
                     });
                 }
+            }
+        }
+
+        private void btnResetSettings_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Would you like to reset ShareX settings?", "ShareX", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                SettingManager.ResetSettings();
+                SettingManager.SaveAllSettings();
+
+                UpdateControls();
+
+                LanguageHelper.ChangeLanguage(Program.Settings.Language);
+
+                Program.MainForm.UpdateControls();
+
+                DebugHelper.WriteLine("Settings reset.");
             }
         }
 

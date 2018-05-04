@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ namespace ShareX
         Debug,
         Release,
         Steam,
+        MicrosoftStore,
         Unknown
     }
 
@@ -50,6 +51,10 @@ namespace ShareX
         German,
         [Description("Magyar (Hungarian)")]
         Hungarian,
+        [Description("Bahasa Indonesia (Indonesian)")]
+        Indonesian,
+        [Description("Italiano (Italian)")]
+        Italian,
         [Description("한국어 (Korean)")]
         Korean,
         [Description("Português-Brasil (Portuguese-Brazil)")]
@@ -60,8 +65,12 @@ namespace ShareX
         SimplifiedChinese,
         [Description("Español (Spanish)")]
         Spanish,
+        [Description("繁體中文 (Traditional Chinese)")]
+        TraditionalChinese,
         [Description("Türkçe (Turkish)")]
         Turkish,
+        [Description("Українська (Ukrainian)")]
+        Ukrainian,
         [Description("Tiếng Việt (Vietnamese)")]
         Vietnamese
     }
@@ -105,10 +114,11 @@ namespace ShareX
         CopyFileToClipboard = 1 << 10,
         CopyFilePathToClipboard = 1 << 11,
         ShowInExplorer = 1 << 12,
-        DoOCR = 1 << 13,
-        ShowBeforeUploadWindow = 1 << 14,
-        UploadImageToHost = 1 << 15,
-        DeleteFile = 1 << 16
+        ScanQRCode = 1 << 13,
+        DoOCR = 1 << 14,
+        ShowBeforeUploadWindow = 1 << 15,
+        UploadImageToHost = 1 << 16,
+        DeleteFile = 1 << 17
     }
 
     [Flags]
@@ -152,8 +162,10 @@ namespace ShareX
         FolderUpload,
         ClipboardUpload,
         ClipboardUploadWithContentViewer,
+        UploadText,
         UploadURL,
         DragDropUpload,
+        ShortenURL,
         StopUploads,
         // Screen capture
         PrintScreen,
@@ -188,7 +200,6 @@ namespace ShareX
         DNSChanger,
         QRCode,
         Ruler,
-        Automate,
         IndexFolder,
         ImageCombiner,
         VideoThumbnailer,
@@ -200,14 +211,9 @@ namespace ShareX
         OpenMainWindow,
         OpenScreenshotsFolder,
         OpenHistory,
-        OpenImageHistory
-    }
-
-    public enum HotkeyStatus
-    {
-        Registered,
-        Failed,
-        NotConfigured
+        OpenImageHistory,
+        ToggleActionsToolbar,
+        ExitShareX
     }
 
     public enum PopUpNotificationType // Localized
@@ -249,8 +255,27 @@ namespace ShareX
         Show, Hide, Automatic
     }
 
+    public enum ImagePreviewLocation
+    {
+        Side, Bottom
+    }
+
     public enum ScreenRecordState
     {
         Waiting, BeforeStart, AfterStart, AfterRecordingStart, AfterStop
     }
+
+    public enum RegionCaptureType
+    {
+        Default, Light, Transparent
+    }
+
+#if !WindowsStore
+    public enum StartupTaskState
+    {
+        Disabled = 0,
+        DisabledByUser = 1,
+        Enabled = 2
+    }
+#endif
 }

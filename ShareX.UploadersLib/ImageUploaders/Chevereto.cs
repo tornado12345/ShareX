@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -65,7 +65,6 @@ namespace ShareX.UploadersLib.ImageUploaders
         public static List<CheveretoUploader> Uploaders = new List<CheveretoUploader>()
         {
             new CheveretoUploader("http://www.ultraimg.com/api/1/upload", "3374fa58c672fcaad8dab979f7687397"),
-            new CheveretoUploader("http://yukle.at/3/api/1/upload", "bf3f97649acf179ac17e2b3004fa44bc"),
             new CheveretoUploader("http://img.patifile.com/api/1/upload", "8320784a9b044510e8c723fb778fe3b7"),
             new CheveretoUploader("http://boltimg.com/api/1/upload", "8dfbcb7ab9b5258a90be7cf09e361894"),
             new CheveretoUploader("http://snapie.net/myapi/1/upload", "aff7bd5bf65b7e30b675a430049894b3"),
@@ -92,12 +91,18 @@ namespace ShareX.UploadersLib.ImageUploaders
             new CheveretoUploader("http://frimge.com/api/1/upload", "6f71a24683cec81d14fc9ce73a0c7f60"),
             new CheveretoUploader("https://gifyu.com/api/1/upload", "9aa9c4dedd20aeb9a63e41676e061820"),
             new CheveretoUploader("http://wampi.ru/api/1/upload", "4ba6e1be69dc94c7c8b4039e277d18fc"),
-            new CheveretoUploader("http://imgbros.com/api/1/upload", "58b234bafd8011b0afd3ea72cec0ba4f"),
-            new CheveretoUploader("http://cuntuku.com/api/1/upload", "584bf3b4398f4e01f695cc0c50253110"),
-            new CheveretoUploader("https://freshpic.xyz/api/1/upload", "465e94ae768c585e377314d322d690aa"),
+            new CheveretoUploader("https://cuntuku.com/api/1/upload", "584bf3b4398f4e01f695cc0c50253110"),
             new CheveretoUploader("https://corgi.party/api/v3/sharex", "c91dbf81cbd8aa797a1d12e00822cfa7"),
             new CheveretoUploader("https://imgyukle.com/api/1/upload", "407289b6f603c950af54fbc79311b9b0"),
-            new CheveretoUploader("https://imges.link/sharexapi/1/upload", "nCuBPgNYnHjheiyuXtnH77LrERQrLK44vDrY6HFG")
+            new CheveretoUploader("https://imges.link/sharexapi/1/upload", "nCuBPgNYnHjheiyuXtnH77LrERQrLK44vDrY6HFG"),
+            new CheveretoUploader("https://picsriver.com/api/1/upload", "cf4a1a08a577b6bcf2be2565918c00bd"),
+            new CheveretoUploader("http://ap.imagensbrasil.org/api/1/upload", "9c9dfe77cd3bdbaa7220c6bbaf7452e7"),
+            new CheveretoUploader("https://imgpile.com/api/1/upload", "4a2edc0efeb1596c662d69905674d025"),
+            new CheveretoUploader("https://sekil.az/api/1/upload", "ef32f5599866c115b858d2246e2535ff"),
+            new CheveretoUploader("http://imeggo.com/api/1/upload", "61b66b1ebe8b1dff4eaf3b371f150199"),
+            new CheveretoUploader("https://picr.ws/api/1/upload", "2fbe6bbdac3ceab2e33d47a9a562cef9"),
+            new CheveretoUploader("https://site.pictures/api/1/upload", "3d1c64db9c84e0f4a14a734d43a28e4f"),
+            new CheveretoUploader("https://lensdump.com/api/1/upload", "575a59e53766002e09a8ca989702e9b9")
         };
 
         public CheveretoUploader Uploader { get; private set; }
@@ -117,7 +122,7 @@ namespace ShareX.UploadersLib.ImageUploaders
 
             string url = URLHelpers.FixPrefix(Uploader.UploadURL);
 
-            UploadResult result = UploadData(stream, url, fileName, "source", args);
+            UploadResult result = SendRequestFile(url, stream, fileName, "source", args);
 
             if (result.IsSuccess)
             {

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2016 ShareX Team
+    Copyright (c) 2007-2018 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -62,13 +62,16 @@ namespace ShareX.UploadersLib
                 switch (status)
                 {
                     case OAuthLoginStatus.LoginRequired:
-                        lblLoginStatus.Text = Resources.OAuthControl_Status_Status__Not_logged_in_;
+                        lblStatusValue.Text = Resources.OAuthControl_Status_NotLoggedIn;
+                        lblStatusValue.ForeColor = Color.FromArgb(200, 0, 0);
                         break;
                     case OAuthLoginStatus.LoginSuccessful:
-                        lblLoginStatus.Text = Resources.OAuthControl_Status_Status__Logged_in_;
+                        lblStatusValue.Text = Resources.OAuthControl_Status_LoggedIn;
+                        lblStatusValue.ForeColor = Color.FromArgb(0, 128, 0);
                         break;
                     case OAuthLoginStatus.LoginFailed:
-                        lblLoginStatus.Text = Resources.OAuthControl_Status_Status__Login_failed_;
+                        lblStatusValue.Text = Resources.OAuthControl_Status_LoginFailed;
+                        lblStatusValue.ForeColor = Color.FromArgb(200, 0, 0);
                         break;
                 }
 
@@ -112,7 +115,7 @@ namespace ShareX.UploadersLib
             defaultGroupBoxSize = gbUserAccount.Size;
             smallGroupBoxSize = new Size(defaultGroupBoxSize.Width, (int)(defaultGroupBoxSize.Height / 1.16f));
             IsRefreshable = true;
-            txtVerificationCode.HandleCreated += (sender, e) => txtVerificationCode.SetWatermark("Paste verification code here");
+            txtVerificationCode.HandleCreated += (sender, e) => txtVerificationCode.SetWatermark(Resources.OAuthControl_OAuthControl_PasteVerificationCodeHere);
         }
 
         private void btnOpenAuthorizePage_Click(object sender, EventArgs e)
