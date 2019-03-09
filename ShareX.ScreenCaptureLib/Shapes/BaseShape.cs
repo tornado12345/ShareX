@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -109,8 +109,34 @@ namespace ShareX.ScreenCaptureLib
             return Rectangle.Contains(position);
         }
 
+        internal void ChangeNodeShape(NodeShape nodeShape)
+        {
+            foreach (ResizeNode node in Manager.ResizeNodes)
+            {
+                node.Shape = nodeShape;
+            }
+        }
+
+        protected virtual void UseLightResizeNodes()
+        {
+            ChangeNodeShape(NodeShape.Square);
+        }
+
+        protected void UpdateNodeShape()
+        {
+            if (Options.UseLightResizeNodes)
+            {
+                UseLightResizeNodes();
+            }
+            else
+            {
+                ChangeNodeShape(NodeShape.CustomNode);
+            }
+        }
+
         public virtual void ShowNodes()
         {
+            UpdateNodeShape();
             Manager.NodesVisible = true;
         }
 
@@ -161,7 +187,8 @@ namespace ShareX.ScreenCaptureLib
             if (Options.IsFixedSize && ShapeCategory == ShapeCategory.Region)
             {
                 Manager.IsMoving = true;
-                Rectangle = new Rectangle(new Point(pos.X - Options.FixedSize.Width / 2, pos.Y - Options.FixedSize.Height / 2), Options.FixedSize);
+                Rectangle = new Rectangle(new Point(pos.X - (Options.FixedSize.Width / 2), pos.Y - (Options.FixedSize.Height / 2)), Options.FixedSize);
+                OnCreated();
             }
             else
             {
@@ -201,7 +228,8 @@ namespace ShareX.ScreenCaptureLib
                 {
                     StartPosition = StartPosition.Add(InputManager.MouseVelocity);
                 }
-                else if (Manager.IsProportionalResizing)
+
+                if (Manager.IsProportionalResizing)
                 {
                     float degree, startDegree;
 
@@ -407,11 +435,11 @@ namespace ShareX.ScreenCaptureLib
         public virtual void OnNodePositionUpdate()
         {
             int xStart = Rectangle.X;
-            int xMid = Rectangle.X + Rectangle.Width / 2;
+            int xMid = Rectangle.X + (Rectangle.Width / 2);
             int xEnd = Rectangle.X + Rectangle.Width - 1;
 
             int yStart = Rectangle.Y;
-            int yMid = Rectangle.Y + Rectangle.Height / 2;
+            int yMid = Rectangle.Y + (Rectangle.Height / 2);
             int yEnd = Rectangle.Y + Rectangle.Height - 1;
 
             Manager.ResizeNodes[(int)NodePosition.TopLeft].Position = new Point(xStart, yStart);

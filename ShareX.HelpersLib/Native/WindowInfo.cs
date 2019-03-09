@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -32,6 +32,8 @@ namespace ShareX.HelpersLib
     public class WindowInfo
     {
         public IntPtr Handle { get; }
+
+        public bool IsHandleCreated => Handle != IntPtr.Zero;
 
         public string Text => NativeMethods.GetWindowText(Handle);
 
@@ -75,7 +77,18 @@ namespace ShareX.HelpersLib
 
         public void Activate()
         {
-            NativeMethods.ActivateWindow(Handle);
+            if (IsHandleCreated)
+            {
+                NativeMethods.SetForegroundWindow(Handle);
+            }
+        }
+
+        public void Restore()
+        {
+            if (IsHandleCreated)
+            {
+                NativeMethods.ShowWindow(Handle, (int)WindowShowStyle.Restore);
+            }
         }
 
         public override string ToString()

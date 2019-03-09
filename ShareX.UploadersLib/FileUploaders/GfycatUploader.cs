@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -59,7 +59,7 @@ namespace ShareX.UploadersLib.FileUploaders
             return new GfycatUploader(config.GfycatOAuth2Info)
             {
                 UploadMethod = config.GfycatAccountType,
-                Private = !config.GfycatIsPublic,
+                Private = !config.GfycatIsPublic
             };
         }
 
@@ -74,6 +74,7 @@ namespace ShareX.UploadersLib.FileUploaders
         public bool NoResize { get; set; }
         public bool IgnoreExisting { get; set; }
         public bool Private { get; set; }
+        public bool KeepAudio { get; set; }
 
         private const string URL_AUTHORIZE = "https://gfycat.com/oauth/authorize";
         private const string URL_UPLOAD = "https://filedrop.gfycat.com";
@@ -87,6 +88,7 @@ namespace ShareX.UploadersLib.FileUploaders
             AuthInfo = oauth;
             NoResize = true;
             IgnoreExisting = true;
+            KeepAudio = true;
         }
 
         public string GetAuthorizationURL()
@@ -98,7 +100,7 @@ namespace ShareX.UploadersLib.FileUploaders
             args.Add("response_type", "code");
             args.Add("redirect_uri", Links.URL_CALLBACK);
 
-            return URLHelpers.CreateQuery(URL_AUTHORIZE, args);
+            return URLHelpers.CreateQueryString(URL_AUTHORIZE, args);
         }
 
         public bool GetAccessToken(string code)
@@ -112,7 +114,7 @@ namespace ShareX.UploadersLib.FileUploaders
                 code = code,
             });
 
-            string response = SendRequest(HttpMethod.POST, URL_API_TOKEN, request, ContentTypeJSON);
+            string response = SendRequest(HttpMethod.POST, URL_API_TOKEN, request, UploadHelpers.ContentTypeJSON);
 
             if (!string.IsNullOrEmpty(response))
             {
@@ -141,7 +143,7 @@ namespace ShareX.UploadersLib.FileUploaders
                     grant_type = "refresh",
                 });
 
-                string response = SendRequest(HttpMethod.POST, URL_API_TOKEN, request, ContentTypeJSON);
+                string response = SendRequest(HttpMethod.POST, URL_API_TOKEN, request, UploadHelpers.ContentTypeJSON);
 
                 if (!string.IsNullOrEmpty(response))
                 {
@@ -263,10 +265,11 @@ namespace ShareX.UploadersLib.FileUploaders
             args.Add("private", Private);
             args.Add("noResize", NoResize);
             args.Add("noMd5", IgnoreExisting);
+            args.Add("keepAudio", KeepAudio);
 
             string json = JsonConvert.SerializeObject(args);
 
-            string response = SendRequest(HttpMethod.POST, URL_API_CREATE_GFY, json, ContentTypeJSON, null, headers);
+            string response = SendRequest(HttpMethod.POST, URL_API_CREATE_GFY, json, UploadHelpers.ContentTypeJSON, null, headers);
             if (!string.IsNullOrEmpty(response))
             {
                 return JsonConvert.DeserializeObject<GfycatCreateResponse>(response);
@@ -296,7 +299,7 @@ namespace ShareX.UploadersLib.FileUploaders
                         grant_type = "client_credentials",
                     });
 
-                    string response = SendRequest(HttpMethod.POST, URL_API_TOKEN, request, ContentTypeJSON);
+                    string response = SendRequest(HttpMethod.POST, URL_API_TOKEN, request, UploadHelpers.ContentTypeJSON);
 
                     if (!string.IsNullOrEmpty(response))
                     {

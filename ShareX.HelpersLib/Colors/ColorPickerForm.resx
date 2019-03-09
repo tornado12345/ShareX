@@ -123,10 +123,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 288</value>
+    <value>576, 296</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 32</value>
+    <value>96, 32</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
@@ -145,16 +145,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>24</value>
   </data>
   <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>480, 288</value>
+    <value>472, 296</value>
   </data>
   <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 32</value>
+    <value>96, 32</value>
   </data>
   <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -172,7 +172,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>25</value>
   </data>
   <data name="lblOld.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblOld.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>26</value>
   </data>
   <data name="lblNew.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -232,10 +232,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblNew.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>27</value>
   </data>
   <data name="txtHex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 174</value>
+    <value>600, 174</value>
   </data>
   <data name="txtHex.MaxLength" type="System.Int32, mscorlib">
     <value>9</value>
@@ -262,7 +262,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtHex.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>28</value>
   </data>
   <data name="lblHex.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -292,10 +292,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblHex.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>29</value>
   </data>
   <data name="nudKey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 142</value>
+    <value>600, 142</value>
   </data>
   <data name="nudKey.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -316,10 +316,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudKey.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>30</value>
   </data>
   <data name="nudYellow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 108</value>
+    <value>600, 108</value>
   </data>
   <data name="nudYellow.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -340,10 +340,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudYellow.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>31</value>
   </data>
   <data name="nudMagenta.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 78</value>
+    <value>600, 78</value>
   </data>
   <data name="nudMagenta.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -364,10 +364,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudMagenta.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>32</value>
   </data>
   <data name="nudCyan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 46</value>
+    <value>600, 46</value>
   </data>
   <data name="nudCyan.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -388,7 +388,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudCyan.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>33</value>
   </data>
   <data name="lblKey.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -418,7 +418,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblKey.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>34</value>
   </data>
   <data name="lblYellow.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -448,7 +448,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblYellow.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>35</value>
   </data>
   <data name="lblMagenta.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -478,7 +478,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblMagenta.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>36</value>
   </data>
   <data name="lblCyan.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -508,7 +508,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblCyan.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>37</value>
   </data>
   <data name="lblHue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -541,7 +541,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblHue.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>38</value>
   </data>
   <data name="lblBrightnessPerc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -574,7 +574,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblBrightnessPerc.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>39</value>
   </data>
   <data name="lblSaturationPerc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -607,7 +607,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblSaturationPerc.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>40</value>
   </data>
   <data name="nudBlue.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 78</value>
@@ -631,7 +631,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudBlue.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="nudGreen.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 46</value>
@@ -655,7 +655,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudGreen.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="nudRed.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 14</value>
@@ -679,7 +679,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudRed.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="nudBrightness.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 174</value>
@@ -703,7 +703,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudBrightness.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>41</value>
   </data>
   <data name="nudSaturation.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 142</value>
@@ -727,7 +727,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudSaturation.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>42</value>
   </data>
   <data name="nudHue.Location" type="System.Drawing.Point, System.Drawing">
     <value>408, 108</value>
@@ -751,7 +751,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudHue.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>43</value>
   </data>
   <data name="rbBlue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -781,7 +781,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;rbBlue.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="rbGreen.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -811,7 +811,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;rbGreen.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="rbRed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -841,7 +841,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;rbRed.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="rbBrightness.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -871,7 +871,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;rbBrightness.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>44</value>
   </data>
   <data name="rbSaturation.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -901,7 +901,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;rbSaturation.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>45</value>
   </data>
   <data name="rbHue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -931,7 +931,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;rbHue.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>46</value>
   </data>
   <data name="lblDecimal.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -961,10 +961,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblDecimal.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>22</value>
   </data>
   <data name="txtDecimal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 204</value>
+    <value>600, 204</value>
   </data>
   <data name="txtDecimal.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 20</value>
@@ -988,7 +988,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtDecimal.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>21</value>
   </data>
   <data name="lblCyanPerc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1000,7 +1000,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCyanPerc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>618, 50</value>
+    <value>658, 50</value>
   </data>
   <data name="lblCyanPerc.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -1021,7 +1021,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblCyanPerc.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="lblMagentaPerc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1033,7 +1033,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblMagentaPerc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>618, 82</value>
+    <value>658, 82</value>
   </data>
   <data name="lblMagentaPerc.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -1054,7 +1054,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblMagentaPerc.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="lblYellowPerc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1066,7 +1066,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblYellowPerc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>618, 112</value>
+    <value>658, 112</value>
   </data>
   <data name="lblYellowPerc.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -1087,7 +1087,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblYellowPerc.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="lblKeyPerc.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1099,7 +1099,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblKeyPerc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>618, 146</value>
+    <value>658, 146</value>
   </data>
   <data name="lblKeyPerc.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -1120,10 +1120,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblKeyPerc.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="nudAlpha.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 14</value>
+    <value>600, 14</value>
   </data>
   <data name="nudAlpha.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>
@@ -1144,7 +1144,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;nudAlpha.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="lblAlpha.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1174,37 +1174,40 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblAlpha.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <metadata name="ttMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="cbTransparent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="btnScreenColorPicker.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="cbTransparent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>612, 13</value>
+  <data name="btnScreenColorPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>432, 296</value>
   </data>
-  <data name="cbTransparent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+  <data name="btnScreenColorPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 32</value>
   </data>
-  <data name="cbTransparent.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
+  <data name="btnScreenColorPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
   </data>
-  <data name="cbTransparent.ToolTip" xml:space="preserve">
-    <value>Transparent</value>
+  <data name="btnScreenColorPicker.ToolTip" xml:space="preserve">
+    <value>Pick color from screen</value>
   </data>
-  <data name="&gt;&gt;cbTransparent.Name" xml:space="preserve">
-    <value>cbTransparent</value>
+  <data name="btnScreenColorPicker.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="&gt;&gt;cbTransparent.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.ColorButton, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;btnScreenColorPicker.Name" xml:space="preserve">
+    <value>btnScreenColorPicker</value>
   </data>
-  <data name="&gt;&gt;cbTransparent.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnScreenColorPicker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnScreenColorPicker.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;cbTransparent.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;btnScreenColorPicker.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <metadata name="cmsCopy.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>104, 17</value>
@@ -1260,35 +1263,8 @@
   <data name="&gt;&gt;cmsCopy.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnPickColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnPickColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="btnPickColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 24</value>
-  </data>
-  <data name="btnPickColor.TabIndex" type="System.Int32, mscorlib">
-    <value>44</value>
-  </data>
-  <data name="btnPickColor.Text" xml:space="preserve">
-    <value>Pick color from screen...</value>
-  </data>
-  <data name="&gt;&gt;btnPickColor.Name" xml:space="preserve">
-    <value>btnPickColor</value>
-  </data>
-  <data name="&gt;&gt;btnPickColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnPickColor.Parent" xml:space="preserve">
-    <value>pSceenColorPicker</value>
-  </data>
-  <data name="&gt;&gt;btnPickColor.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="txtY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>240, 28</value>
+    <value>136, 24</value>
   </data>
   <data name="txtY.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>
@@ -1309,13 +1285,13 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtY.Parent" xml:space="preserve">
-    <value>pSceenColorPicker</value>
+    <value>pCursorPosition</value>
   </data>
   <data name="&gt;&gt;txtY.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="txtX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 28</value>
+    <value>136, 0</value>
   </data>
   <data name="txtX.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>
@@ -1336,10 +1312,10 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtX.Parent" xml:space="preserve">
-    <value>pSceenColorPicker</value>
+    <value>pCursorPosition</value>
   </data>
   <data name="&gt;&gt;txtX.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="lblY.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1348,7 +1324,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 32</value>
+    <value>112, 28</value>
   </data>
   <data name="lblY.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 13</value>
@@ -1366,10 +1342,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblY.Parent" xml:space="preserve">
-    <value>pSceenColorPicker</value>
+    <value>pCursorPosition</value>
   </data>
   <data name="&gt;&gt;lblY.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="lblX.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1378,7 +1354,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 32</value>
+    <value>112, 4</value>
   </data>
   <data name="lblX.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 13</value>
@@ -1396,10 +1372,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblX.Parent" xml:space="preserve">
-    <value>pSceenColorPicker</value>
+    <value>pCursorPosition</value>
   </data>
   <data name="&gt;&gt;lblX.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="lblCursorPosition.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1408,7 +1384,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCursorPosition.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 32</value>
+    <value>0, 4</value>
   </data>
   <data name="lblCursorPosition.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 13</value>
@@ -1426,40 +1402,40 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblCursorPosition.Parent" xml:space="preserve">
-    <value>pSceenColorPicker</value>
+    <value>pCursorPosition</value>
   </data>
   <data name="&gt;&gt;lblCursorPosition.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
-  <data name="pSceenColorPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 272</value>
+  <data name="pCursorPosition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>488, 232</value>
   </data>
-  <data name="pSceenColorPicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>296, 56</value>
+  <data name="pCursorPosition.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 48</value>
   </data>
-  <data name="pSceenColorPicker.TabIndex" type="System.Int32, mscorlib">
+  <data name="pCursorPosition.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
   </data>
-  <data name="&gt;&gt;pSceenColorPicker.Name" xml:space="preserve">
-    <value>pSceenColorPicker</value>
+  <data name="&gt;&gt;pCursorPosition.Name" xml:space="preserve">
+    <value>pCursorPosition</value>
   </data>
-  <data name="&gt;&gt;pSceenColorPicker.Type" xml:space="preserve">
+  <data name="&gt;&gt;pCursorPosition.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;pSceenColorPicker.Parent" xml:space="preserve">
+  <data name="&gt;&gt;pCursorPosition.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;pSceenColorPicker.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;pCursorPosition.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="btnClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>560, 288</value>
+    <value>576, 296</value>
   </data>
   <data name="btnClose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 32</value>
+    <value>96, 32</value>
   </data>
   <data name="btnClose.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
@@ -1477,16 +1453,124 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnClose.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="flpColorPalette.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 293</value>
+  </data>
+  <data name="flpColorPalette.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 40</value>
+  </data>
+  <data name="flpColorPalette.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;flpColorPalette.Name" xml:space="preserve">
+    <value>flpColorPalette</value>
+  </data>
+  <data name="&gt;&gt;flpColorPalette.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flpColorPalette.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flpColorPalette.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbRecentColors.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbRecentColors.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbRecentColors.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="rbRecentColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 17</value>
+  </data>
+  <data name="rbRecentColors.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="rbRecentColors.Text" xml:space="preserve">
+    <value>Recent colors</value>
+  </data>
+  <data name="&gt;&gt;rbRecentColors.Name" xml:space="preserve">
+    <value>rbRecentColors</value>
+  </data>
+  <data name="&gt;&gt;rbRecentColors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbRecentColors.Parent" xml:space="preserve">
+    <value>flpColorPaletteSelection</value>
+  </data>
+  <data name="&gt;&gt;rbRecentColors.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbStandardColors.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbStandardColors.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbStandardColors.Location" type="System.Drawing.Point, System.Drawing">
+    <value>100, 3</value>
+  </data>
+  <data name="rbStandardColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 17</value>
+  </data>
+  <data name="rbStandardColors.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="rbStandardColors.Text" xml:space="preserve">
+    <value>Standard colors</value>
+  </data>
+  <data name="&gt;&gt;rbStandardColors.Name" xml:space="preserve">
+    <value>rbStandardColors</value>
+  </data>
+  <data name="&gt;&gt;rbStandardColors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbStandardColors.Parent" xml:space="preserve">
+    <value>flpColorPaletteSelection</value>
+  </data>
+  <data name="&gt;&gt;rbStandardColors.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="flpColorPaletteSelection.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="flpColorPaletteSelection.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="flpColorPaletteSelection.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 269</value>
+  </data>
+  <data name="flpColorPaletteSelection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 23</value>
+  </data>
+  <data name="flpColorPaletteSelection.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="&gt;&gt;flpColorPaletteSelection.Name" xml:space="preserve">
+    <value>flpColorPaletteSelection</value>
+  </data>
+  <data name="&gt;&gt;flpColorPaletteSelection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flpColorPaletteSelection.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flpColorPaletteSelection.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="mbCopy.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="mbCopy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>472, 288</value>
+    <value>472, 296</value>
   </data>
   <data name="mbCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 32</value>
+    <value>96, 32</value>
   </data>
   <data name="mbCopy.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
@@ -1498,13 +1582,40 @@
     <value>mbCopy</value>
   </data>
   <data name="&gt;&gt;mbCopy.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mbCopy.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;mbCopy.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
+  </data>
+  <data name="cbTransparent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbTransparent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>652, 13</value>
+  </data>
+  <data name="cbTransparent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 23</value>
+  </data>
+  <data name="cbTransparent.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="cbTransparent.ToolTip" xml:space="preserve">
+    <value>Transparent</value>
+  </data>
+  <data name="&gt;&gt;cbTransparent.Name" xml:space="preserve">
+    <value>cbTransparent</value>
+  </data>
+  <data name="&gt;&gt;cbTransparent.Type" xml:space="preserve">
+    <value>ShareX.HelpersLib.ColorButton, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;cbTransparent.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;cbTransparent.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="pbColorPreview.Location" type="System.Drawing.Point, System.Drawing">
     <value>376, 208</value>
@@ -1519,13 +1630,13 @@
     <value>pbColorPreview</value>
   </data>
   <data name="&gt;&gt;pbColorPreview.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MyPictureBox, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MyPictureBox, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pbColorPreview.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pbColorPreview.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="colorPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1543,91 +1654,28 @@
     <value>colorPicker</value>
   </data>
   <data name="&gt;&gt;colorPicker.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.ColorPicker, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.ColorPicker, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;colorPicker.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;colorPicker.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="lblRecentColors.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblRecentColors.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-3, 0</value>
-  </data>
-  <data name="lblRecentColors.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 13</value>
-  </data>
-  <data name="lblRecentColors.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
-  </data>
-  <data name="lblRecentColors.Text" xml:space="preserve">
-    <value>Recent colors:</value>
-  </data>
-  <data name="&gt;&gt;lblRecentColors.Name" xml:space="preserve">
-    <value>lblRecentColors</value>
-  </data>
-  <data name="&gt;&gt;lblRecentColors.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblRecentColors.Parent" xml:space="preserve">
-    <value>pColorPicker</value>
-  </data>
-  <data name="&gt;&gt;lblRecentColors.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="flpRecentColors.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 16</value>
-  </data>
-  <data name="flpRecentColors.Size" type="System.Drawing.Size, System.Drawing">
-    <value>296, 40</value>
-  </data>
-  <data name="flpRecentColors.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;flpRecentColors.Name" xml:space="preserve">
-    <value>flpRecentColors</value>
-  </data>
-  <data name="&gt;&gt;flpRecentColors.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;flpRecentColors.Parent" xml:space="preserve">
-    <value>pColorPicker</value>
-  </data>
-  <data name="&gt;&gt;flpRecentColors.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pColorPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 271</value>
-  </data>
-  <data name="pColorPicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>296, 56</value>
-  </data>
-  <data name="pColorPicker.TabIndex" type="System.Int32, mscorlib">
-    <value>44</value>
-  </data>
-  <data name="&gt;&gt;pColorPicker.Name" xml:space="preserve">
-    <value>pColorPicker</value>
-  </data>
-  <data name="&gt;&gt;pColorPicker.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pColorPicker.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pColorPicker.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>23</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>59</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>640, 328</value>
+    <value>681, 336</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

@@ -41,9 +41,9 @@
             this.chRemaining = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chURL = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pbPreview = new ShareX.HelpersLib.MyPictureBox();
-            this.flpPatreon = new System.Windows.Forms.FlowLayoutPanel();
-            this.pbPatreonOpen = new System.Windows.Forms.PictureBox();
-            this.pbPatreonHide = new System.Windows.Forms.PictureBox();
+            this.flpSupportUs = new System.Windows.Forms.FlowLayoutPanel();
+            this.pbSupportUsOpen = new System.Windows.Forms.PictureBox();
+            this.pbSupportUsHide = new System.Windows.Forms.PictureBox();
             this.tsMain = new ShareX.HelpersLib.ToolStripBorderRight();
             this.tsddbCapture = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiFullscreen = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,11 +56,17 @@
             this.tsmiScreenRecordingFFmpeg = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiScreenRecordingGIF = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiScrollingCapture = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiWebpageCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTextCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAutoCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tssCapture1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiShowCursor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiScreenshotDelay5 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsddbUpload = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsmiUploadFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiUploadFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +89,6 @@
             this.tsmiImageCombiner = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiImageThumbnailer = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiVideoThumbnailer = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiFTPClient = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTweetMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMonitorTest = new System.Windows.Forms.ToolStripMenuItem();
             this.tssMain1 = new System.Windows.Forms.ToolStripSeparator();
@@ -97,6 +102,7 @@
             this.tsmiURLSharingServices = new System.Windows.Forms.ToolStripMenuItem();
             this.tssDestinations1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDestinationSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCustomUploaderSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.tsbTaskSettings = new System.Windows.Forms.ToolStripButton();
             this.tsbApplicationSettings = new System.Windows.Forms.ToolStripButton();
             this.tsbHotkeySettings = new System.Windows.Forms.ToolStripButton();
@@ -134,6 +140,7 @@
             this.tssCopy1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiCopyFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCopyImageDimensions = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyText = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyThumbnailFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyThumbnailImage = new System.Windows.Forms.ToolStripMenuItem();
@@ -191,9 +198,17 @@
             this.tsmiTrayScreenRecordingFFmpeg = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayScreenRecordingGIF = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayScrollingCapture = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiTrayWebpageCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayTextCapture = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayAutoCapture = new System.Windows.Forms.ToolStripMenuItem();
+            this.tssTrayCapture1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiTrayShowCursor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayScreenshotDelay5 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayUploadFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayUploadFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -216,7 +231,6 @@
             this.tsmiTrayImageCombiner = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayImageThumbnailer = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayVideoThumbnailer = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiTrayFTPClient = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayTweetMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayMonitorTest = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTray1 = new System.Windows.Forms.ToolStripSeparator();
@@ -230,6 +244,7 @@
             this.tsmiTrayURLSharingServices = new System.Windows.Forms.ToolStripMenuItem();
             this.tssTrayDestinations1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTrayDestinationSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTrayCustomUploaderSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayTaskSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayApplicationSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayHotkeySettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -253,23 +268,20 @@
             this.tsmiTrayShow = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTrayExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerTraySingleClick = new System.Windows.Forms.Timer(this.components);
-            this.ttMain = new System.Windows.Forms.ToolTip(this.components);
             this.pbDiscordOpen = new System.Windows.Forms.PictureBox();
             this.pbDiscordHide = new System.Windows.Forms.PictureBox();
-            this.ucNews = new ShareX.NewsListControl();
             this.pNews = new System.Windows.Forms.Panel();
             this.btnCloseNews = new System.Windows.Forms.Button();
             this.flpCommunity = new System.Windows.Forms.FlowLayoutPanel();
             this.flpDiscord = new System.Windows.Forms.FlowLayoutPanel();
-            this.tssTrayCapture1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmiTrayShowCursor = new System.Windows.Forms.ToolStripMenuItem();
+            this.ucNews = new ShareX.NewsListControl();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
             this.scMain.SuspendLayout();
-            this.flpPatreon.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPatreonOpen)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPatreonHide)).BeginInit();
+            this.flpSupportUs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSupportUsOpen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSupportUsHide)).BeginInit();
             this.tsMain.SuspendLayout();
             this.cmsTaskInfo.SuspendLayout();
             this.cmsTray.SuspendLayout();
@@ -294,7 +306,6 @@
             // scMain.Panel2
             // 
             this.scMain.Panel2.Controls.Add(this.pbPreview);
-            this.scMain.SplitterColor = System.Drawing.Color.DarkGray;
             this.scMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scMain_SplitterMoved);
             // 
             // lblMainFormTip
@@ -326,6 +337,7 @@
             this.lvUploads.ShowItemToolTips = true;
             this.lvUploads.UseCompatibleStateImageBehavior = false;
             this.lvUploads.View = System.Windows.Forms.View.Details;
+            this.lvUploads.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.lvUploads_ColumnWidthChanged);
             this.lvUploads.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvUploads_ItemDrag);
             this.lvUploads.SelectedIndexChanged += new System.EventHandler(this.lvUploads_SelectedIndexChanged);
             this.lvUploads.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.lvUploads_QueryContinueDrag);
@@ -371,33 +383,31 @@
             this.pbPreview.Name = "pbPreview";
             this.pbPreview.ShowImageSizeLabel = true;
             // 
-            // flpPatreon
+            // flpSupportUs
             // 
-            resources.ApplyResources(this.flpPatreon, "flpPatreon");
-            this.flpPatreon.BackColor = System.Drawing.Color.Transparent;
-            this.flpPatreon.Controls.Add(this.pbPatreonOpen);
-            this.flpPatreon.Controls.Add(this.pbPatreonHide);
-            this.flpPatreon.Name = "flpPatreon";
+            resources.ApplyResources(this.flpSupportUs, "flpSupportUs");
+            this.flpSupportUs.BackColor = System.Drawing.Color.Transparent;
+            this.flpSupportUs.Controls.Add(this.pbSupportUsOpen);
+            this.flpSupportUs.Controls.Add(this.pbSupportUsHide);
+            this.flpSupportUs.Name = "flpSupportUs";
             // 
-            // pbPatreonOpen
+            // pbSupportUsOpen
             // 
-            this.pbPatreonOpen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbPatreonOpen.Image = global::ShareX.Properties.Resources.Patreon_Button_01;
-            resources.ApplyResources(this.pbPatreonOpen, "pbPatreonOpen");
-            this.pbPatreonOpen.Name = "pbPatreonOpen";
-            this.pbPatreonOpen.TabStop = false;
-            this.ttMain.SetToolTip(this.pbPatreonOpen, resources.GetString("pbPatreonOpen.ToolTip"));
-            this.pbPatreonOpen.Click += new System.EventHandler(this.pbPatreonOpen_Click);
+            this.pbSupportUsOpen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbSupportUsOpen.Image = global::ShareX.Properties.Resources.SupportUs_Button_01;
+            resources.ApplyResources(this.pbSupportUsOpen, "pbSupportUsOpen");
+            this.pbSupportUsOpen.Name = "pbSupportUsOpen";
+            this.pbSupportUsOpen.TabStop = false;
+            this.pbSupportUsOpen.Click += new System.EventHandler(this.pbSupportUsOpen_Click);
             // 
-            // pbPatreonHide
+            // pbSupportUsHide
             // 
-            this.pbPatreonHide.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbPatreonHide.Image = global::ShareX.Properties.Resources.Patreon_Button_02;
-            resources.ApplyResources(this.pbPatreonHide, "pbPatreonHide");
-            this.pbPatreonHide.Name = "pbPatreonHide";
-            this.pbPatreonHide.TabStop = false;
-            this.ttMain.SetToolTip(this.pbPatreonHide, resources.GetString("pbPatreonHide.ToolTip"));
-            this.pbPatreonHide.Click += new System.EventHandler(this.pbPatreonHide_Click);
+            this.pbSupportUsHide.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbSupportUsHide.Image = global::ShareX.Properties.Resources.SupportUs_Button_02;
+            resources.ApplyResources(this.pbSupportUsHide, "pbSupportUsHide");
+            this.pbSupportUsHide.Name = "pbSupportUsHide";
+            this.pbSupportUsHide.TabStop = false;
+            this.pbSupportUsHide.Click += new System.EventHandler(this.pbSupportUsHide_Click);
             // 
             // tsMain
             // 
@@ -442,11 +452,11 @@
             this.tsmiScreenRecordingFFmpeg,
             this.tsmiScreenRecordingGIF,
             this.tsmiScrollingCapture,
-            this.tsmiWebpageCapture,
             this.tsmiTextCapture,
             this.tsmiAutoCapture,
             this.tssCapture1,
-            this.tsmiShowCursor});
+            this.tsmiShowCursor,
+            this.tsmiScreenshotDelay});
             this.tsddbCapture.Image = global::ShareX.Properties.Resources.camera;
             resources.ApplyResources(this.tsddbCapture, "tsddbCapture");
             this.tsddbCapture.Name = "tsddbCapture";
@@ -520,13 +530,6 @@
             resources.ApplyResources(this.tsmiScrollingCapture, "tsmiScrollingCapture");
             this.tsmiScrollingCapture.Click += new System.EventHandler(this.tsmiScrollingCapture_Click);
             // 
-            // tsmiWebpageCapture
-            // 
-            this.tsmiWebpageCapture.Image = global::ShareX.Properties.Resources.document_globe;
-            this.tsmiWebpageCapture.Name = "tsmiWebpageCapture";
-            resources.ApplyResources(this.tsmiWebpageCapture, "tsmiWebpageCapture");
-            this.tsmiWebpageCapture.Click += new System.EventHandler(this.tsmiWebpageCapture_Click);
-            // 
             // tsmiTextCapture
             // 
             this.tsmiTextCapture.Image = global::ShareX.Properties.Resources.edit_drop_cap;
@@ -553,6 +556,54 @@
             this.tsmiShowCursor.Name = "tsmiShowCursor";
             resources.ApplyResources(this.tsmiShowCursor, "tsmiShowCursor");
             this.tsmiShowCursor.Click += new System.EventHandler(this.tsmiShowCursor_Click);
+            // 
+            // tsmiScreenshotDelay
+            // 
+            this.tsmiScreenshotDelay.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiScreenshotDelay0,
+            this.tsmiScreenshotDelay1,
+            this.tsmiScreenshotDelay2,
+            this.tsmiScreenshotDelay3,
+            this.tsmiScreenshotDelay4,
+            this.tsmiScreenshotDelay5});
+            resources.ApplyResources(this.tsmiScreenshotDelay, "tsmiScreenshotDelay");
+            this.tsmiScreenshotDelay.Name = "tsmiScreenshotDelay";
+            // 
+            // tsmiScreenshotDelay0
+            // 
+            this.tsmiScreenshotDelay0.Name = "tsmiScreenshotDelay0";
+            resources.ApplyResources(this.tsmiScreenshotDelay0, "tsmiScreenshotDelay0");
+            this.tsmiScreenshotDelay0.Click += new System.EventHandler(this.tsmiScreenshotDelay0_Click);
+            // 
+            // tsmiScreenshotDelay1
+            // 
+            this.tsmiScreenshotDelay1.Name = "tsmiScreenshotDelay1";
+            resources.ApplyResources(this.tsmiScreenshotDelay1, "tsmiScreenshotDelay1");
+            this.tsmiScreenshotDelay1.Click += new System.EventHandler(this.tsmiScreenshotDelay1_Click);
+            // 
+            // tsmiScreenshotDelay2
+            // 
+            this.tsmiScreenshotDelay2.Name = "tsmiScreenshotDelay2";
+            resources.ApplyResources(this.tsmiScreenshotDelay2, "tsmiScreenshotDelay2");
+            this.tsmiScreenshotDelay2.Click += new System.EventHandler(this.tsmiScreenshotDelay2_Click);
+            // 
+            // tsmiScreenshotDelay3
+            // 
+            this.tsmiScreenshotDelay3.Name = "tsmiScreenshotDelay3";
+            resources.ApplyResources(this.tsmiScreenshotDelay3, "tsmiScreenshotDelay3");
+            this.tsmiScreenshotDelay3.Click += new System.EventHandler(this.tsmiScreenshotDelay3_Click);
+            // 
+            // tsmiScreenshotDelay4
+            // 
+            this.tsmiScreenshotDelay4.Name = "tsmiScreenshotDelay4";
+            resources.ApplyResources(this.tsmiScreenshotDelay4, "tsmiScreenshotDelay4");
+            this.tsmiScreenshotDelay4.Click += new System.EventHandler(this.tsmiScreenshotDelay4_Click);
+            // 
+            // tsmiScreenshotDelay5
+            // 
+            this.tsmiScreenshotDelay5.Name = "tsmiScreenshotDelay5";
+            resources.ApplyResources(this.tsmiScreenshotDelay5, "tsmiScreenshotDelay5");
+            this.tsmiScreenshotDelay5.Click += new System.EventHandler(this.tsmiScreenshotDelay5_Click);
             // 
             // tsddbUpload
             // 
@@ -638,7 +689,6 @@
             this.tsmiImageCombiner,
             this.tsmiImageThumbnailer,
             this.tsmiVideoThumbnailer,
-            this.tsmiFTPClient,
             this.tsmiTweetMessage,
             this.tsmiMonitorTest});
             this.tsddbTools.Image = global::ShareX.Properties.Resources.toolbox;
@@ -729,13 +779,6 @@
             resources.ApplyResources(this.tsmiVideoThumbnailer, "tsmiVideoThumbnailer");
             this.tsmiVideoThumbnailer.Click += new System.EventHandler(this.tsmiVideoThumbnailer_Click);
             // 
-            // tsmiFTPClient
-            // 
-            this.tsmiFTPClient.Image = global::ShareX.Properties.Resources.application_network;
-            this.tsmiFTPClient.Name = "tsmiFTPClient";
-            resources.ApplyResources(this.tsmiFTPClient, "tsmiFTPClient");
-            this.tsmiFTPClient.Click += new System.EventHandler(this.tsmiFTPClient_Click);
-            // 
             // tsmiTweetMessage
             // 
             this.tsmiTweetMessage.Image = global::ShareX.Properties.Resources.Twitter;
@@ -777,7 +820,8 @@
             this.tsmiURLShorteners,
             this.tsmiURLSharingServices,
             this.tssDestinations1,
-            this.tsmiDestinationSettings});
+            this.tsmiDestinationSettings,
+            this.tsmiCustomUploaderSettings});
             this.tsddbDestinations.Image = global::ShareX.Properties.Resources.drive_globe;
             resources.ApplyResources(this.tsddbDestinations, "tsddbDestinations");
             this.tsddbDestinations.Name = "tsddbDestinations";
@@ -823,7 +867,14 @@
             this.tsmiDestinationSettings.Image = global::ShareX.Properties.Resources.globe_pencil;
             this.tsmiDestinationSettings.Name = "tsmiDestinationSettings";
             resources.ApplyResources(this.tsmiDestinationSettings, "tsmiDestinationSettings");
-            this.tsmiDestinationSettings.Click += new System.EventHandler(this.tsbDestinationSettings_Click);
+            this.tsmiDestinationSettings.Click += new System.EventHandler(this.tsmiDestinationSettings_Click);
+            // 
+            // tsmiCustomUploaderSettings
+            // 
+            this.tsmiCustomUploaderSettings.Image = global::ShareX.Properties.Resources.network_cloud;
+            this.tsmiCustomUploaderSettings.Name = "tsmiCustomUploaderSettings";
+            resources.ApplyResources(this.tsmiCustomUploaderSettings, "tsmiCustomUploaderSettings");
+            this.tsmiCustomUploaderSettings.Click += new System.EventHandler(this.tsmiCustomUploaderSettings_Click);
             // 
             // tsbTaskSettings
             // 
@@ -1066,6 +1117,7 @@
             this.tssCopy1,
             this.tsmiCopyFile,
             this.tsmiCopyImage,
+            this.tsmiCopyImageDimensions,
             this.tsmiCopyText,
             this.tsmiCopyThumbnailFile,
             this.tsmiCopyThumbnailImage,
@@ -1131,6 +1183,12 @@
             this.tsmiCopyImage.Name = "tsmiCopyImage";
             resources.ApplyResources(this.tsmiCopyImage, "tsmiCopyImage");
             this.tsmiCopyImage.Click += new System.EventHandler(this.tsmiCopyImage_Click);
+            // 
+            // tsmiCopyImageDimensions
+            // 
+            this.tsmiCopyImageDimensions.Name = "tsmiCopyImageDimensions";
+            resources.ApplyResources(this.tsmiCopyImageDimensions, "tsmiCopyImageDimensions");
+            this.tsmiCopyImageDimensions.Click += new System.EventHandler(this.tsmiCopyImageDimensions_Click);
             // 
             // tsmiCopyText
             // 
@@ -1471,11 +1529,11 @@
             this.tsmiTrayScreenRecordingFFmpeg,
             this.tsmiTrayScreenRecordingGIF,
             this.tsmiTrayScrollingCapture,
-            this.tsmiTrayWebpageCapture,
             this.tsmiTrayTextCapture,
             this.tsmiTrayAutoCapture,
             this.tssTrayCapture1,
-            this.tsmiTrayShowCursor});
+            this.tsmiTrayShowCursor,
+            this.tsmiTrayScreenshotDelay});
             this.tsmiTrayCapture.Image = global::ShareX.Properties.Resources.camera;
             this.tsmiTrayCapture.Name = "tsmiTrayCapture";
             resources.ApplyResources(this.tsmiTrayCapture, "tsmiTrayCapture");
@@ -1549,13 +1607,6 @@
             resources.ApplyResources(this.tsmiTrayScrollingCapture, "tsmiTrayScrollingCapture");
             this.tsmiTrayScrollingCapture.Click += new System.EventHandler(this.tsmiScrollingCapture_Click);
             // 
-            // tsmiTrayWebpageCapture
-            // 
-            this.tsmiTrayWebpageCapture.Image = global::ShareX.Properties.Resources.document_globe;
-            this.tsmiTrayWebpageCapture.Name = "tsmiTrayWebpageCapture";
-            resources.ApplyResources(this.tsmiTrayWebpageCapture, "tsmiTrayWebpageCapture");
-            this.tsmiTrayWebpageCapture.Click += new System.EventHandler(this.tsmiWebpageCapture_Click);
-            // 
             // tsmiTrayTextCapture
             // 
             this.tsmiTrayTextCapture.Image = global::ShareX.Properties.Resources.edit_drop_cap;
@@ -1569,6 +1620,67 @@
             this.tsmiTrayAutoCapture.Name = "tsmiTrayAutoCapture";
             resources.ApplyResources(this.tsmiTrayAutoCapture, "tsmiTrayAutoCapture");
             this.tsmiTrayAutoCapture.Click += new System.EventHandler(this.tsmiAutoCapture_Click);
+            // 
+            // tssTrayCapture1
+            // 
+            this.tssTrayCapture1.Name = "tssTrayCapture1";
+            resources.ApplyResources(this.tssTrayCapture1, "tssTrayCapture1");
+            // 
+            // tsmiTrayShowCursor
+            // 
+            this.tsmiTrayShowCursor.CheckOnClick = true;
+            this.tsmiTrayShowCursor.Image = global::ShareX.Properties.Resources.cursor;
+            this.tsmiTrayShowCursor.Name = "tsmiTrayShowCursor";
+            resources.ApplyResources(this.tsmiTrayShowCursor, "tsmiTrayShowCursor");
+            this.tsmiTrayShowCursor.Click += new System.EventHandler(this.tsmiShowCursor_Click);
+            // 
+            // tsmiTrayScreenshotDelay
+            // 
+            this.tsmiTrayScreenshotDelay.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiTrayScreenshotDelay0,
+            this.tsmiTrayScreenshotDelay1,
+            this.tsmiTrayScreenshotDelay2,
+            this.tsmiTrayScreenshotDelay3,
+            this.tsmiTrayScreenshotDelay4,
+            this.tsmiTrayScreenshotDelay5});
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay, "tsmiTrayScreenshotDelay");
+            this.tsmiTrayScreenshotDelay.Name = "tsmiTrayScreenshotDelay";
+            // 
+            // tsmiTrayScreenshotDelay0
+            // 
+            this.tsmiTrayScreenshotDelay0.Name = "tsmiTrayScreenshotDelay0";
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay0, "tsmiTrayScreenshotDelay0");
+            this.tsmiTrayScreenshotDelay0.Click += new System.EventHandler(this.tsmiScreenshotDelay0_Click);
+            // 
+            // tsmiTrayScreenshotDelay1
+            // 
+            this.tsmiTrayScreenshotDelay1.Name = "tsmiTrayScreenshotDelay1";
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay1, "tsmiTrayScreenshotDelay1");
+            this.tsmiTrayScreenshotDelay1.Click += new System.EventHandler(this.tsmiScreenshotDelay1_Click);
+            // 
+            // tsmiTrayScreenshotDelay2
+            // 
+            this.tsmiTrayScreenshotDelay2.Name = "tsmiTrayScreenshotDelay2";
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay2, "tsmiTrayScreenshotDelay2");
+            this.tsmiTrayScreenshotDelay2.Click += new System.EventHandler(this.tsmiScreenshotDelay2_Click);
+            // 
+            // tsmiTrayScreenshotDelay3
+            // 
+            this.tsmiTrayScreenshotDelay3.Name = "tsmiTrayScreenshotDelay3";
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay3, "tsmiTrayScreenshotDelay3");
+            this.tsmiTrayScreenshotDelay3.Click += new System.EventHandler(this.tsmiScreenshotDelay3_Click);
+            // 
+            // tsmiTrayScreenshotDelay4
+            // 
+            this.tsmiTrayScreenshotDelay4.Name = "tsmiTrayScreenshotDelay4";
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay4, "tsmiTrayScreenshotDelay4");
+            this.tsmiTrayScreenshotDelay4.Click += new System.EventHandler(this.tsmiScreenshotDelay4_Click);
+            // 
+            // tsmiTrayScreenshotDelay5
+            // 
+            this.tsmiTrayScreenshotDelay5.Name = "tsmiTrayScreenshotDelay5";
+            resources.ApplyResources(this.tsmiTrayScreenshotDelay5, "tsmiTrayScreenshotDelay5");
+            this.tsmiTrayScreenshotDelay5.Click += new System.EventHandler(this.tsmiScreenshotDelay5_Click);
             // 
             // tsmiTrayUpload
             // 
@@ -1654,7 +1766,6 @@
             this.tsmiTrayImageCombiner,
             this.tsmiTrayImageThumbnailer,
             this.tsmiTrayVideoThumbnailer,
-            this.tsmiTrayFTPClient,
             this.tsmiTrayTweetMessage,
             this.tsmiTrayMonitorTest});
             this.tsmiTrayTools.Image = global::ShareX.Properties.Resources.toolbox;
@@ -1745,13 +1856,6 @@
             resources.ApplyResources(this.tsmiTrayVideoThumbnailer, "tsmiTrayVideoThumbnailer");
             this.tsmiTrayVideoThumbnailer.Click += new System.EventHandler(this.tsmiVideoThumbnailer_Click);
             // 
-            // tsmiTrayFTPClient
-            // 
-            this.tsmiTrayFTPClient.Image = global::ShareX.Properties.Resources.application_network;
-            this.tsmiTrayFTPClient.Name = "tsmiTrayFTPClient";
-            resources.ApplyResources(this.tsmiTrayFTPClient, "tsmiTrayFTPClient");
-            this.tsmiTrayFTPClient.Click += new System.EventHandler(this.tsmiFTPClient_Click);
-            // 
             // tsmiTrayTweetMessage
             // 
             this.tsmiTrayTweetMessage.Image = global::ShareX.Properties.Resources.Twitter;
@@ -1792,7 +1896,8 @@
             this.tsmiTrayURLShorteners,
             this.tsmiTrayURLSharingServices,
             this.tssTrayDestinations1,
-            this.tsmiTrayDestinationSettings});
+            this.tsmiTrayDestinationSettings,
+            this.tsmiTrayCustomUploaderSettings});
             this.tsmiTrayDestinations.Image = global::ShareX.Properties.Resources.drive_globe;
             this.tsmiTrayDestinations.Name = "tsmiTrayDestinations";
             resources.ApplyResources(this.tsmiTrayDestinations, "tsmiTrayDestinations");
@@ -1838,7 +1943,14 @@
             this.tsmiTrayDestinationSettings.Image = global::ShareX.Properties.Resources.globe_pencil;
             this.tsmiTrayDestinationSettings.Name = "tsmiTrayDestinationSettings";
             resources.ApplyResources(this.tsmiTrayDestinationSettings, "tsmiTrayDestinationSettings");
-            this.tsmiTrayDestinationSettings.Click += new System.EventHandler(this.tsbDestinationSettings_Click);
+            this.tsmiTrayDestinationSettings.Click += new System.EventHandler(this.tsmiDestinationSettings_Click);
+            // 
+            // tsmiTrayCustomUploaderSettings
+            // 
+            this.tsmiTrayCustomUploaderSettings.Image = global::ShareX.Properties.Resources.network_cloud;
+            this.tsmiTrayCustomUploaderSettings.Name = "tsmiTrayCustomUploaderSettings";
+            resources.ApplyResources(this.tsmiTrayCustomUploaderSettings, "tsmiTrayCustomUploaderSettings");
+            this.tsmiTrayCustomUploaderSettings.Click += new System.EventHandler(this.tsmiCustomUploaderSettings_Click);
             // 
             // tsmiTrayTaskSettings
             // 
@@ -2000,12 +2112,6 @@
             // 
             this.timerTraySingleClick.Tick += new System.EventHandler(this.timerTraySingleClick_Tick);
             // 
-            // ttMain
-            // 
-            this.ttMain.AutoPopDelay = 10000;
-            this.ttMain.InitialDelay = 200;
-            this.ttMain.ReshowDelay = 100;
-            // 
             // pbDiscordOpen
             // 
             this.pbDiscordOpen.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -2013,7 +2119,6 @@
             resources.ApplyResources(this.pbDiscordOpen, "pbDiscordOpen");
             this.pbDiscordOpen.Name = "pbDiscordOpen";
             this.pbDiscordOpen.TabStop = false;
-            this.ttMain.SetToolTip(this.pbDiscordOpen, resources.GetString("pbDiscordOpen.ToolTip"));
             this.pbDiscordOpen.Click += new System.EventHandler(this.pbDiscordOpen_Click);
             // 
             // pbDiscordHide
@@ -2023,13 +2128,7 @@
             resources.ApplyResources(this.pbDiscordHide, "pbDiscordHide");
             this.pbDiscordHide.Name = "pbDiscordHide";
             this.pbDiscordHide.TabStop = false;
-            this.ttMain.SetToolTip(this.pbDiscordHide, resources.GetString("pbDiscordHide.ToolTip"));
             this.pbDiscordHide.Click += new System.EventHandler(this.pbDiscordHide_Click);
-            // 
-            // ucNews
-            // 
-            resources.ApplyResources(this.ucNews, "ucNews");
-            this.ucNews.Name = "ucNews";
             // 
             // pNews
             // 
@@ -2048,7 +2147,7 @@
             // flpCommunity
             // 
             resources.ApplyResources(this.flpCommunity, "flpCommunity");
-            this.flpCommunity.Controls.Add(this.flpPatreon);
+            this.flpCommunity.Controls.Add(this.flpSupportUs);
             this.flpCommunity.Controls.Add(this.flpDiscord);
             this.flpCommunity.Name = "flpCommunity";
             // 
@@ -2060,18 +2159,11 @@
             this.flpDiscord.Controls.Add(this.pbDiscordHide);
             this.flpDiscord.Name = "flpDiscord";
             // 
-            // tssTrayCapture1
+            // ucNews
             // 
-            this.tssTrayCapture1.Name = "tssTrayCapture1";
-            resources.ApplyResources(this.tssTrayCapture1, "tssTrayCapture1");
-            // 
-            // tsmiTrayShowCursor
-            // 
-            this.tsmiTrayShowCursor.CheckOnClick = true;
-            this.tsmiTrayShowCursor.Image = global::ShareX.Properties.Resources.cursor;
-            this.tsmiTrayShowCursor.Name = "tsmiTrayShowCursor";
-            resources.ApplyResources(this.tsmiTrayShowCursor, "tsmiTrayShowCursor");
-            this.tsmiTrayShowCursor.Click += new System.EventHandler(this.tsmiShowCursor_Click);
+            this.ucNews.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.ucNews, "ucNews");
+            this.ucNews.Name = "ucNews";
             // 
             // MainForm
             // 
@@ -2098,10 +2190,10 @@
             this.scMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
             this.scMain.ResumeLayout(false);
-            this.flpPatreon.ResumeLayout(false);
-            this.flpPatreon.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPatreonOpen)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPatreonHide)).EndInit();
+            this.flpSupportUs.ResumeLayout(false);
+            this.flpSupportUs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSupportUsOpen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSupportUsHide)).EndInit();
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
             this.cmsTaskInfo.ResumeLayout(false);
@@ -2252,8 +2344,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenThumbnailFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiCopyThumbnailFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiCopyThumbnailImage;
-        private System.Windows.Forms.ToolStripMenuItem tsmiFTPClient;
-        private System.Windows.Forms.ToolStripMenuItem tsmiTrayFTPClient;
         private System.Windows.Forms.ToolStripMenuItem tsmiImageEditor;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayImageEditor;
         private System.Windows.Forms.ToolStripDropDownButton tsddbWorkflows;
@@ -2298,8 +2388,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsTray;
         private System.Windows.Forms.ToolStripMenuItem tsmiRectangleTransparent;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayRectangleTransparent;
-        private System.Windows.Forms.ToolStripMenuItem tsmiWebpageCapture;
-        private System.Windows.Forms.ToolStripMenuItem tsmiTrayWebpageCapture;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayToggleHotkeys;
         private System.Windows.Forms.ToolStripMenuItem tsmiVideoThumbnailer;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayVideoThumbnailer;
@@ -2318,16 +2406,14 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiHideColumns;
         private System.Windows.Forms.ToolStripMenuItem tsmiTextCapture;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayTextCapture;
-        private System.Windows.Forms.PictureBox pbPatreonOpen;
-        private System.Windows.Forms.PictureBox pbPatreonHide;
-        private System.Windows.Forms.ToolTip ttMain;
+        private System.Windows.Forms.PictureBox pbSupportUsOpen;
+        private System.Windows.Forms.PictureBox pbSupportUsHide;
         private System.Windows.Forms.ToolStripMenuItem tsmiDownloadSelectedURL;
         private System.Windows.Forms.ToolStripMenuItem tsmiOCRImage;
         private System.Windows.Forms.ToolStripMenuItem tsmiCombineImages;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenActionsToolbar;
         private System.Windows.Forms.ToolStripMenuItem tsmiDeleteSelectedItem;
         private System.Windows.Forms.ToolStripMenuItem tsmiSearchImage;
-        private NewsListControl ucNews;
         private System.Windows.Forms.Panel pNews;
         private System.Windows.Forms.Button btnCloseNews;
         private System.Windows.Forms.ToolStripMenuItem tsmiImageThumbnailer;
@@ -2344,7 +2430,7 @@
         private System.Windows.Forms.PictureBox pbDiscordOpen;
         private System.Windows.Forms.PictureBox pbDiscordHide;
         public System.Windows.Forms.FlowLayoutPanel flpCommunity;
-        public System.Windows.Forms.FlowLayoutPanel flpPatreon;
+        public System.Windows.Forms.FlowLayoutPanel flpSupportUs;
         public System.Windows.Forms.FlowLayoutPanel flpDiscord;
         private System.Windows.Forms.ToolStripMenuItem tsmiImagePreviewSide;
         private System.Windows.Forms.ToolStripMenuItem tsmiImagePreviewBottom;
@@ -2353,5 +2439,23 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiShowCursor;
         private System.Windows.Forms.ToolStripSeparator tssTrayCapture1;
         private System.Windows.Forms.ToolStripMenuItem tsmiTrayShowCursor;
+        private NewsListControl ucNews;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCopyImageDimensions;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay0;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay2;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay3;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay4;
+        private System.Windows.Forms.ToolStripMenuItem tsmiScreenshotDelay5;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay0;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay2;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay3;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay4;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayScreenshotDelay5;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCustomUploaderSettings;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTrayCustomUploaderSettings;
     }
 }

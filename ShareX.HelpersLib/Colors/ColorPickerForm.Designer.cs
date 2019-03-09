@@ -68,7 +68,7 @@
             this.nudAlpha = new System.Windows.Forms.NumericUpDown();
             this.lblAlpha = new System.Windows.Forms.Label();
             this.ttMain = new System.Windows.Forms.ToolTip(this.components);
-            this.cbTransparent = new ShareX.HelpersLib.ColorButton();
+            this.btnScreenColorPicker = new System.Windows.Forms.Button();
             this.cmsCopy = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCopyAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyRGB = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,20 +77,21 @@
             this.tsmiCopyHSB = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyDecimal = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCopyPosition = new System.Windows.Forms.ToolStripMenuItem();
-            this.pSceenColorPicker = new System.Windows.Forms.Panel();
-            this.btnPickColor = new System.Windows.Forms.Button();
+            this.pCursorPosition = new System.Windows.Forms.Panel();
             this.txtY = new System.Windows.Forms.TextBox();
             this.txtX = new System.Windows.Forms.TextBox();
             this.lblY = new System.Windows.Forms.Label();
             this.lblX = new System.Windows.Forms.Label();
             this.lblCursorPosition = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
+            this.flpColorPalette = new System.Windows.Forms.FlowLayoutPanel();
+            this.rbRecentColors = new System.Windows.Forms.RadioButton();
+            this.rbStandardColors = new System.Windows.Forms.RadioButton();
+            this.flpColorPaletteSelection = new System.Windows.Forms.FlowLayoutPanel();
             this.mbCopy = new ShareX.HelpersLib.MenuButton();
+            this.cbTransparent = new ShareX.HelpersLib.ColorButton();
             this.pbColorPreview = new ShareX.HelpersLib.MyPictureBox();
             this.colorPicker = new ShareX.HelpersLib.ColorPicker();
-            this.pColorPicker = new System.Windows.Forms.Panel();
-            this.lblRecentColors = new System.Windows.Forms.Label();
-            this.flpRecentColors = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.nudKey)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudYellow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMagenta)).BeginInit();
@@ -103,8 +104,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAlpha)).BeginInit();
             this.cmsCopy.SuspendLayout();
-            this.pSceenColorPicker.SuspendLayout();
-            this.pColorPicker.SuspendLayout();
+            this.pCursorPosition.SuspendLayout();
+            this.flpColorPaletteSelection.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -414,15 +415,14 @@
             this.ttMain.InitialDelay = 100;
             this.ttMain.ReshowDelay = 100;
             // 
-            // cbTransparent
+            // btnScreenColorPicker
             // 
-            this.cbTransparent.Color = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.cbTransparent, "cbTransparent");
-            this.cbTransparent.ManualButtonClick = true;
-            this.cbTransparent.Name = "cbTransparent";
-            this.ttMain.SetToolTip(this.cbTransparent, resources.GetString("cbTransparent.ToolTip"));
-            this.cbTransparent.UseVisualStyleBackColor = true;
-            this.cbTransparent.Click += new System.EventHandler(this.cbTransparent_Click);
+            this.btnScreenColorPicker.Image = global::ShareX.HelpersLib.Properties.Resources.pipette;
+            resources.ApplyResources(this.btnScreenColorPicker, "btnScreenColorPicker");
+            this.btnScreenColorPicker.Name = "btnScreenColorPicker";
+            this.ttMain.SetToolTip(this.btnScreenColorPicker, resources.GetString("btnScreenColorPicker.ToolTip"));
+            this.btnScreenColorPicker.UseVisualStyleBackColor = true;
+            this.btnScreenColorPicker.Click += new System.EventHandler(this.btnScreenColorPicker_Click);
             // 
             // cmsCopy
             // 
@@ -480,23 +480,15 @@
             resources.ApplyResources(this.tsmiCopyPosition, "tsmiCopyPosition");
             this.tsmiCopyPosition.Click += new System.EventHandler(this.tsmiCopyPosition_Click);
             // 
-            // pSceenColorPicker
+            // pCursorPosition
             // 
-            this.pSceenColorPicker.Controls.Add(this.btnPickColor);
-            this.pSceenColorPicker.Controls.Add(this.txtY);
-            this.pSceenColorPicker.Controls.Add(this.txtX);
-            this.pSceenColorPicker.Controls.Add(this.lblY);
-            this.pSceenColorPicker.Controls.Add(this.lblX);
-            this.pSceenColorPicker.Controls.Add(this.lblCursorPosition);
-            resources.ApplyResources(this.pSceenColorPicker, "pSceenColorPicker");
-            this.pSceenColorPicker.Name = "pSceenColorPicker";
-            // 
-            // btnPickColor
-            // 
-            resources.ApplyResources(this.btnPickColor, "btnPickColor");
-            this.btnPickColor.Name = "btnPickColor";
-            this.btnPickColor.UseVisualStyleBackColor = true;
-            this.btnPickColor.Click += new System.EventHandler(this.btnPickColor_Click);
+            this.pCursorPosition.Controls.Add(this.txtY);
+            this.pCursorPosition.Controls.Add(this.txtX);
+            this.pCursorPosition.Controls.Add(this.lblY);
+            this.pCursorPosition.Controls.Add(this.lblX);
+            this.pCursorPosition.Controls.Add(this.lblCursorPosition);
+            resources.ApplyResources(this.pCursorPosition, "pCursorPosition");
+            this.pCursorPosition.Name = "pCursorPosition";
             // 
             // txtY
             // 
@@ -532,12 +524,49 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // flpColorPalette
+            // 
+            resources.ApplyResources(this.flpColorPalette, "flpColorPalette");
+            this.flpColorPalette.Name = "flpColorPalette";
+            // 
+            // rbRecentColors
+            // 
+            resources.ApplyResources(this.rbRecentColors, "rbRecentColors");
+            this.rbRecentColors.Checked = true;
+            this.rbRecentColors.Name = "rbRecentColors";
+            this.rbRecentColors.TabStop = true;
+            this.rbRecentColors.UseVisualStyleBackColor = true;
+            this.rbRecentColors.CheckedChanged += new System.EventHandler(this.rbRecentColors_CheckedChanged);
+            // 
+            // rbStandardColors
+            // 
+            resources.ApplyResources(this.rbStandardColors, "rbStandardColors");
+            this.rbStandardColors.Name = "rbStandardColors";
+            this.rbStandardColors.UseVisualStyleBackColor = true;
+            // 
+            // flpColorPaletteSelection
+            // 
+            resources.ApplyResources(this.flpColorPaletteSelection, "flpColorPaletteSelection");
+            this.flpColorPaletteSelection.Controls.Add(this.rbRecentColors);
+            this.flpColorPaletteSelection.Controls.Add(this.rbStandardColors);
+            this.flpColorPaletteSelection.Name = "flpColorPaletteSelection";
+            // 
             // mbCopy
             // 
             resources.ApplyResources(this.mbCopy, "mbCopy");
             this.mbCopy.Menu = this.cmsCopy;
             this.mbCopy.Name = "mbCopy";
             this.mbCopy.UseVisualStyleBackColor = true;
+            // 
+            // cbTransparent
+            // 
+            this.cbTransparent.Color = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.cbTransparent, "cbTransparent");
+            this.cbTransparent.ManualButtonClick = true;
+            this.cbTransparent.Name = "cbTransparent";
+            this.ttMain.SetToolTip(this.cbTransparent, resources.GetString("cbTransparent.ToolTip"));
+            this.cbTransparent.UseVisualStyleBackColor = true;
+            this.cbTransparent.Click += new System.EventHandler(this.cbTransparent_Click);
             // 
             // pbColorPreview
             // 
@@ -555,32 +584,17 @@
             this.colorPicker.Name = "colorPicker";
             this.colorPicker.ColorChanged += new ShareX.HelpersLib.ColorEventHandler(this.colorPicker_ColorChanged);
             // 
-            // pColorPicker
-            // 
-            this.pColorPicker.Controls.Add(this.lblRecentColors);
-            this.pColorPicker.Controls.Add(this.flpRecentColors);
-            resources.ApplyResources(this.pColorPicker, "pColorPicker");
-            this.pColorPicker.Name = "pColorPicker";
-            // 
-            // lblRecentColors
-            // 
-            resources.ApplyResources(this.lblRecentColors, "lblRecentColors");
-            this.lblRecentColors.Name = "lblRecentColors";
-            // 
-            // flpRecentColors
-            // 
-            resources.ApplyResources(this.flpRecentColors, "flpRecentColors");
-            this.flpRecentColors.Name = "flpRecentColors";
-            // 
             // ColorPickerForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this.btnCancel;
-            this.Controls.Add(this.pColorPicker);
+            this.Controls.Add(this.flpColorPalette);
+            this.Controls.Add(this.flpColorPaletteSelection);
+            this.Controls.Add(this.btnScreenColorPicker);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.pSceenColorPicker);
+            this.Controls.Add(this.pCursorPosition);
             this.Controls.Add(this.mbCopy);
             this.Controls.Add(this.cbTransparent);
             this.Controls.Add(this.nudBlue);
@@ -639,10 +653,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudHue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudAlpha)).EndInit();
             this.cmsCopy.ResumeLayout(false);
-            this.pSceenColorPicker.ResumeLayout(false);
-            this.pSceenColorPicker.PerformLayout();
-            this.pColorPicker.ResumeLayout(false);
-            this.pColorPicker.PerformLayout();
+            this.pCursorPosition.ResumeLayout(false);
+            this.pCursorPosition.PerformLayout();
+            this.flpColorPaletteSelection.ResumeLayout(false);
+            this.flpColorPaletteSelection.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -700,16 +714,17 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiCopyHSB;
         private System.Windows.Forms.ToolStripMenuItem tsmiCopyDecimal;
         private System.Windows.Forms.ToolStripMenuItem tsmiCopyPosition;
-        private System.Windows.Forms.Panel pSceenColorPicker;
+        private System.Windows.Forms.Panel pCursorPosition;
         private System.Windows.Forms.Label lblCursorPosition;
         private System.Windows.Forms.Label lblX;
         private System.Windows.Forms.Label lblY;
         private System.Windows.Forms.TextBox txtX;
         private System.Windows.Forms.TextBox txtY;
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnPickColor;
-        private System.Windows.Forms.Panel pColorPicker;
-        private System.Windows.Forms.FlowLayoutPanel flpRecentColors;
-        private System.Windows.Forms.Label lblRecentColors;
+        private System.Windows.Forms.FlowLayoutPanel flpColorPalette;
+        private System.Windows.Forms.Button btnScreenColorPicker;
+        private System.Windows.Forms.RadioButton rbRecentColors;
+        private System.Windows.Forms.RadioButton rbStandardColors;
+        private System.Windows.Forms.FlowLayoutPanel flpColorPaletteSelection;
     }
 }

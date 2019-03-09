@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -54,11 +54,11 @@ namespace ShareX.ScreenCaptureLib
 
             string text = Path.GetFileNameWithoutExtension(item.Text);
             Size szt = TextRenderer.MeasureText(text, ImageListView.Font);
-            int textWidth = szt.Width + itemPadding.Width * 2;
+            int textWidth = szt.Width + (itemPadding.Width * 2);
 
             if ((state & ItemState.Hovered) != ItemState.None && textWidth > bounds.Width)
             {
-                bounds = new Rectangle(bounds.X + bounds.Width / 2 - textWidth / 2, bounds.Y, textWidth, bounds.Height);
+                bounds = new Rectangle(bounds.X + (bounds.Width / 2) - (textWidth / 2), bounds.Y, textWidth, bounds.Height);
             }
 
             // Paint background
@@ -135,7 +135,7 @@ namespace ShareX.ScreenCaptureLib
                 }
             }
 
-            Rectangle rt = new Rectangle(bounds.Left, bounds.Top + 2 * itemPadding.Height + ImageListView.ThumbnailSize.Height, bounds.Width, szt.Height);
+            Rectangle rt = new Rectangle(bounds.Left, bounds.Top + (2 * itemPadding.Height) + ImageListView.ThumbnailSize.Height, bounds.Width, szt.Height);
             TextFormatFlags flags;
 
             if ((state & ItemState.Hovered) != ItemState.None)

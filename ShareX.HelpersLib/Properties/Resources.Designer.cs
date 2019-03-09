@@ -781,11 +781,47 @@ namespace ShareX.HelpersLib.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string Extensions_AddContextMenu_Delete {
+            get {
+                return ResourceManager.GetString("Extensions_AddContextMenu_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paste.
         /// </summary>
         internal static string Extensions_AddContextMenu_Paste {
             get {
                 return ResourceManager.GetString("Extensions_AddContextMenu_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Redo.
+        /// </summary>
+        internal static string Extensions_AddContextMenu_Redo {
+            get {
+                return ResourceManager.GetString("Extensions_AddContextMenu_Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        internal static string Extensions_AddContextMenu_SelectAll {
+            get {
+                return ResourceManager.GetString("Extensions_AddContextMenu_SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        internal static string Extensions_AddContextMenu_Undo {
+            get {
+                return ResourceManager.GetString("Extensions_AddContextMenu_Undo", resourceCulture);
             }
         }
         
@@ -2267,6 +2303,16 @@ namespace ShareX.HelpersLib.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pipette {
+            get {
+                object obj = ResourceManager.GetObject("pipette", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Automatically detect.
         /// </summary>
         internal static string PNGBitDepth_Automatic {
@@ -3100,6 +3146,16 @@ namespace ShareX.HelpersLib.Properties {
         internal static System.Drawing.Icon ShareX_Icon {
             get {
                 object obj = ResourceManager.GetObject("ShareX_Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon ShareX_Icon_White {
+            get {
+                object obj = ResourceManager.GetObject("ShareX_Icon_White", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

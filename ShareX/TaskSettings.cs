@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -30,6 +30,7 @@ using ShareX.IndexerLib;
 using ShareX.MediaLib;
 using ShareX.ScreenCaptureLib;
 using ShareX.UploadersLib;
+using ShareX.UploadersLib.OtherServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -157,7 +158,8 @@ namespace ShareX
             {
                 if (!string.IsNullOrEmpty(AdvancedSettings.CapturePath))
                 {
-                    return Helpers.ExpandFolderVariables(AdvancedSettings.CapturePath);
+                    string captureFolderPath = NameParser.Parse(NameParserType.FolderPath, AdvancedSettings.CapturePath);
+                    return Helpers.GetAbsolutePath(captureFolderPath);
                 }
 
                 return Program.ScreenshotsFolder;
@@ -320,12 +322,11 @@ namespace ShareX
         #region Capture / General
 
         public bool ShowCursor = true;
+        public decimal ScreenshotDelay = 0;
         public bool CaptureTransparent = false;
         public bool CaptureShadow = true;
         public int CaptureShadowOffset = 20;
         public bool CaptureClientArea = false;
-        public bool IsDelayScreenshot = false;
-        public decimal DelayScreenshot = 2.0m;
         public bool CaptureAutoHideTaskbar = false;
         public Rectangle CaptureCustomRegion = new Rectangle(0, 0, 0, 0);
 
@@ -344,12 +345,11 @@ namespace ShareX
         public int GIFFPS = 15;
         public bool ScreenRecordShowCursor = true;
         public bool ScreenRecordAutoStart = true;
-        public bool ScreenRecordAskConfirmationOnAbort = false;
         public float ScreenRecordStartDelay = 0f;
         public bool ScreenRecordFixedDuration = false;
         public float ScreenRecordDuration = 3f;
-        public bool RunScreencastCLI = false;
-        public int VideoEncoderSelected = 0;
+        public bool ScreenRecordTwoPassEncoding = false;
+        public bool ScreenRecordAskConfirmationOnAbort = false;
 
         #endregion Capture / Screen recorder
 
@@ -358,6 +358,12 @@ namespace ShareX
         public ScrollingCaptureOptions ScrollingCaptureOptions = new ScrollingCaptureOptions();
 
         #endregion Capture / Scrolling capture
+
+        #region Capture / OCR
+
+        public OCROptions OCROptions = new OCROptions();
+
+        #endregion Capture / OCR
     }
 
     public class TaskSettingsUpload
@@ -366,8 +372,8 @@ namespace ShareX
 
         public bool UseCustomTimeZone = false;
         public TimeZoneInfo CustomTimeZone = TimeZoneInfo.Utc;
-        public string NameFormatPattern = "%y-%mo-%d_%h-%mi-%s";
-        public string NameFormatPatternActiveWindow = "%pn_%y-%mo-%d_%h-%mi-%s";
+        public string NameFormatPattern = "%ra{10}";
+        public string NameFormatPatternActiveWindow = "%pn_%ra{10}";
         public bool RegionCaptureUseWindowPattern = true;
         public bool FileUploadUseNamePattern = false;
         public bool FileUploadReplaceProblematicCharacters = false;
@@ -449,7 +455,7 @@ namespace ShareX
         Editor("System.Windows.Forms.Design.StringCollectionEditor,System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
         public List<string> ImageExtensions { get; set; }
 
-        [Category("Upload"), DefaultValue(false), Description("Copy URL before start upload. Only works for FTP, FTPS, SFTP and Dropbox public URLs.")]
+        [Category("Upload"), DefaultValue(false), Description("Copy URL before start upload. Only works for FTP, FTPS, SFTP, Amazon S3, Google Cloud Storage and Azure Storage.")]
         public bool EarlyCopyURL { get; set; }
 
         [Category("Upload"), Description("Files with these file extensions will be uploaded using text uploader."),
@@ -507,6 +513,12 @@ namespace ShareX
 
         [Category("After upload / Notifications"), DefaultValue(ToastClickAction.OpenUrl), Description("Specify action after toast notification window is left clicked."), TypeConverter(typeof(EnumDescriptionConverter))]
         public ToastClickAction ToastWindowClickAction { get; set; }
+
+        [Category("After upload / Notifications"), DefaultValue(ToastClickAction.CloseNotification), Description("Specify action after toast notification window is right clicked."), TypeConverter(typeof(EnumDescriptionConverter))]
+        public ToastClickAction ToastWindowRightClickAction { get; set; }
+
+        [Category("After upload / Notifications"), DefaultValue(ToastClickAction.AnnotateImage), Description("Specify action after toast notification window is middle clicked."), TypeConverter(typeof(EnumDescriptionConverter))]
+        public ToastClickAction ToastWindowMiddleClickAction { get; set; }
 
         private Size toastWindowSize;
 

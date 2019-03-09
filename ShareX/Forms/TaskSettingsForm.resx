@@ -154,13 +154,13 @@
     <value>8, 80</value>
   </data>
   <data name="cbOverrideAfterCaptureSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 17</value>
+    <value>168, 17</value>
   </data>
   <data name="cbOverrideAfterCaptureSettings.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="cbOverrideAfterCaptureSettings.Text" xml:space="preserve">
-    <value>Override "After capture" settings</value>
+    <value>Override after capture settings</value>
   </data>
   <data name="&gt;&gt;cbOverrideAfterCaptureSettings.Name" xml:space="preserve">
     <value>cbOverrideAfterCaptureSettings</value>
@@ -184,13 +184,13 @@
     <value>8, 136</value>
   </data>
   <data name="cbOverrideAfterUploadSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 17</value>
+    <value>164, 17</value>
   </data>
   <data name="cbOverrideAfterUploadSettings.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="cbOverrideAfterUploadSettings.Text" xml:space="preserve">
-    <value>Override "After upload" settings</value>
+    <value>Override after upload settings</value>
   </data>
   <data name="&gt;&gt;cbOverrideAfterUploadSettings.Name" xml:space="preserve">
     <value>cbOverrideAfterUploadSettings</value>
@@ -214,13 +214,13 @@
     <value>8, 192</value>
   </data>
   <data name="cbOverrideDestinationSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 17</value>
+    <value>125, 17</value>
   </data>
   <data name="cbOverrideDestinationSettings.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="cbOverrideDestinationSettings.Text" xml:space="preserve">
-    <value>Override "Destination" settings</value>
+    <value>Override destinations</value>
   </data>
   <data name="&gt;&gt;cbOverrideDestinationSettings.Name" xml:space="preserve">
     <value>cbOverrideDestinationSettings</value>
@@ -421,7 +421,7 @@
     <value>btnAfterCapture</value>
   </data>
   <data name="&gt;&gt;btnAfterCapture.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAfterCapture.Parent" xml:space="preserve">
     <value>tpTask</value>
@@ -451,7 +451,7 @@
     <value>btnAfterUpload</value>
   </data>
   <data name="&gt;&gt;btnAfterUpload.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAfterUpload.Parent" xml:space="preserve">
     <value>tpTask</value>
@@ -523,7 +523,7 @@
     <value>btnDestinations</value>
   </data>
   <data name="&gt;&gt;btnDestinations.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDestinations.Parent" xml:space="preserve">
     <value>tpTask</value>
@@ -553,7 +553,7 @@
     <value>btnTask</value>
   </data>
   <data name="&gt;&gt;btnTask.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MenuButton, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnTask.Parent" xml:space="preserve">
     <value>tpTask</value>
@@ -943,7 +943,7 @@
     <value>8, 224</value>
   </data>
   <data name="nudImageAutoUseJPEGSize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 20</value>
+    <value>72, 20</value>
   </data>
   <data name="nudImageAutoUseJPEGSize.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -970,7 +970,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblImageSizeLimitHint.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 228</value>
+    <value>85, 228</value>
   </data>
   <data name="lblImageSizeLimitHint.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 13</value>
@@ -1045,7 +1045,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblImageJPEGQualityHint.Location" type="System.Drawing.Point, System.Drawing">
-    <value>64, 124</value>
+    <value>61, 124</value>
   </data>
   <data name="lblImageJPEGQualityHint.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 13</value>
@@ -1671,8 +1671,35 @@
   <data name="&gt;&gt;tpImage.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="lblScreenshotDelay.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblScreenshotDelay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 30</value>
+  </data>
+  <data name="lblScreenshotDelay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 13</value>
+  </data>
+  <data name="lblScreenshotDelay.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="lblScreenshotDelay.Text" xml:space="preserve">
+    <value>Screenshot delay:</value>
+  </data>
+  <data name="&gt;&gt;lblScreenshotDelay.Name" xml:space="preserve">
+    <value>lblScreenshotDelay</value>
+  </data>
+  <data name="&gt;&gt;lblScreenshotDelay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblScreenshotDelay.Parent" xml:space="preserve">
+    <value>pCapture</value>
+  </data>
+  <data name="&gt;&gt;lblScreenshotDelay.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="btnCaptureCustomRegionSelectRectangle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 263</value>
+    <value>232, 255</value>
   </data>
   <data name="btnCaptureCustomRegionSelectRectangle.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 23</value>
@@ -1693,13 +1720,13 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;btnCaptureCustomRegionSelectRectangle.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lblCaptureCustomRegion.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lblCaptureCustomRegion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 232</value>
+    <value>5, 224</value>
   </data>
   <data name="lblCaptureCustomRegion.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 13</value>
@@ -1720,7 +1747,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblCaptureCustomRegion.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblCaptureCustomRegionWidth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1729,7 +1756,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCaptureCustomRegionWidth.Location" type="System.Drawing.Point, System.Drawing">
-    <value>117, 248</value>
+    <value>117, 240</value>
   </data>
   <data name="lblCaptureCustomRegionWidth.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 13</value>
@@ -1750,7 +1777,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblCaptureCustomRegionWidth.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lblCaptureCustomRegionHeight.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1759,7 +1786,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCaptureCustomRegionHeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 248</value>
+    <value>173, 240</value>
   </data>
   <data name="lblCaptureCustomRegionHeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 13</value>
@@ -1780,7 +1807,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblCaptureCustomRegionHeight.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblCaptureCustomRegionY.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1789,7 +1816,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCaptureCustomRegionY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>61, 248</value>
+    <value>61, 240</value>
   </data>
   <data name="lblCaptureCustomRegionY.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1810,7 +1837,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblCaptureCustomRegionY.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="lblCaptureCustomRegionX.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1819,7 +1846,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCaptureCustomRegionX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 248</value>
+    <value>5, 240</value>
   </data>
   <data name="lblCaptureCustomRegionX.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1840,10 +1867,10 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblCaptureCustomRegionX.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="nudCaptureCustomRegionHeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 264</value>
+    <value>176, 256</value>
   </data>
   <data name="nudCaptureCustomRegionHeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -1861,10 +1888,10 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;nudCaptureCustomRegionHeight.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="nudCaptureCustomRegionWidth.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 264</value>
+    <value>120, 256</value>
   </data>
   <data name="nudCaptureCustomRegionWidth.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -1882,10 +1909,10 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;nudCaptureCustomRegionWidth.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="nudCaptureCustomRegionY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>64, 264</value>
+    <value>64, 256</value>
   </data>
   <data name="nudCaptureCustomRegionY.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -1903,10 +1930,10 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;nudCaptureCustomRegionY.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="nudCaptureCustomRegionX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 264</value>
+    <value>8, 256</value>
   </data>
   <data name="nudCaptureCustomRegionX.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 20</value>
@@ -1924,7 +1951,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;nudCaptureCustomRegionX.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="cbShowCursor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1954,7 +1981,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;cbShowCursor.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="lblCaptureShadowOffset.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1963,7 +1990,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCaptureShadowOffset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 80</value>
+    <value>5, 126</value>
   </data>
   <data name="lblCaptureShadowOffset.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 13</value>
@@ -1984,7 +2011,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblCaptureShadowOffset.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="cbCaptureTransparent.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1993,7 +2020,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbCaptureTransparent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 32</value>
+    <value>8, 80</value>
   </data>
   <data name="cbCaptureTransparent.Size" type="System.Drawing.Size, System.Drawing">
     <value>188, 17</value>
@@ -2014,7 +2041,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;cbCaptureTransparent.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="cbCaptureAutoHideTaskbar.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2023,7 +2050,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbCaptureAutoHideTaskbar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 208</value>
+    <value>8, 200</value>
   </data>
   <data name="cbCaptureAutoHideTaskbar.Size" type="System.Drawing.Size, System.Drawing">
     <value>402, 17</value>
@@ -2044,7 +2071,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;cbCaptureAutoHideTaskbar.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="cbCaptureShadow.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2053,7 +2080,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbCaptureShadow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 56</value>
+    <value>8, 104</value>
   </data>
   <data name="cbCaptureShadow.Size" type="System.Drawing.Size, System.Drawing">
     <value>274, 17</value>
@@ -2074,7 +2101,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;cbCaptureShadow.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="lblScreenshotDelayInfo.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2083,7 +2110,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblScreenshotDelayInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 180</value>
+    <value>72, 52</value>
   </data>
   <data name="lblScreenshotDelayInfo.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 13</value>
@@ -2104,7 +2131,7 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;lblScreenshotDelayInfo.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="cbCaptureClientArea.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2113,7 +2140,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbCaptureClientArea.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 128</value>
+    <value>8, 176</value>
   </data>
   <data name="cbCaptureClientArea.Size" type="System.Drawing.Size, System.Drawing">
     <value>334, 17</value>
@@ -2134,10 +2161,10 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;cbCaptureClientArea.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="nudScreenshotDelay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 176</value>
+    <value>8, 48</value>
   </data>
   <data name="nudScreenshotDelay.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 20</value>
@@ -2158,10 +2185,10 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;nudScreenshotDelay.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="nudCaptureShadowOffset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 96</value>
+    <value>8, 144</value>
   </data>
   <data name="nudCaptureShadowOffset.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 20</value>
@@ -2182,36 +2209,6 @@
     <value>pCapture</value>
   </data>
   <data name="&gt;&gt;nudCaptureShadowOffset.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
-  <data name="cbScreenshotDelay.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbScreenshotDelay.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="cbScreenshotDelay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 152</value>
-  </data>
-  <data name="cbScreenshotDelay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 17</value>
-  </data>
-  <data name="cbScreenshotDelay.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="cbScreenshotDelay.Text" xml:space="preserve">
-    <value>Screenshot delay:</value>
-  </data>
-  <data name="&gt;&gt;cbScreenshotDelay.Name" xml:space="preserve">
-    <value>cbScreenshotDelay</value>
-  </data>
-  <data name="&gt;&gt;cbScreenshotDelay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbScreenshotDelay.Parent" xml:space="preserve">
-    <value>pCapture</value>
-  </data>
-  <data name="&gt;&gt;cbScreenshotDelay.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
   <data name="pCapture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -3363,35 +3360,62 @@
   <data name="&gt;&gt;tpRegionCapture.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="cbScreenRecorderConfirmAbort.AutoSize" type="System.Boolean, mscorlib">
+  <data name="cbScreenRecordTwoPassEncoding.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="cbScreenRecorderConfirmAbort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="cbScreenRecordTwoPassEncoding.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 160</value>
   </data>
-  <data name="cbScreenRecorderConfirmAbort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 183</value>
+  <data name="cbScreenRecordTwoPassEncoding.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 17</value>
   </data>
-  <data name="cbScreenRecorderConfirmAbort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 17</value>
+  <data name="cbScreenRecordTwoPassEncoding.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
   </data>
-  <data name="cbScreenRecorderConfirmAbort.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+  <data name="cbScreenRecordTwoPassEncoding.Text" xml:space="preserve">
+    <value>Record using lossless encoding and then apply user encoding option</value>
   </data>
-  <data name="cbScreenRecorderConfirmAbort.Text" xml:space="preserve">
-    <value>Ask for confirmation when aborting</value>
+  <data name="&gt;&gt;cbScreenRecordTwoPassEncoding.Name" xml:space="preserve">
+    <value>cbScreenRecordTwoPassEncoding</value>
   </data>
-  <data name="&gt;&gt;cbScreenRecorderConfirmAbort.Name" xml:space="preserve">
-    <value>cbScreenRecorderConfirmAbort</value>
-  </data>
-  <data name="&gt;&gt;cbScreenRecorderConfirmAbort.Type" xml:space="preserve">
+  <data name="&gt;&gt;cbScreenRecordTwoPassEncoding.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cbScreenRecorderConfirmAbort.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cbScreenRecordTwoPassEncoding.Parent" xml:space="preserve">
     <value>tpScreenRecorder</value>
   </data>
-  <data name="&gt;&gt;cbScreenRecorderConfirmAbort.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;cbScreenRecordTwoPassEncoding.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="cbScreenRecordConfirmAbort.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbScreenRecordConfirmAbort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbScreenRecordConfirmAbort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 184</value>
+  </data>
+  <data name="cbScreenRecordConfirmAbort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 17</value>
+  </data>
+  <data name="cbScreenRecordConfirmAbort.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="cbScreenRecordConfirmAbort.Text" xml:space="preserve">
+    <value>Ask for confirmation when aborting</value>
+  </data>
+  <data name="&gt;&gt;cbScreenRecordConfirmAbort.Name" xml:space="preserve">
+    <value>cbScreenRecordConfirmAbort</value>
+  </data>
+  <data name="&gt;&gt;cbScreenRecordConfirmAbort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbScreenRecordConfirmAbort.Parent" xml:space="preserve">
+    <value>tpScreenRecorder</value>
+  </data>
+  <data name="&gt;&gt;cbScreenRecordConfirmAbort.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="cbScreenRecorderShowCursor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3421,7 +3445,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;cbScreenRecorderShowCursor.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnScreenRecorderFFmpegOptions.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3448,7 +3472,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;btnScreenRecorderFFmpegOptions.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lblScreenRecorderStartDelay.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3478,7 +3502,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;lblScreenRecorderStartDelay.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="chkScreenRecordAutoStart.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3508,7 +3532,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;chkScreenRecordAutoStart.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="lblScreenRecorderFixedDuration.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3538,7 +3562,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;lblScreenRecorderFixedDuration.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="nudScreenRecordFPS.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 36</value>
@@ -3562,7 +3586,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;nudScreenRecordFPS.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="lblScreenRecordFPS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3592,85 +3616,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;lblScreenRecordFPS.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="chkRunScreencastCLI.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkRunScreencastCLI.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkRunScreencastCLI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 160</value>
-  </data>
-  <data name="chkRunScreencastCLI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 17</value>
-  </data>
-  <data name="chkRunScreencastCLI.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="chkRunScreencastCLI.Text" xml:space="preserve">
-    <value>Run CLI afterwards:</value>
-  </data>
-  <data name="&gt;&gt;chkRunScreencastCLI.Name" xml:space="preserve">
-    <value>chkRunScreencastCLI</value>
-  </data>
-  <data name="&gt;&gt;chkRunScreencastCLI.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkRunScreencastCLI.Parent" xml:space="preserve">
-    <value>tpScreenRecorder</value>
-  </data>
-  <data name="&gt;&gt;chkRunScreencastCLI.ZOrder" xml:space="preserve">
     <value>8</value>
-  </data>
-  <data name="btnEncoderConfig.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnEncoderConfig.Location" type="System.Drawing.Point, System.Drawing">
-    <value>458, 157</value>
-  </data>
-  <data name="btnEncoderConfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 23</value>
-  </data>
-  <data name="btnEncoderConfig.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="btnEncoderConfig.Text" xml:space="preserve">
-    <value>Profiles...</value>
-  </data>
-  <data name="&gt;&gt;btnEncoderConfig.Name" xml:space="preserve">
-    <value>btnEncoderConfig</value>
-  </data>
-  <data name="&gt;&gt;btnEncoderConfig.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnEncoderConfig.Parent" xml:space="preserve">
-    <value>tpScreenRecorder</value>
-  </data>
-  <data name="&gt;&gt;btnEncoderConfig.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="cboEncoder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 158</value>
-  </data>
-  <data name="cboEncoder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 21</value>
-  </data>
-  <data name="cboEncoder.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;cboEncoder.Name" xml:space="preserve">
-    <value>cboEncoder</value>
-  </data>
-  <data name="&gt;&gt;cboEncoder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboEncoder.Parent" xml:space="preserve">
-    <value>tpScreenRecorder</value>
-  </data>
-  <data name="&gt;&gt;cboEncoder.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="nudScreenRecorderDuration.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 134</value>
@@ -3694,7 +3640,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;nudScreenRecorderDuration.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="nudScreenRecorderStartDelay.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 110</value>
@@ -3718,7 +3664,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;nudScreenRecorderStartDelay.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="cbScreenRecorderFixedDuration.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3748,7 +3694,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;cbScreenRecorderFixedDuration.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="nudGIFFPS.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 60</value>
@@ -3772,7 +3718,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;nudGIFFPS.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>12</value>
   </data>
   <data name="lblGIFFPS.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3802,7 +3748,7 @@
     <value>tpScreenRecorder</value>
   </data>
   <data name="&gt;&gt;lblGIFFPS.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>13</value>
   </data>
   <data name="tpScreenRecorder.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -3830,6 +3776,171 @@
   </data>
   <data name="&gt;&gt;tpScreenRecorder.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="cbCaptureOCRAutoCopy.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbCaptureOCRAutoCopy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 106</value>
+  </data>
+  <data name="cbCaptureOCRAutoCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 17</value>
+  </data>
+  <data name="cbCaptureOCRAutoCopy.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="cbCaptureOCRAutoCopy.Text" xml:space="preserve">
+    <value>Automatically copy results to clipboard</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRAutoCopy.Name" xml:space="preserve">
+    <value>cbCaptureOCRAutoCopy</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRAutoCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRAutoCopy.Parent" xml:space="preserve">
+    <value>tpOCR</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRAutoCopy.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cbCaptureOCRProcessOnLoad.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbCaptureOCRProcessOnLoad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbCaptureOCRProcessOnLoad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 83</value>
+  </data>
+  <data name="cbCaptureOCRProcessOnLoad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 17</value>
+  </data>
+  <data name="cbCaptureOCRProcessOnLoad.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="cbCaptureOCRProcessOnLoad.Text" xml:space="preserve">
+    <value>Process OCR on dialog open</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRProcessOnLoad.Name" xml:space="preserve">
+    <value>cbCaptureOCRProcessOnLoad</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRProcessOnLoad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRProcessOnLoad.Parent" xml:space="preserve">
+    <value>tpOCR</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRProcessOnLoad.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cbCaptureOCRSilent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbCaptureOCRSilent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cbCaptureOCRSilent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 60</value>
+  </data>
+  <data name="cbCaptureOCRSilent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 17</value>
+  </data>
+  <data name="cbCaptureOCRSilent.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="cbCaptureOCRSilent.Text" xml:space="preserve">
+    <value>Process OCR silently</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRSilent.Name" xml:space="preserve">
+    <value>cbCaptureOCRSilent</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRSilent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRSilent.Parent" xml:space="preserve">
+    <value>tpOCR</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRSilent.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblOCRDefaultLanguage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOCRDefaultLanguage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOCRDefaultLanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="lblOCRDefaultLanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 13</value>
+  </data>
+  <data name="lblOCRDefaultLanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblOCRDefaultLanguage.Text" xml:space="preserve">
+    <value>Default language:</value>
+  </data>
+  <data name="&gt;&gt;lblOCRDefaultLanguage.Name" xml:space="preserve">
+    <value>lblOCRDefaultLanguage</value>
+  </data>
+  <data name="&gt;&gt;lblOCRDefaultLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOCRDefaultLanguage.Parent" xml:space="preserve">
+    <value>tpOCR</value>
+  </data>
+  <data name="&gt;&gt;lblOCRDefaultLanguage.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="cbCaptureOCRDefaultLanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 24</value>
+  </data>
+  <data name="cbCaptureOCRDefaultLanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 21</value>
+  </data>
+  <data name="cbCaptureOCRDefaultLanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRDefaultLanguage.Name" xml:space="preserve">
+    <value>cbCaptureOCRDefaultLanguage</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRDefaultLanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRDefaultLanguage.Parent" xml:space="preserve">
+    <value>tpOCR</value>
+  </data>
+  <data name="&gt;&gt;cbCaptureOCRDefaultLanguage.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tpOCR.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpOCR.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpOCR.Size" type="System.Drawing.Size, System.Drawing">
+    <value>557, 447</value>
+  </data>
+  <data name="tpOCR.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tpOCR.Text" xml:space="preserve">
+    <value>OCR</value>
+  </data>
+  <data name="&gt;&gt;tpOCR.Name" xml:space="preserve">
+    <value>tpOCR</value>
+  </data>
+  <data name="&gt;&gt;tpOCR.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpOCR.Parent" xml:space="preserve">
+    <value>tcCapture</value>
+  </data>
+  <data name="&gt;&gt;tpOCR.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="tcCapture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3939,6 +4050,81 @@
   <data name="&gt;&gt;tpUploadMain.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="btnAutoIncrementNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>104, 224</value>
+  </data>
+  <data name="btnAutoIncrementNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 23</value>
+  </data>
+  <data name="btnAutoIncrementNumber.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="btnAutoIncrementNumber.Text" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="&gt;&gt;btnAutoIncrementNumber.Name" xml:space="preserve">
+    <value>btnAutoIncrementNumber</value>
+  </data>
+  <data name="&gt;&gt;btnAutoIncrementNumber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAutoIncrementNumber.Parent" xml:space="preserve">
+    <value>tpFileNaming</value>
+  </data>
+  <data name="&gt;&gt;btnAutoIncrementNumber.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblAutoIncrementNumber.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblAutoIncrementNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 208</value>
+  </data>
+  <data name="lblAutoIncrementNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 13</value>
+  </data>
+  <data name="lblAutoIncrementNumber.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="lblAutoIncrementNumber.Text" xml:space="preserve">
+    <value>Auto increment number:</value>
+  </data>
+  <data name="&gt;&gt;lblAutoIncrementNumber.Name" xml:space="preserve">
+    <value>lblAutoIncrementNumber</value>
+  </data>
+  <data name="&gt;&gt;lblAutoIncrementNumber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAutoIncrementNumber.Parent" xml:space="preserve">
+    <value>tpFileNaming</value>
+  </data>
+  <data name="&gt;&gt;lblAutoIncrementNumber.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="nudAutoIncrementNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 225</value>
+  </data>
+  <data name="nudAutoIncrementNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 20</value>
+  </data>
+  <data name="nudAutoIncrementNumber.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="nudAutoIncrementNumber.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;nudAutoIncrementNumber.Name" xml:space="preserve">
+    <value>nudAutoIncrementNumber</value>
+  </data>
+  <data name="&gt;&gt;nudAutoIncrementNumber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudAutoIncrementNumber.Parent" xml:space="preserve">
+    <value>tpFileNaming</value>
+  </data>
+  <data name="&gt;&gt;nudAutoIncrementNumber.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="cbFileUploadReplaceProblematicCharacters.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3964,34 +4150,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;cbFileUploadReplaceProblematicCharacters.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblAutoIncrementNumber.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblAutoIncrementNumber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>304, 211</value>
-  </data>
-  <data name="lblAutoIncrementNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
-  </data>
-  <data name="lblAutoIncrementNumber.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="lblAutoIncrementNumber.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;lblAutoIncrementNumber.Name" xml:space="preserve">
-    <value>lblAutoIncrementNumber</value>
-  </data>
-  <data name="&gt;&gt;lblAutoIncrementNumber.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblAutoIncrementNumber.Parent" xml:space="preserve">
-    <value>tpFileNaming</value>
-  </data>
-  <data name="&gt;&gt;lblAutoIncrementNumber.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="cbRegionCaptureUseWindowPattern.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4018,7 +4177,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;cbRegionCaptureUseWindowPattern.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="cbNameFormatCustomTimeZone.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4027,7 +4186,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbNameFormatCustomTimeZone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 238</value>
+    <value>8, 256</value>
   </data>
   <data name="cbNameFormatCustomTimeZone.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 17</value>
@@ -4048,7 +4207,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;cbNameFormatCustomTimeZone.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="lblNameFormatPatternPreview.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4078,7 +4237,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;lblNameFormatPatternPreview.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="lblNameFormatPatternActiveWindow.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4108,7 +4267,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;lblNameFormatPatternActiveWindow.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="lblNameFormatPatternPreviewActiveWindow.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4138,10 +4297,10 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;lblNameFormatPatternPreviewActiveWindow.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="cbNameFormatTimeZone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 262</value>
+    <value>8, 280</value>
   </data>
   <data name="cbNameFormatTimeZone.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 21</value>
@@ -4159,7 +4318,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;cbNameFormatTimeZone.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="txtNameFormatPatternActiveWindow.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 88</value>
@@ -4180,34 +4339,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;txtNameFormatPatternActiveWindow.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="btnResetAutoIncrementNumber.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnResetAutoIncrementNumber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 206</value>
-  </data>
-  <data name="btnResetAutoIncrementNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>288, 23</value>
-  </data>
-  <data name="btnResetAutoIncrementNumber.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="btnResetAutoIncrementNumber.Text" xml:space="preserve">
-    <value>Reset auto increment number</value>
-  </data>
-  <data name="&gt;&gt;btnResetAutoIncrementNumber.Name" xml:space="preserve">
-    <value>btnResetAutoIncrementNumber</value>
-  </data>
-  <data name="&gt;&gt;btnResetAutoIncrementNumber.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnResetAutoIncrementNumber.Parent" xml:space="preserve">
-    <value>tpFileNaming</value>
-  </data>
-  <data name="&gt;&gt;btnResetAutoIncrementNumber.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="cbFileUploadUseNamePattern.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4237,7 +4369,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;cbFileUploadUseNamePattern.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="lblNameFormatPattern.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -4267,7 +4399,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;lblNameFormatPattern.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="txtNameFormatPattern.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 24</value>
@@ -4288,7 +4420,7 @@
     <value>tpFileNaming</value>
   </data>
   <data name="&gt;&gt;txtNameFormatPattern.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="tpFileNaming.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -4347,34 +4479,34 @@
   <data name="&gt;&gt;cbClipboardUploadShareURL.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="chkClipboardUploadURLContents.AutoSize" type="System.Boolean, mscorlib">
+  <data name="cbClipboardUploadURLContents.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chkClipboardUploadURLContents.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="cbClipboardUploadURLContents.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="chkClipboardUploadURLContents.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="cbClipboardUploadURLContents.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 8</value>
   </data>
-  <data name="chkClipboardUploadURLContents.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="cbClipboardUploadURLContents.Size" type="System.Drawing.Size, System.Drawing">
     <value>308, 17</value>
   </data>
-  <data name="chkClipboardUploadURLContents.TabIndex" type="System.Int32, mscorlib">
+  <data name="cbClipboardUploadURLContents.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="chkClipboardUploadURLContents.Text" xml:space="preserve">
+  <data name="cbClipboardUploadURLContents.Text" xml:space="preserve">
     <value>If clipboard contains a file URL then download it and upload</value>
   </data>
-  <data name="&gt;&gt;chkClipboardUploadURLContents.Name" xml:space="preserve">
-    <value>chkClipboardUploadURLContents</value>
+  <data name="&gt;&gt;cbClipboardUploadURLContents.Name" xml:space="preserve">
+    <value>cbClipboardUploadURLContents</value>
   </data>
-  <data name="&gt;&gt;chkClipboardUploadURLContents.Type" xml:space="preserve">
+  <data name="&gt;&gt;cbClipboardUploadURLContents.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkClipboardUploadURLContents.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cbClipboardUploadURLContents.Parent" xml:space="preserve">
     <value>tpUploadClipboard</value>
   </data>
-  <data name="&gt;&gt;chkClipboardUploadURLContents.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;cbClipboardUploadURLContents.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="cbClipboardUploadAutoIndexFolder.AutoSize" type="System.Boolean, mscorlib">
@@ -4492,7 +4624,7 @@
     <value>lvUploaderFiltersList</value>
   </data>
   <data name="&gt;&gt;lvUploaderFiltersList.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MyListView, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MyListView, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvUploaderFiltersList.Parent" xml:space="preserve">
     <value>tpUploaderFilters</value>
@@ -4773,6 +4905,9 @@
   <data name="&gt;&gt;tpUpload.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="btnActionsDuplicate.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="btnActionsDuplicate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -4867,13 +5002,16 @@
     <value>lvActions</value>
   </data>
   <data name="&gt;&gt;lvActions.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MyListView, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MyListView, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvActions.Parent" xml:space="preserve">
     <value>pActions</value>
   </data>
   <data name="&gt;&gt;lvActions.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="btnActionsEdit.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="btnActionsEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -4901,6 +5039,9 @@
   </data>
   <data name="&gt;&gt;btnActionsEdit.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="btnActionsRemove.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="btnActionsRemove.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -5458,7 +5599,7 @@
     <value>tttvMain</value>
   </data>
   <data name="&gt;&gt;tttvMain.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.TabToTreeView, ShareX.HelpersLib, Version=12.2.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.TabToTreeView, ShareX.HelpersLib, Version=12.4.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tttvMain.Parent" xml:space="preserve">
     <value>$this</value>

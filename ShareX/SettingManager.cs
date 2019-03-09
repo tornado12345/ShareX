@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShareX
@@ -95,7 +96,7 @@ namespace ShareX
             }
         }
 
-        private static string BackupFolder => Path.Combine(Program.PersonalFolder, "Backup");
+        public static string BackupFolder => Path.Combine(Program.PersonalFolder, "Backup");
 
         private static ApplicationConfig Settings { get => Program.Settings; set => Program.Settings = value; }
         private static TaskSettings DefaultTaskSettings { get => Program.DefaultTaskSettings; set => Program.DefaultTaskSettings = value; }
@@ -109,14 +110,10 @@ namespace ShareX
         {
             LoadApplicationConfig();
 
-            ApplicationConfigBackwardCompatibilityTasks();
-
-            TaskEx.Run(() =>
+            Task.Run(() =>
             {
                 LoadUploadersConfig();
                 uploadersConfigResetEvent.Set();
-
-                UploadersConfigBackwardCompatibilityTasks();
 
                 LoadHotkeysConfig();
                 hotkeysConfigResetEvent.Set();
@@ -141,18 +138,20 @@ namespace ShareX
 
         public static void LoadApplicationConfig()
         {
-            Settings = ApplicationConfig.Load(ApplicationConfigFilePath);
+            Settings = ApplicationConfig.Load(ApplicationConfigFilePath, BackupFolder, true, true);
+            ApplicationConfigBackwardCompatibilityTasks();
             DefaultTaskSettings = Settings.DefaultTaskSettings;
         }
 
         public static void LoadUploadersConfig()
         {
-            UploadersConfig = UploadersConfig.Load(UploadersConfigFilePath);
+            UploadersConfig = UploadersConfig.Load(UploadersConfigFilePath, BackupFolder, true, true);
+            UploadersConfigBackwardCompatibilityTasks();
         }
 
         public static void LoadHotkeysConfig()
         {
-            HotkeysConfig = HotkeysConfig.Load(HotkeysConfigFilePath);
+            HotkeysConfig = HotkeysConfig.Load(HotkeysConfigFilePath, BackupFolder, true, true);
         }
 
         public static void LoadAllSettings()
@@ -211,6 +210,14 @@ namespace ShareX
                     }
                 }
             }
+
+            if (UploadersConfig.CustomUploadersList != null)
+            {
+                foreach (CustomUploaderItem cui in UploadersConfig.CustomUploadersList)
+                {
+                    cui.CheckBackwardCompatibility();
+                }
+            }
         }
 
         public static void SaveAllSettings()
@@ -242,20 +249,16 @@ namespace ShareX
             SaveHotkeysConfigAsync();
         }
 
-        public static void BackupSettings()
-        {
-            Helpers.BackupFileWeekly(ApplicationConfigFilePath, BackupFolder);
-            Helpers.BackupFileWeekly(UploadersConfigFilePath, BackupFolder);
-            Helpers.BackupFileWeekly(HotkeysConfigFilePath, BackupFolder);
-            Helpers.BackupFileWeekly(Program.HistoryFilePath, BackupFolder);
-        }
-
         public static void ResetSettings()
         {
-            Settings = new ApplicationConfig();
-            DefaultTaskSettings = Settings.DefaultTaskSettings;
-            UploadersConfig = new UploadersConfig();
-            HotkeysConfig = new HotkeysConfig();
+            if (File.Exists(ApplicationConfigFilePath)) File.Delete(ApplicationConfigFilePath);
+            LoadApplicationConfig();
+
+            if (File.Exists(UploadersConfigFilePath)) File.Delete(UploadersConfigFilePath);
+            LoadUploadersConfig();
+
+            if (File.Exists(HotkeysConfigFilePath)) File.Delete(HotkeysConfigFilePath);
+            LoadHotkeysConfig();
         }
 
         public static bool Export(string archivePath)

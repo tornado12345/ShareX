@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -152,6 +152,7 @@ namespace ShareX.ScreenCaptureLib
         public bool IsCurrentHoverShapeValid => CurrentHoverShape != null && CurrentHoverShape.IsValidShape;
 
         public bool IsCurrentShapeTypeRegion => IsShapeTypeRegion(CurrentTool);
+        public int StartingStepNumber { get; set; } = 1;
 
         public bool IsCreating { get; set; }
         public bool IsMoving { get; set; }
@@ -165,10 +166,7 @@ namespace ShareX.ScreenCaptureLib
         // Is holding Alt?
         public bool IsSnapResizing { get; private set; }
         public bool IsRenderingOutput { get; private set; }
-
-        private bool isAnnotated;
-
-        public bool IsAnnotated => isAnnotated || DrawingShapes.Where(x => x.ShapeType != ShapeType.DrawingCursor).Count() > 0 || EffectShapes.Length > 0;
+        public bool IsModified { get; internal set; }
 
         public InputManager InputManager { get; private set; } = new InputManager();
         public List<SimpleWindowInfo> Windows { get; set; }
@@ -935,6 +933,11 @@ namespace ShareX.ScreenCaptureLib
         {
             Shapes.Add(shape);
             CurrentShape = shape;
+
+            if (shape.ShapeCategory == ShapeCategory.Drawing || shape.ShapeCategory == ShapeCategory.Effect)
+            {
+                IsModified = true;
+            }
         }
 
         private BaseShape CreateShape()
@@ -1111,7 +1114,7 @@ namespace ShareX.ScreenCaptureLib
 
                         return new RectangleRegionShape()
                         {
-                            Rectangle = new Rectangle(new Point(location.X - Options.FixedSize.Width / 2, location.Y - Options.FixedSize.Height / 2), Options.FixedSize)
+                            Rectangle = new Rectangle(new Point(location.X - (Options.FixedSize.Width / 2), location.Y - (Options.FixedSize.Height / 2)), Options.FixedSize)
                         };
                     }
                     else
@@ -1246,6 +1249,12 @@ namespace ShareX.ScreenCaptureLib
                 shape.Dispose();
                 Shapes.Remove(shape);
                 DeselectShape(shape);
+
+                if (shape.ShapeCategory == ShapeCategory.Drawing || shape.ShapeCategory == ShapeCategory.Effect)
+                {
+                    IsModified = true;
+                }
+
                 UpdateMenu();
             }
         }
@@ -1262,13 +1271,17 @@ namespace ShareX.ScreenCaptureLib
 
         private void DeleteAllShapes()
         {
-            foreach (BaseShape shape in Shapes)
+            if (Shapes.Count > 0)
             {
-                shape.Dispose();
-            }
+                foreach (BaseShape shape in Shapes)
+                {
+                    shape.Dispose();
+                }
 
-            Shapes.Clear();
-            DeselectCurrentShape();
+                Shapes.Clear();
+                DeselectCurrentShape();
+                IsModified = true;
+            }
         }
 
         private void ResetModifiers()
@@ -1464,7 +1477,7 @@ namespace ShareX.ScreenCaptureLib
 
         public void OrderStepShapes()
         {
-            int i = 1;
+            int i = StartingStepNumber;
 
             foreach (StepDrawingShape shape in Shapes.OfType<StepDrawingShape>())
             {
@@ -1544,7 +1557,7 @@ namespace ShareX.ScreenCaptureLib
                 effect.OnMoved();
             }
 
-            isAnnotated = true;
+            IsModified = true;
         }
 
         public void CropArea(Rectangle rect)
@@ -1855,6 +1868,18 @@ namespace ShareX.ScreenCaptureLib
             }
 
             Form.Resume();
+        }
+
+        private bool PickColor(Color currentColor, out Color newColor)
+        {
+            Func<PointInfo> openScreenColorPicker = null;
+
+            if (!Form.IsFullscreen)
+            {
+                openScreenColorPicker = () => RegionCaptureTasks.GetPointInfo(Options);
+            }
+
+            return ColorPickerForm.PickColor(currentColor, out newColor, Form, openScreenColorPicker);
         }
 
         private void OnCurrentShapeChanged(BaseShape shape)

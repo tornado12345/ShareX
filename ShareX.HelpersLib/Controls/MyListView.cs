@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -67,10 +67,7 @@ namespace ShareX.HelpersLib
             }
             set
             {
-                foreach (ListViewItem lvi in SelectedItems)
-                {
-                    lvi.Selected = false;
-                }
+                UnselectAll();
 
                 if (value > -1)
                 {
@@ -141,6 +138,24 @@ namespace ShareX.HelpersLib
             if (Items.Count > 0)
             {
                 SelectedIndex = Items.Count - 1;
+            }
+        }
+
+        public void SelectSingle(ListViewItem lvi)
+        {
+            UnselectAll();
+
+            if (lvi != null)
+            {
+                lvi.Selected = true;
+            }
+        }
+
+        public void UnselectAll()
+        {
+            foreach (ListViewItem lvi in SelectedItems)
+            {
+                lvi.Selected = false;
             }
         }
 

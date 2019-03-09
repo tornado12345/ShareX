@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -29,18 +29,13 @@ using ShareX.UploadersLib;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-
-#if WindowsStore
-using Windows.ApplicationModel;
-#endif
 
 namespace ShareX
 {
     public partial class ApplicationSettingsForm : Form
     {
-        private const int MaxBufferSizePower = 14;
-
         private bool ready;
         private string lastPersonalPath;
 
@@ -58,18 +53,6 @@ namespace ShareX
         private void SettingsForm_Resize(object sender, EventArgs e)
         {
             Refresh();
-        }
-
-        private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            string currentPersonalPath = txtPersonalFolderPath.Text;
-
-            if (!currentPersonalPath.Equals(lastPersonalPath, StringComparison.InvariantCultureIgnoreCase))
-            {
-                Program.WritePersonalPathConfig(currentPersonalPath);
-
-                MessageBox.Show("You must reopen ShareX for personal folder changes to take effect.", "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
 
         private void tttvMain_TabChanged(TabPage tabPage)
@@ -127,14 +110,15 @@ namespace ShareX
 
 #if STEAM || WindowsStore
             cbCheckPreReleaseUpdates.Visible = false;
+            btnCheckDevBuild.Visible = false;
 #else
             cbCheckPreReleaseUpdates.Checked = Program.Settings.CheckPreReleaseUpdates;
 #endif
 
             // Integration
 #if WindowsStore
-            gbWindows.Height = 56;
             cbShellContextMenu.Visible = false;
+            cbEditWithShareX.Visible = false;
             cbSendToMenu.Visible = false;
             gbChrome.Visible = false;
             gbFirefox.Visible = false;
@@ -174,13 +158,13 @@ namespace ShareX
             nudUploadLimit.SetValue(Program.Settings.UploadLimit);
 
             cbBufferSize.Items.Clear();
-            for (int i = 0; i < MaxBufferSizePower; i++)
+            int maxBufferSizePower = 14;
+            for (int i = 0; i < maxBufferSizePower; i++)
             {
                 string size = ((long)(Math.Pow(2, i) * 1024)).ToSizeString(Program.Settings.BinaryUnits, 0);
                 cbBufferSize.Items.Add(size);
             }
-
-            cbBufferSize.SelectedIndex = Program.Settings.BufferSizePower.Between(0, MaxBufferSizePower);
+            cbBufferSize.SelectedIndex = Program.Settings.BufferSizePower.Between(0, maxBufferSizePower);
 
             lvClipboardFormats.Items.Clear();
             foreach (ClipboardFormat cf in Program.Settings.ClipboardContentFormats)
@@ -240,7 +224,7 @@ namespace ShareX
 
                 if (LanguageHelper.ChangeLanguage(Program.Settings.Language) &&
                     MessageBox.Show(Resources.ApplicationSettingsForm_cbLanguage_SelectedIndexChanged_Language_Restart,
-                    "ShareX", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    "ShareX - Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Program.Restart();
                 }
@@ -256,12 +240,20 @@ namespace ShareX
 
             try
             {
-                var state = StartupManagerSingletonProvider.CurrentStartupManager.State;
-                cbStartWithWindows.Checked = state == StartupTaskState.Enabled;
+                StartupState state = StartupManagerSingletonProvider.CurrentStartupManager.State;
+                cbStartWithWindows.Checked = state == StartupState.Enabled || state == StartupState.EnabledByPolicy;
 
-                if (state == StartupTaskState.DisabledByUser)
+                if (state == StartupState.DisabledByUser)
                 {
                     cbStartWithWindows.Text = Resources.ApplicationSettingsForm_cbStartWithWindows_DisabledByUser_Text;
+                }
+                else if (state == StartupState.DisabledByPolicy)
+                {
+                    cbStartWithWindows.Text = Resources.ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text;
+                }
+                else if (state == StartupState.EnabledByPolicy)
+                {
+                    cbStartWithWindows.Text = Resources.ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text;
                 }
                 else
                 {
@@ -297,28 +289,36 @@ namespace ShareX
         {
             string personalPath = txtPersonalFolderPath.Text;
 
-            if (string.IsNullOrEmpty(personalPath))
+            try
             {
-                if (Program.PortableApps)
+                if (string.IsNullOrEmpty(personalPath))
                 {
-                    personalPath = Program.PortableAppsPersonalFolder;
-                }
-                else if (Program.Portable)
-                {
-                    personalPath = Program.PortablePersonalFolder;
+                    if (Program.PortableApps)
+                    {
+                        personalPath = Program.PortableAppsPersonalFolder;
+                    }
+                    else if (Program.Portable)
+                    {
+                        personalPath = Program.PortablePersonalFolder;
+                    }
+                    else
+                    {
+                        personalPath = Program.DefaultPersonalFolder;
+                    }
                 }
                 else
                 {
-                    personalPath = Program.DefaultPersonalFolder;
+                    personalPath = Helpers.GetAbsolutePath(personalPath);
                 }
-            }
-            else
-            {
-                personalPath = Helpers.ExpandFolderVariables(personalPath);
-                personalPath = Helpers.GetAbsolutePath(personalPath);
-            }
 
-            lblPreviewPersonalFolderPath.Text = personalPath;
+                lblPreviewPersonalFolderPath.Text = personalPath;
+                btnPersonalFolderPathApply.Enabled = !personalPath.Equals(lastPersonalPath, StringComparison.OrdinalIgnoreCase);
+            }
+            catch (Exception e)
+            {
+                btnPersonalFolderPathApply.Enabled = false;
+                lblPreviewPersonalFolderPath.Text = "Error: " + e.Message;
+            }
         }
 
         #region General
@@ -390,13 +390,12 @@ namespace ShareX
             Program.Settings.CheckPreReleaseUpdates = cbCheckPreReleaseUpdates.Checked;
         }
 
-        private void cbCheckPreReleaseUpdates_MouseUp(object sender, MouseEventArgs e)
+        private void btnCheckDevBuild_Click(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
+            if (MessageBox.Show(Resources.ApplicationSettingsForm_btnCheckDevBuild_Click_DevBuilds_Warning, "ShareX",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                Cursor = Cursors.WaitCursor;
                 TaskHelpers.DownloadAppVeyorBuild();
-                Cursor = Cursors.Default;
             }
         }
 
@@ -410,7 +409,7 @@ namespace ShareX
             {
                 try
                 {
-                    StartupManagerSingletonProvider.CurrentStartupManager.State = cbStartWithWindows.Checked ? StartupTaskState.Enabled : StartupTaskState.Disabled;
+                    StartupManagerSingletonProvider.CurrentStartupManager.State = cbStartWithWindows.Checked ? StartupState.Enabled : StartupState.Disabled;
                     UpdateStartWithWindows();
                 }
                 catch (Exception ex)
@@ -491,7 +490,26 @@ namespace ShareX
 
         private void btnBrowsePersonalFolderPath_Click(object sender, EventArgs e)
         {
-            Helpers.BrowseFolder(Resources.ApplicationSettingsForm_btnBrowsePersonalFolderPath_Click_Choose_ShareX_personal_folder_path, txtPersonalFolderPath, Program.PersonalFolder, true);
+            Helpers.BrowseFolder(Resources.ApplicationSettingsForm_btnBrowsePersonalFolderPath_Click_Choose_ShareX_personal_folder_path,
+                txtPersonalFolderPath, Program.PersonalFolder, true);
+        }
+
+        private void btnPersonalFolderPathApply_Click(object sender, EventArgs e)
+        {
+            string currentPersonalPath = txtPersonalFolderPath.Text;
+
+            if (!currentPersonalPath.Equals(lastPersonalPath, StringComparison.OrdinalIgnoreCase) && Program.WritePersonalPathConfig(currentPersonalPath))
+            {
+                lastPersonalPath = currentPersonalPath;
+                btnPersonalFolderPathApply.Enabled = false;
+
+                // TODO: Translate
+                if (MessageBox.Show("ShareX needs to be restarted for the personal folder changes to apply.\r\n\r\nWould you like to restart ShareX?", "ShareX - Confirmation",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Program.Restart();
+                }
+            }
         }
 
         private void btnOpenPersonalFolder_Click(object sender, EventArgs e)
@@ -531,7 +549,7 @@ namespace ShareX
 
         #region Export / Import
 
-        private void btnExport_Click(object sender, EventArgs e)
+        private async void btnExport_Click(object sender, EventArgs e)
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
@@ -550,27 +568,25 @@ namespace ShareX
 
                     DebugHelper.WriteLine($"Export started: {exportPath}");
 
-                    TaskEx.Run(() =>
+                    await Task.Run(() =>
                     {
                         SettingManager.SaveAllSettings();
                         SettingManager.Export(exportPath);
-                    },
-                    () =>
-                    {
-                        if (!IsDisposed)
-                        {
-                            pbExportImport.Visible = false;
-                            btnExport.Enabled = true;
-                            btnImport.Enabled = true;
-                        }
-
-                        DebugHelper.WriteLine($"Export completed: {exportPath}");
                     });
+
+                    if (!IsDisposed)
+                    {
+                        pbExportImport.Visible = false;
+                        btnExport.Enabled = true;
+                        btnImport.Enabled = true;
+                    }
+
+                    DebugHelper.WriteLine($"Export completed: {exportPath}");
                 }
             }
         }
 
-        private void btnImport_Click(object sender, EventArgs e)
+        private async void btnImport_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
@@ -587,35 +603,33 @@ namespace ShareX
 
                     DebugHelper.WriteLine($"Import started: {importPath}");
 
-                    TaskEx.Run(() =>
+                    await Task.Run(() =>
                     {
                         SettingManager.Import(importPath);
                         SettingManager.LoadAllSettings();
-                    },
-                    () =>
-                    {
-                        if (!IsDisposed)
-                        {
-                            UpdateControls();
-
-                            pbExportImport.Visible = false;
-                            btnExport.Enabled = true;
-                            btnImport.Enabled = true;
-                        }
-
-                        LanguageHelper.ChangeLanguage(Program.Settings.Language);
-
-                        Program.MainForm.UpdateControls();
-
-                        DebugHelper.WriteLine($"Import completed: {importPath}");
                     });
+
+                    if (!IsDisposed)
+                    {
+                        UpdateControls();
+
+                        pbExportImport.Visible = false;
+                        btnExport.Enabled = true;
+                        btnImport.Enabled = true;
+                    }
+
+                    LanguageHelper.ChangeLanguage(Program.Settings.Language);
+
+                    Program.MainForm.UpdateControls();
+
+                    DebugHelper.WriteLine($"Import completed: {importPath}");
                 }
             }
         }
 
         private void btnResetSettings_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Would you like to reset ShareX settings?", "ShareX", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            if (MessageBox.Show(Resources.ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings, "ShareX", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
                 SettingManager.ResetSettings();
                 SettingManager.SaveAllSettings();

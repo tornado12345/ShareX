@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -259,12 +259,6 @@ namespace ShareX.HelpersLib
             return windowRect;
         }
 
-        public static void ActivateWindow(IntPtr handle)
-        {
-            SetForegroundWindow(handle);
-            SetActiveWindow(handle);
-        }
-
         public static void ActivateWindowRepeat(IntPtr handle, int count)
         {
             for (int i = 0; GetForegroundWindow() != handle && i < count; i++)
@@ -349,14 +343,6 @@ namespace ShareX.HelpersLib
             SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, (IntPtr)(-1), (IntPtr)(-1));
         }
 
-        public static bool IsWindowMaximized(IntPtr handle)
-        {
-            WINDOWPLACEMENT wp = new WINDOWPLACEMENT();
-            wp.length = Marshal.SizeOf(wp);
-            GetWindowPlacement(handle, ref wp);
-            return wp.showCmd == WindowShowStyle.Maximize;
-        }
-
         public static bool IsWindowCloaked(IntPtr handle)
         {
             if (IsDWMEnabled())
@@ -373,18 +359,20 @@ namespace ShareX.HelpersLib
         {
             WINDOWPLACEMENT wp = new WINDOWPLACEMENT();
             wp.length = Marshal.SizeOf(wp);
-            GetWindowPlacement(handle, ref wp);
 
-            if (wp.flags == (int)WindowPlacementFlags.WPF_RESTORETOMAXIMIZED)
+            if (GetWindowPlacement(handle, ref wp))
             {
-                wp.showCmd = WindowShowStyle.ShowMaximized;
-            }
-            else
-            {
-                wp.showCmd = WindowShowStyle.Restore;
-            }
+                if (wp.flags == (int)WindowPlacementFlags.WPF_RESTORETOMAXIMIZED)
+                {
+                    wp.showCmd = WindowShowStyle.ShowMaximized;
+                }
+                else
+                {
+                    wp.showCmd = WindowShowStyle.Restore;
+                }
 
-            SetWindowPlacement(handle, ref wp);
+                SetWindowPlacement(handle, ref wp);
+            }
         }
 
         /// <summary>

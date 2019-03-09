@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -25,6 +25,7 @@
 
 using ShareX.HelpersLib.Properties;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ShareX.HelpersLib
@@ -41,7 +42,6 @@ namespace ShareX.HelpersLib
             AddDNS("OpenDNS", "208.67.222.222", "208.67.220.220"); // https://www.opendns.com
             AddDNS("Cloudflare", "1.1.1.1", "1.0.0.1"); // https://1.1.1.1
             AddDNS("Level 3 Communications", "4.2.2.1", "4.2.2.2"); // http://www.level3.com
-            AddDNS("Norton ConnectSafe", "199.85.126.10", "199.85.127.10"); // https://dns.norton.com
             AddDNS("Comodo Secure DNS", "8.26.56.26", "8.20.247.20"); // https://www.comodo.com/secure-dns/
             AddDNS("DNS Advantage", "156.154.70.1", "156.154.71.1"); // https://www.security.neustar/dns-services/free-recursive-dns-service
             AddDNS("Yandex DNS", "77.88.8.2", "77.88.8.88"); // https://dns.yandex.com
@@ -136,21 +136,19 @@ namespace ShareX.HelpersLib
             txtAlternateDNS.Enabled = !cbAutomatic.Checked && cbDNSType.SelectedIndex == 0;
         }
 
-        private void SendPing(string ip)
+        private async Task SendPing(string ip)
         {
             if (!string.IsNullOrEmpty(ip))
             {
                 btnPingPrimary.Enabled = btnPingSecondary.Enabled = false;
 
-                TaskEx.Run(() =>
+                await Task.Run(() =>
                 {
                     PingResult pingResult = PingHelper.PingHost(ip);
                     MessageBox.Show(pingResult.ToString(), "ShareX", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                },
-                () =>
-                {
-                    btnPingPrimary.Enabled = btnPingSecondary.Enabled = true;
                 });
+
+                btnPingPrimary.Enabled = btnPingSecondary.Enabled = true;
             }
         }
 
@@ -209,14 +207,14 @@ namespace ShareX.HelpersLib
             Close();
         }
 
-        private void btnPingPrimary_Click(object sender, EventArgs e)
+        private async void btnPingPrimary_Click(object sender, EventArgs e)
         {
-            SendPing(txtPreferredDNS.Text);
+            await SendPing(txtPreferredDNS.Text);
         }
 
-        private void btnPingSecondary_Click(object sender, EventArgs e)
+        private async void btnPingSecondary_Click(object sender, EventArgs e)
         {
-            SendPing(txtAlternateDNS.Text);
+            await SendPing(txtAlternateDNS.Text);
         }
     }
 }

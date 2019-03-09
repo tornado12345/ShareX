@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@ using ShareX.HelpersLib;
 using ShareX.UploadersLib.FileUploaders;
 using ShareX.UploadersLib.ImageUploaders;
 using ShareX.UploadersLib.TextUploaders;
+using ShareX.UploadersLib.URLShorteners;
 using System.Collections.Generic;
 
 namespace ShareX.UploadersLib
@@ -80,8 +81,9 @@ namespace ShareX.UploadersLib
 
         #region Google Photos
 
-        public OAuth2Info PicasaOAuth2Info = null;
-        public string PicasaAlbumID = "";
+        public OAuth2Info GooglePhotosOAuth2Info = null;
+        public string GooglePhotosAlbumID = "";
+        public bool GooglePhotosIsPublic = false;
 
         #endregion Google Photos
 
@@ -293,10 +295,12 @@ namespace ShareX.UploadersLib
         public string OwnCloudUsername = "";
         public string OwnCloudPassword = "";
         public string OwnCloudPath = "/";
+        public int OwnCloudExpiryTime = 7;
         public bool OwnCloudCreateShare = true;
         public bool OwnCloudDirectLink = false;
         public bool OwnCloud81Compatibility = true;
         public bool OwnCloudUsePreviewLinks = false;
+        public bool OwnCloudAutoExpire = false;
 
         #endregion ownCloud / Nextcloud
 
@@ -326,6 +330,21 @@ namespace ShareX.UploadersLib
         public LithiioSettings LithiioSettings = new LithiioSettings();
 
         #endregion Lithiio
+
+        #region Teknik
+
+        public OAuth2Info TeknikOAuth2Info = null;
+
+        public string TeknikUploadAPIUrl = Teknik.DefaultUploadAPIURL;
+        public string TeknikPasteAPIUrl = Teknik.DefaultPasteAPIURL;
+        public string TeknikUrlShortenerAPIUrl = Teknik.DefaultUrlShortenerAPIURL;
+        public string TeknikAuthUrl = Teknik.DefaultAuthURL;
+        public int TeknikExpirationLength = 1;
+        public TeknikExpirationUnit TeknikExpirationUnit = TeknikExpirationUnit.Never;
+        public bool TeknikEncryption = false;
+        public bool TeknikGenerateDeletionKey = false;
+
+        #endregion
 
         #region Pomf
 
@@ -372,8 +391,20 @@ namespace ShareX.UploadersLib
         public string AzureStorageContainer = "";
         public string AzureStorageEnvironment = "blob.core.windows.net";
         public string AzureStorageCustomDomain = "";
+        public string AzureStorageUploadPath = "";
 
         #endregion Azure Storage
+
+        #region Backblaze B2
+
+        public string B2ApplicationKeyId = "";
+        public string B2ApplicationKey = "";
+        public string B2BucketName = "";
+        public string B2UploadPath = "ShareX/%y/%mo/";
+        public bool B2UseCustomUrl = false;
+        public string B2CustomUrl = "https://example.com/";
+
+        #endregion Backblaze B2
 
         #region Plik
 
@@ -395,6 +426,9 @@ namespace ShareX.UploadersLib
         public string GoogleCloudStorageBucket = "";
         public string GoogleCloudStorageDomain = "";
         public string GoogleCloudStorageObjectPrefix = "ShareX/%y/%mo";
+        public bool GoogleCloudStorageRemoveExtensionImage = false;
+        public bool GoogleCloudStorageRemoveExtensionVideo = false;
+        public bool GoogleCloudStorageRemoveExtensionText = false;
 
         #endregion Google Cloud Storage
 
@@ -425,12 +459,6 @@ namespace ShareX.UploadersLib
 
         #endregion adf.ly
 
-        #region coinurl.com
-
-        public string CoinURLUUID = "";
-
-        #endregion coinurl.com
-
         #region polr
 
         public string PolrAPIHostname = "";
@@ -447,6 +475,12 @@ namespace ShareX.UploadersLib
         public bool FirebaseIsShort = false;
 
         #endregion Firebase Dynamic Links
+
+        #region Kutt
+
+        public KuttSettings KuttSettings = new KuttSettings();
+
+        #endregion Kutt
 
         #endregion URL shorteners
 

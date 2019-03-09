@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -62,12 +62,12 @@ namespace ShareX.UploadersLib
         Paste2,
         [Description("Slexy")]
         Slexy,
-        [Description("Pastee.org")]
-        Pastee,
         [Description("Paste.ee")]
         Paste_ee,
         [Description("GitHub Gist")]
         Gist,
+        [Description("Teknik")]
+        Teknik,
         [Description("uPaste")]
         Upaste,
         [Description("Hastebin")]
@@ -103,6 +103,8 @@ namespace ShareX.UploadersLib
         GoogleCloudStorage,
         [Description("Azure Storage")]
         AzureStorage,
+        [Description("Backblaze B2")]
+        BackblazeB2,
         [Description("Gfycat")]
         Gfycat,
         [Description("ownCloud / Nextcloud")]
@@ -123,12 +125,12 @@ namespace ShareX.UploadersLib
         Lambda,
         [Description("VideoBin")]
         VideoBin,
+        [Description("Teknik")]
+        Teknik,
         [Description("Pomf")]
         Pomf,
         [Description("Uguu")]
         Uguu,
-        [Description("Dropfile")]
-        Dropfile,
         [Description("Seafile")]
         Seafile,
         [Description("Streamable")]
@@ -165,10 +167,10 @@ namespace ShareX.UploadersLib
         YOURLS,
         [Description("adf.ly")]
         AdFly,
-        [Description("coinurl.com")]
-        CoinURL,
         [Description("qr.net")]
         QRnet,
+        [Description("tknk.io")]
+        Teknik,
         [Description("vurl.com")]
         VURL,
         [Description("2.gp")]
@@ -177,6 +179,8 @@ namespace ShareX.UploadersLib
         Polr,
         [Description("Firebase Dynamic Links")]
         FirebaseDynamicLinks,
+        [Description("Kutt")]
+        Kutt,
         CustomURLShortener // Localized
     }
 
@@ -291,21 +295,20 @@ namespace ShareX.UploadersLib
         LocalFilePathUri
     }
 
-    public enum CustomUploaderRequestType
+    public enum CustomUploaderBody
     {
-        POST,
-        GET,
-        PUT,
-        PATCH,
-        DELETE
-    }
-
-    public enum CustomUploaderResponseParseType
-    {
-        Regex,
-        Json,
-        Xml,
-        Random
+        [Description("No body")]
+        None,
+        [Description("Form data (multipart/form-data)")]
+        MultipartFormData,
+        [Description("Form URL encoded (application/x-www-form-urlencoded)")]
+        FormURLEncoded,
+        [Description("JSON (application/json)")]
+        JSON,
+        [Description("XML (application/xml)")]
+        XML,
+        [Description("Binary")]
+        Binary
     }
 
     [Flags]

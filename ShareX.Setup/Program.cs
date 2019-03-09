@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -89,13 +89,12 @@ namespace ShareX.Setup
         private static string SteamLauncherDir => Path.Combine(ParentDir, @"ShareX.Steam\bin\Release");
         private static string SteamUpdatesDir => Path.Combine(SteamOutputDir, "Updates");
         private static string NativeMessagingHostDir => Path.Combine(ParentDir, @"ShareX.NativeMessagingHost\bin\Release");
-        private static string DesktopBridgeHelperDir => Path.Combine(ParentDir, @"ShareX.DesktopBridgeHelper\bin\Release");
         private static string RecorderDevicesSetupPath => Path.Combine(OutputDir, "Recorder-devices-setup.exe");
         private static string WindowsStoreAppxPath => Path.Combine(OutputDir, "ShareX.appx");
 
         public static string InnoSetupCompilerPath = @"C:\Program Files (x86)\Inno Setup 5\ISCC.exe";
-        public static string FFmpeg32bit => Path.Combine(ParentDir, "Lib", "ffmpeg.exe");
-        public static string FFmpeg64bit => Path.Combine(ParentDir, "Lib", "ffmpeg-x64.exe");
+        public static string FFmpeg32bit => Path.Combine(OutputDir, "ffmpeg.exe");
+        public static string FFmpeg64bit => Path.Combine(OutputDir, "ffmpeg-x64.exe");
         public static string MakeAppxPath = @"C:\Program Files (x86)\Windows Kits\10\bin\x64\makeappx.exe";
 
         private static void Main(string[] args)
@@ -174,20 +173,22 @@ namespace ShareX.Setup
 
             if (Job.HasFlag(SetupJobs.CompileAppx))
             {
-                Process p = new Process
+                using (Process process = new Process())
                 {
-                    StartInfo = new ProcessStartInfo
+                    ProcessStartInfo psi = new ProcessStartInfo()
                     {
                         FileName = MakeAppxPath,
                         Arguments = $"pack /d \"{WindowsStoreOutputDir}\" /p \"{WindowsStoreAppxPath}\" /l /o",
                         UseShellExecute = false,
                         RedirectStandardOutput = true
-                    }
-                };
-                p.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
-                p.Start();
-                p.BeginOutputReadLine();
-                p.WaitForExit();
+                    };
+
+                    process.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
+                    process.StartInfo = psi;
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.WaitForExit();
+                }
 
                 Directory.Delete(WindowsStoreOutputDir, true);
             }
@@ -227,11 +228,20 @@ namespace ShareX.Setup
             {
                 Console.WriteLine("Compiling setup file: " + filename);
 
-                ProcessStartInfo startInfo = new ProcessStartInfo(InnoSetupCompilerPath, $"\"{filename}\"");
-                startInfo.UseShellExecute = false;
-                startInfo.WorkingDirectory = Path.GetFullPath(InnoSetupDir);
-                Process process = Process.Start(startInfo);
-                process.WaitForExit();
+                using (Process process = new Process())
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo()
+                    {
+                        FileName = InnoSetupCompilerPath,
+                        WorkingDirectory = Path.GetFullPath(InnoSetupDir),
+                        Arguments = $"\"{filename}\"",
+                        UseShellExecute = false
+                    };
+
+                    process.StartInfo = psi;
+                    process.Start();
+                    process.WaitForExit();
+                }
 
                 Console.WriteLine("Setup file is created.");
             }
@@ -294,7 +304,7 @@ namespace ShareX.Setup
                 SetupHelpers.CopyFile(Path.Combine(NativeMessagingHostDir, "ShareX_NativeMessagingHost.exe"), destination);
             }
 
-            string[] languages = new string[] { "de", "es", "fr", "hu", "id-ID", "it-IT", "ko-KR", "nl-NL", "pt-BR", "ru", "tr", "uk", "vi-VN", "zh-CN", "zh-TW" };
+            string[] languages = new string[] { "de", "es", "es-MX", "fr", "hu", "id-ID", "it-IT", "ko-KR", "nl-NL", "pt-BR", "ru", "tr", "uk", "vi-VN", "zh-CN", "zh-TW" };
 
             foreach (string language in languages)
             {
@@ -309,7 +319,6 @@ namespace ShareX.Setup
             }
             else if (job == SetupJobs.CreateWindowsStoreFolder || job == SetupJobs.CreateWindowsStoreDebugFolder)
             {
-                SetupHelpers.CopyFile(Path.Combine(DesktopBridgeHelperDir, "ShareX_DesktopBridgeHelper.exe"), destination);
                 Helpers.CopyAll(WindowsStorePackageFilesDir, destination);
             }
             else if (job == SetupJobs.CreatePortable)

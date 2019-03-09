@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -103,7 +103,7 @@ namespace ShareX
                 ClearQRCode();
 
                 int size = Math.Min(pbQRCode.Width, pbQRCode.Height);
-                pbQRCode.Image = TaskHelpers.QRCodeEncode(text, size);
+                pbQRCode.Image = TaskHelpers.CreateQRCode(text, size);
             }
         }
 
@@ -111,11 +111,11 @@ namespace ShareX
         {
             string output = "";
 
-            string[] results = TaskHelpers.QRCodeDecode(bmp);
+            string[] results = TaskHelpers.BarcodeScan(bmp);
 
             if (results != null)
             {
-                output = string.Join(Environment.NewLine + Environment.NewLine, results.Where(x => !string.IsNullOrEmpty(x)));
+                output = string.Join(Environment.NewLine + Environment.NewLine, results);
             }
 
             txtDecodeResult.Text = output;
@@ -157,15 +157,15 @@ namespace ShareX
         {
             if (!string.IsNullOrEmpty(txtQRCode.Text))
             {
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                using (SaveFileDialog sfd = new SaveFileDialog())
                 {
-                    saveFileDialog.Filter = @"PNG (*.png)|*.png|JPEG (*.jpg)|*.jpg|Bitmap (*.bmp)|*.bmp|SVG (*.svg)|*.svg";
-                    saveFileDialog.FileName = txtQRCode.Text;
-                    saveFileDialog.DefaultExt = "png";
+                    sfd.Filter = @"PNG (*.png)|*.png|JPEG (*.jpg)|*.jpg|Bitmap (*.bmp)|*.bmp|SVG (*.svg)|*.svg";
+                    sfd.FileName = txtQRCode.Text;
+                    sfd.DefaultExt = "png";
 
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        string filePath = saveFileDialog.FileName;
+                        string filePath = sfd.FileName;
 
                         if (filePath.EndsWith("svg", StringComparison.InvariantCultureIgnoreCase))
                         {

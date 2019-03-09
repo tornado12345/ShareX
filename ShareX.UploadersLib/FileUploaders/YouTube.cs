@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,7 +24,6 @@
 #endregion License Information (GPL v3)
 
 using Newtonsoft.Json;
-using ShareX.HelpersLib;
 using ShareX.UploadersLib.Properties;
 using System.Drawing;
 using System.IO;
@@ -112,16 +111,10 @@ namespace ShareX.UploadersLib.FileUploaders
         {
             if (!CheckAuthorization()) return null;
 
-            if (!Helpers.IsVideoFile(fileName))
-            {
-                Errors.Add("YouTube only supports video files.");
-                return null;
-            }
-
             string metadata = GetMetadata(fileName);
 
-            UploadResult result = SendRequestFile("https://www.googleapis.com/upload/youtube/v3/videos?part=id,snippet,status", stream, fileName,
-                headers: googleAuth.GetAuthHeaders(), metadata: metadata);
+            UploadResult result = SendRequestFile("https://www.googleapis.com/upload/youtube/v3/videos?part=id,snippet,status", stream, fileName, "file",
+                headers: googleAuth.GetAuthHeaders(), relatedData: metadata);
 
             if (!string.IsNullOrEmpty(result.Response))
             {

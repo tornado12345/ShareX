@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -48,27 +48,28 @@ namespace ShareX.HelpersLib
 
             IsScreenColorPickerMode = isScreenColorPickerMode;
 
+            PrepareColorPalette();
             SetCurrentColor(currentColor, !IsScreenColorPickerMode);
 
-            btnOK.Visible = btnCancel.Visible = pColorPicker.Visible = !IsScreenColorPickerMode;
-            mbCopy.Visible = btnClose.Visible = pSceenColorPicker.Visible = IsScreenColorPickerMode;
-
-            if (!IsScreenColorPickerMode)
-            {
-                PrepareRecentColors();
-            }
+            btnOK.Visible = btnCancel.Visible = !IsScreenColorPickerMode;
+            mbCopy.Visible = btnClose.Visible = pCursorPosition.Visible = IsScreenColorPickerMode;
         }
 
         public void EnableScreenColorPickerButton(Func<PointInfo> openScreenColorPicker)
         {
             OpenScreenColorPicker = openScreenColorPicker;
-            btnPickColor.Visible = true;
+            btnScreenColorPicker.Visible = true;
         }
 
-        public static bool PickColor(Color currentColor, out Color newColor, Form owner = null)
+        public static bool PickColor(Color currentColor, out Color newColor, Form owner = null, Func<PointInfo> openScreenColorPicker = null)
         {
             using (ColorPickerForm dialog = new ColorPickerForm(currentColor))
             {
+                if (openScreenColorPicker != null)
+                {
+                    dialog.EnableScreenColorPickerButton(openScreenColorPicker);
+                }
+
                 if (dialog.ShowDialog(owner) == DialogResult.OK)
                 {
                     newColor = dialog.NewColor;
@@ -80,15 +81,30 @@ namespace ShareX.HelpersLib
             return false;
         }
 
-        private void PrepareRecentColors()
+        private void PrepareColorPalette()
         {
-            int length = Math.Min(HelpersOptions.RecentColors.Count, HelpersOptions.RecentColorsMax);
+            flpColorPalette.Controls.Clear();
+
+            Color[] colors;
+
+            if (rbRecentColors.Checked)
+            {
+                colors = HelpersOptions.RecentColors.ToArray();
+            }
+            else
+            {
+                colors = ColorHelpers.StandardColors;
+            }
+
+            int length = Math.Min(colors.Length, HelpersOptions.RecentColorsMax);
+
+            Color previousColor = Color.Empty;
 
             for (int i = 0; i < length; i++)
             {
                 ColorButton colorButton = new ColorButton()
                 {
-                    Color = HelpersOptions.RecentColors[i],
+                    Color = colors[i],
                     Size = new Size(16, 16),
                     Margin = new Padding(1),
                     BorderColor = Color.FromArgb(100, 100, 100),
@@ -97,10 +113,28 @@ namespace ShareX.HelpersLib
                     ManualButtonClick = true
                 };
 
-                colorButton.Click += (sender, e) => SetCurrentColor(colorButton.Color, true);
+                colorButton.MouseClick += (sender, e) =>
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        SetCurrentColor(colorButton.Color, true);
 
-                flpRecentColors.Controls.Add(colorButton);
-                if ((i + 1) % 16 == 0) flpRecentColors.SetFlowBreak(colorButton, true);
+                        if (!IsScreenColorPickerMode)
+                        {
+                            if (!previousColor.IsEmpty && previousColor == colorButton.Color)
+                            {
+                                CloseOK();
+                            }
+                            else
+                            {
+                                previousColor = colorButton.Color;
+                            }
+                        }
+                    }
+                };
+
+                flpColorPalette.Controls.Add(colorButton);
+                if ((i + 1) % 16 == 0) flpColorPalette.SetFlowBreak(colorButton, true);
             }
         }
 
@@ -209,6 +243,13 @@ namespace ShareX.HelpersLib
             }
         }
 
+        private void CloseOK()
+        {
+            AddRecentColor(NewColor);
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
         #region Events
 
         private void ColorPickerForm_Shown(object sender, EventArgs e)
@@ -222,11 +263,14 @@ namespace ShareX.HelpersLib
             UpdateControls(NewColor, e.ColorType);
         }
 
+        private void rbRecentColors_CheckedChanged(object sender, EventArgs e)
+        {
+            PrepareColorPalette();
+        }
+
         private void btnOK_Click(object sender, EventArgs e)
         {
-            AddRecentColor(NewColor);
-            DialogResult = DialogResult.OK;
-            Close();
+            CloseOK();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -385,7 +429,7 @@ namespace ShareX.HelpersLib
             ClipboardHelpers.CopyText($"{txtX.Text}, {txtY.Text}");
         }
 
-        private void btnPickColor_Click(object sender, EventArgs e)
+        private void btnScreenColorPicker_Click(object sender, EventArgs e)
         {
             try
             {

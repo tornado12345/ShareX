@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -32,6 +32,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 namespace ShareX.UploadersLib.FileUploaders
@@ -87,10 +88,12 @@ namespace ShareX.UploadersLib.FileUploaders
             new AmazonS3Endpoint("US East (Ohio)", "s3.us-east-2.amazonaws.com", "us-east-2"),
             new AmazonS3Endpoint("US West (N. California)", "s3.us-west-1.amazonaws.com", "us-west-1"),
             new AmazonS3Endpoint("US West (Oregon)", "s3.us-west-2.amazonaws.com", "us-west-2"),
-            new AmazonS3Endpoint("DreamObjects", "objects-us-west-1.dream.io"),
+            new AmazonS3Endpoint("DreamObjects", "objects-us-east-1.dream.io"),
             new AmazonS3Endpoint("DigitalOcean (Amsterdam)", "ams3.digitaloceanspaces.com", "ams3"),
             new AmazonS3Endpoint("DigitalOcean (New York)", "nyc3.digitaloceanspaces.com", "nyc3"),
-            new AmazonS3Endpoint("DigitalOcean (Singapore)", "sgp1.digitaloceanspaces.com", "sgp1")
+            new AmazonS3Endpoint("DigitalOcean (San Francisco)", "sfo2.digitaloceanspaces.com", "sfo2"),
+            new AmazonS3Endpoint("DigitalOcean (Singapore)", "sgp1.digitaloceanspaces.com", "sgp1"),
+            new AmazonS3Endpoint("Wasabi", "s3.wasabisys.com")
         };
 
         private AmazonS3Settings Settings { get; set; }
@@ -117,16 +120,22 @@ namespace ShareX.UploadersLib.FileUploaders
             string scope = URLHelpers.CombineURL(credentialDate, region, "s3", "aws4_request");
             string credential = URLHelpers.CombineURL(Settings.AccessKeyID, scope);
             string timeStamp = DateTime.UtcNow.ToString("yyyyMMddTHHmmssZ", CultureInfo.InvariantCulture);
-            string contentType = Helpers.GetMimeType(fileName);
-            string hashedPayload = "UNSIGNED-PAYLOAD";
+            string contentType = UploadHelpers.GetMimeType(fileName);
+            string hashedPayload;
 
-            if ((Settings.RemoveExtensionImage && Helpers.IsImageFile(fileName)) ||
-                (Settings.RemoveExtensionText && Helpers.IsTextFile(fileName)) ||
-                (Settings.RemoveExtensionVideo && Helpers.IsVideoFile(fileName)))
+            if (Settings.SignedPayload)
             {
-                fileName = Path.GetFileNameWithoutExtension(fileName);
+                hashedPayload = Helpers.BytesToHex(Helpers.ComputeSHA256(stream));
             }
+            else
+            {
+                hashedPayload = "UNSIGNED-PAYLOAD";
+            }
+
             string uploadPath = GetUploadPath(fileName);
+            string resultURL = GenerateURL(uploadPath);
+
+            OnEarlyURLCopyRequested(resultURL);
 
             NameValueCollection headers = new NameValueCollection
             {
@@ -137,12 +146,16 @@ namespace ShareX.UploadersLib.FileUploaders
                 ["x-amz-content-sha256"] = hashedPayload,
                 ["x-amz-storage-class"] = Settings.StorageClass.ToString()
             };
-            if (Settings.SetPublicACL) headers["x-amz-acl"] = "public-read";
+
+            if (Settings.SetPublicACL)
+            {
+                headers["x-amz-acl"] = "public-read";
+            }
 
             string canonicalURI = uploadPath;
             if (isPathStyleRequest) canonicalURI = URLHelpers.CombineURL(Settings.Bucket, canonicalURI);
             canonicalURI = URLHelpers.AddSlash(canonicalURI, SlashType.Prefix);
-            canonicalURI = URLHelpers.URLPathEncode(canonicalURI);
+            canonicalURI = URLHelpers.URLEncode(canonicalURI, true);
             string canonicalQueryString = "";
             string canonicalHeaders = CreateCanonicalHeaders(headers);
             string signedHeaders = GetSignedHeaders(headers);
@@ -177,19 +190,19 @@ namespace ShareX.UploadersLib.FileUploaders
             string url = URLHelpers.CombineURL(host, canonicalURI);
             url = URLHelpers.ForcePrefix(url, "https://");
 
-            NameValueCollection responseHeaders = SendRequestGetHeaders(HttpMethod.PUT, url, stream, contentType, null, headers);
+            SendRequest(HttpMethod.PUT, url, stream, contentType, null, headers);
 
-            if (responseHeaders == null || responseHeaders.Count == 0 || responseHeaders["ETag"] == null)
+            if (LastResponseInfo != null && LastResponseInfo.IsSuccess)
             {
-                Errors.Add("Upload to Amazon S3 failed.");
-                return null;
+                return new UploadResult
+                {
+                    IsSuccess = true,
+                    URL = resultURL
+                };
             }
 
-            return new UploadResult
-            {
-                IsSuccess = true,
-                URL = GenerateURL(uploadPath)
-            };
+            Errors.Add("Upload to Amazon S3 failed.");
+            return null;
         }
 
         private string GetRegion()
@@ -236,6 +249,14 @@ namespace ShareX.UploadersLib.FileUploaders
         private string GetUploadPath(string fileName)
         {
             string path = NameParser.Parse(NameParserType.FolderPath, Settings.ObjectPrefix.Trim('/'));
+
+            if ((Settings.RemoveExtensionImage && Helpers.IsImageFile(fileName)) ||
+                (Settings.RemoveExtensionText && Helpers.IsTextFile(fileName)) ||
+                (Settings.RemoveExtensionVideo && Helpers.IsVideoFile(fileName)))
+            {
+                fileName = Path.GetFileNameWithoutExtension(fileName);
+            }
+
             return URLHelpers.CombineURL(path, fileName);
         }
 
@@ -243,13 +264,14 @@ namespace ShareX.UploadersLib.FileUploaders
         {
             if (!string.IsNullOrEmpty(Settings.Endpoint) && !string.IsNullOrEmpty(Settings.Bucket))
             {
-                uploadPath = URLHelpers.URLPathEncode(uploadPath);
+                uploadPath = URLHelpers.URLEncode(uploadPath, true);
 
                 string url;
 
                 if (Settings.UseCustomCNAME && !string.IsNullOrEmpty(Settings.CustomDomain))
                 {
-                    string parsedDomain = new CustomUploaderItem().ParseURL(Settings.CustomDomain, false);
+                    CustomUploaderParser parser = new CustomUploaderParser();
+                    string parsedDomain = parser.Parse(Settings.CustomDomain);
                     url = URLHelpers.CombineURL(parsedDomain, uploadPath);
                 }
                 else

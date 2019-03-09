@@ -33,6 +33,7 @@ namespace ShareX
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationSettingsForm));
             this.tcSettings = new System.Windows.Forms.TabControl();
             this.tpGeneral = new System.Windows.Forms.TabPage();
+            this.btnCheckDevBuild = new System.Windows.Forms.Button();
             this.cbCheckPreReleaseUpdates = new System.Windows.Forms.CheckBox();
             this.cbTrayMiddleClickAction = new System.Windows.Forms.ComboBox();
             this.lblTrayMiddleClickAction = new System.Windows.Forms.Label();
@@ -60,11 +61,12 @@ namespace ShareX
             this.cbChromeExtensionSupport = new System.Windows.Forms.CheckBox();
             this.btnChromeOpenExtensionPage = new System.Windows.Forms.Button();
             this.gbWindows = new System.Windows.Forms.GroupBox();
+            this.cbEditWithShareX = new System.Windows.Forms.CheckBox();
             this.cbStartWithWindows = new System.Windows.Forms.CheckBox();
             this.cbSendToMenu = new System.Windows.Forms.CheckBox();
             this.cbShellContextMenu = new System.Windows.Forms.CheckBox();
             this.tpPaths = new System.Windows.Forms.TabPage();
-            this.lblNotePersonalFolderPath = new System.Windows.Forms.Label();
+            this.btnPersonalFolderPathApply = new System.Windows.Forms.Button();
             this.btnOpenScreenshotsFolder = new System.Windows.Forms.Button();
             this.lblPreviewPersonalFolderPath = new System.Windows.Forms.Label();
             this.btnBrowsePersonalFolderPath = new System.Windows.Forms.Button();
@@ -141,7 +143,6 @@ namespace ShareX
             this.tpAdvanced = new System.Windows.Forms.TabPage();
             this.pgSettings = new System.Windows.Forms.PropertyGrid();
             this.tttvMain = new ShareX.HelpersLib.TabToTreeView();
-            this.cbEditWithShareX = new System.Windows.Forms.CheckBox();
             this.tcSettings.SuspendLayout();
             this.tpGeneral.SuspendLayout();
             this.tpIntegration.SuspendLayout();
@@ -191,6 +192,7 @@ namespace ShareX
             // tpGeneral
             // 
             this.tpGeneral.BackColor = System.Drawing.SystemColors.Window;
+            this.tpGeneral.Controls.Add(this.btnCheckDevBuild);
             this.tpGeneral.Controls.Add(this.cbCheckPreReleaseUpdates);
             this.tpGeneral.Controls.Add(this.cbTrayMiddleClickAction);
             this.tpGeneral.Controls.Add(this.lblTrayMiddleClickAction);
@@ -210,13 +212,19 @@ namespace ShareX
             resources.ApplyResources(this.tpGeneral, "tpGeneral");
             this.tpGeneral.Name = "tpGeneral";
             // 
+            // btnCheckDevBuild
+            // 
+            resources.ApplyResources(this.btnCheckDevBuild, "btnCheckDevBuild");
+            this.btnCheckDevBuild.Name = "btnCheckDevBuild";
+            this.btnCheckDevBuild.UseVisualStyleBackColor = true;
+            this.btnCheckDevBuild.Click += new System.EventHandler(this.btnCheckDevBuild_Click);
+            // 
             // cbCheckPreReleaseUpdates
             // 
             resources.ApplyResources(this.cbCheckPreReleaseUpdates, "cbCheckPreReleaseUpdates");
             this.cbCheckPreReleaseUpdates.Name = "cbCheckPreReleaseUpdates";
             this.cbCheckPreReleaseUpdates.UseVisualStyleBackColor = true;
             this.cbCheckPreReleaseUpdates.CheckedChanged += new System.EventHandler(this.cbCheckPreReleaseUpdates_CheckedChanged);
-            this.cbCheckPreReleaseUpdates.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cbCheckPreReleaseUpdates_MouseUp);
             // 
             // cbTrayMiddleClickAction
             // 
@@ -401,6 +409,13 @@ namespace ShareX
             this.gbWindows.Name = "gbWindows";
             this.gbWindows.TabStop = false;
             // 
+            // cbEditWithShareX
+            // 
+            resources.ApplyResources(this.cbEditWithShareX, "cbEditWithShareX");
+            this.cbEditWithShareX.Name = "cbEditWithShareX";
+            this.cbEditWithShareX.UseVisualStyleBackColor = true;
+            this.cbEditWithShareX.CheckedChanged += new System.EventHandler(this.cbEditWithShareX_CheckedChanged);
+            // 
             // cbStartWithWindows
             // 
             resources.ApplyResources(this.cbStartWithWindows, "cbStartWithWindows");
@@ -425,7 +440,7 @@ namespace ShareX
             // tpPaths
             // 
             this.tpPaths.BackColor = System.Drawing.SystemColors.Window;
-            this.tpPaths.Controls.Add(this.lblNotePersonalFolderPath);
+            this.tpPaths.Controls.Add(this.btnPersonalFolderPathApply);
             this.tpPaths.Controls.Add(this.btnOpenScreenshotsFolder);
             this.tpPaths.Controls.Add(this.lblPreviewPersonalFolderPath);
             this.tpPaths.Controls.Add(this.btnBrowsePersonalFolderPath);
@@ -441,10 +456,12 @@ namespace ShareX
             resources.ApplyResources(this.tpPaths, "tpPaths");
             this.tpPaths.Name = "tpPaths";
             // 
-            // lblNotePersonalFolderPath
+            // btnPersonalFolderPathApply
             // 
-            resources.ApplyResources(this.lblNotePersonalFolderPath, "lblNotePersonalFolderPath");
-            this.lblNotePersonalFolderPath.Name = "lblNotePersonalFolderPath";
+            resources.ApplyResources(this.btnPersonalFolderPathApply, "btnPersonalFolderPathApply");
+            this.btnPersonalFolderPathApply.Name = "btnPersonalFolderPathApply";
+            this.btnPersonalFolderPathApply.UseVisualStyleBackColor = true;
+            this.btnPersonalFolderPathApply.Click += new System.EventHandler(this.btnPersonalFolderPathApply_Click);
             // 
             // btnOpenScreenshotsFolder
             // 
@@ -1005,9 +1022,7 @@ namespace ShareX
             // 
             // pgSettings
             // 
-            this.pgSettings.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             resources.ApplyResources(this.pgSettings, "pgSettings");
-            this.pgSettings.LineColor = System.Drawing.SystemColors.ControlDark;
             this.pgSettings.Name = "pgSettings";
             this.pgSettings.PropertySort = System.Windows.Forms.PropertySort.Categorized;
             this.pgSettings.ToolbarVisible = false;
@@ -1022,13 +1037,6 @@ namespace ShareX
             this.tttvMain.TreeViewSize = 175;
             this.tttvMain.TabChanged += new ShareX.HelpersLib.TabToTreeView.TabChangedEventHandler(this.tttvMain_TabChanged);
             // 
-            // cbEditWithShareX
-            // 
-            resources.ApplyResources(this.cbEditWithShareX, "cbEditWithShareX");
-            this.cbEditWithShareX.Name = "cbEditWithShareX";
-            this.cbEditWithShareX.UseVisualStyleBackColor = true;
-            this.cbEditWithShareX.CheckedChanged += new System.EventHandler(this.cbEditWithShareX_CheckedChanged);
-            // 
             // ApplicationSettingsForm
             // 
             resources.ApplyResources(this, "$this");
@@ -1038,7 +1046,6 @@ namespace ShareX
             this.Controls.Add(this.tttvMain);
             this.Name = "ApplicationSettingsForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingsForm_FormClosed);
             this.Shown += new System.EventHandler(this.SettingsForm_Shown);
             this.Resize += new System.EventHandler(this.SettingsForm_Resize);
             this.tcSettings.ResumeLayout(false);
@@ -1142,7 +1149,6 @@ namespace ShareX
         private System.Windows.Forms.Label lblPersonalFolderPath;
         private System.Windows.Forms.TextBox txtPersonalFolderPath;
         private System.Windows.Forms.Button btnOpenScreenshotsFolder;
-        private System.Windows.Forms.Label lblNotePersonalFolderPath;
         private System.Windows.Forms.CheckBox cbSilentRun;
         private System.Windows.Forms.NumericUpDown nudRetryUpload;
         private System.Windows.Forms.TableLayoutPanel tlpBackupDestinations;
@@ -1201,5 +1207,7 @@ namespace ShareX
         private System.Windows.Forms.CheckBox cbFirefoxAddonSupport;
         private System.Windows.Forms.Button btnResetSettings;
         private System.Windows.Forms.CheckBox cbEditWithShareX;
+        private System.Windows.Forms.Button btnCheckDevBuild;
+        private System.Windows.Forms.Button btnPersonalFolderPathApply;
     }
 }

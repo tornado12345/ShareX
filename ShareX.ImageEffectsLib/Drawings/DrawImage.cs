@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -37,20 +37,8 @@ namespace ShareX.ImageEffectsLib
         [DefaultValue(ContentAlignment.BottomRight)]
         public ContentAlignment Placement { get; set; }
 
-        private Point offset;
-
         [DefaultValue(typeof(Point), "5, 5")]
-        public Point Offset
-        {
-            get
-            {
-                return offset;
-            }
-            set
-            {
-                offset = new Point(value.X.Min(0), value.Y.Min(0));
-            }
-        }
+        public Point Offset { get; set; }
 
         [DefaultValue(true), Description("If image watermark size bigger than source image then don't draw it.")]
         public bool AutoHide { get; set; }

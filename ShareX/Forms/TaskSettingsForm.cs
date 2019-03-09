@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@ using ShareX.ImageEffectsLib;
 using ShareX.Properties;
 using ShareX.ScreenCaptureLib;
 using ShareX.UploadersLib;
+using ShareX.UploadersLib.OtherServices;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -227,13 +228,12 @@ namespace ShareX
             #region General
 
             cbShowCursor.Checked = TaskSettings.CaptureSettings.ShowCursor;
+            nudScreenshotDelay.SetValue(TaskSettings.CaptureSettings.ScreenshotDelay);
             cbCaptureTransparent.Checked = TaskSettings.CaptureSettings.CaptureTransparent;
             cbCaptureShadow.Enabled = TaskSettings.CaptureSettings.CaptureTransparent;
             cbCaptureShadow.Checked = TaskSettings.CaptureSettings.CaptureShadow;
             nudCaptureShadowOffset.SetValue(TaskSettings.CaptureSettings.CaptureShadowOffset);
             cbCaptureClientArea.Checked = TaskSettings.CaptureSettings.CaptureClientArea;
-            cbScreenshotDelay.Checked = TaskSettings.CaptureSettings.IsDelayScreenshot;
-            nudScreenshotDelay.SetValue(TaskSettings.CaptureSettings.DelayScreenshot);
             cbCaptureAutoHideTaskbar.Checked = TaskSettings.CaptureSettings.CaptureAutoHideTaskbar;
             nudCaptureCustomRegionX.SetValue(TaskSettings.CaptureSettings.CaptureCustomRegion.X);
             nudCaptureCustomRegionY.SetValue(TaskSettings.CaptureSettings.CaptureCustomRegion.Y);
@@ -289,13 +289,28 @@ namespace ShareX
             cbScreenRecorderFixedDuration.Checked = nudScreenRecorderDuration.Enabled = TaskSettings.CaptureSettings.ScreenRecordFixedDuration;
             nudScreenRecorderDuration.SetValue((decimal)TaskSettings.CaptureSettings.ScreenRecordDuration);
             chkScreenRecordAutoStart.Checked = nudScreenRecorderStartDelay.Enabled = TaskSettings.CaptureSettings.ScreenRecordAutoStart;
-            cbScreenRecorderConfirmAbort.Checked = TaskSettings.CaptureSettings.ScreenRecordAskConfirmationOnAbort;
+            cbScreenRecordConfirmAbort.Checked = TaskSettings.CaptureSettings.ScreenRecordAskConfirmationOnAbort;
             nudScreenRecorderStartDelay.SetValue((decimal)TaskSettings.CaptureSettings.ScreenRecordStartDelay);
             cbScreenRecorderShowCursor.Checked = TaskSettings.CaptureSettings.ScreenRecordShowCursor;
-            chkRunScreencastCLI.Checked = cboEncoder.Enabled = btnEncoderConfig.Enabled = TaskSettings.CaptureSettings.RunScreencastCLI;
-            UpdateVideoEncoders();
+            cbScreenRecordTwoPassEncoding.Checked = TaskSettings.CaptureSettings.ScreenRecordTwoPassEncoding;
 
             #endregion Screen recorder
+
+            #region OCR
+
+            OCROptions ocrOptions = TaskSettings.CaptureSettings.OCROptions;
+
+            cbCaptureOCRDefaultLanguage.Items.AddRange(Helpers.GetEnumDescriptions<OCRSpaceLanguages>());
+            cbCaptureOCRDefaultLanguage.SelectedIndex = (int)ocrOptions.DefaultLanguage;
+
+            cbCaptureOCRSilent.Checked = ocrOptions.Silent;
+            cbCaptureOCRProcessOnLoad.Checked = ocrOptions.ProcessOnLoad;
+            cbCaptureOCRAutoCopy.Checked = ocrOptions.AutoCopy;
+
+            cbCaptureOCRAutoCopy.Enabled = !cbCaptureOCRSilent.Checked;
+            cbCaptureOCRProcessOnLoad.Enabled = !cbCaptureOCRSilent.Checked;
+
+            #endregion OCR
 
             #endregion Capture
 
@@ -310,6 +325,7 @@ namespace ShareX
             cbRegionCaptureUseWindowPattern.Checked = TaskSettings.UploadSettings.RegionCaptureUseWindowPattern;
             cbFileUploadUseNamePattern.Checked = TaskSettings.UploadSettings.FileUploadUseNamePattern;
             cbFileUploadReplaceProblematicCharacters.Checked = TaskSettings.UploadSettings.FileUploadReplaceProblematicCharacters;
+            nudAutoIncrementNumber.Value = Program.Settings.NameParserAutoIncrementNumber;
             UpdateNameFormatPreviews();
             cbNameFormatCustomTimeZone.Checked = cbNameFormatTimeZone.Enabled = TaskSettings.UploadSettings.UseCustomTimeZone;
             cbNameFormatTimeZone.Items.AddRange(TimeZoneInfo.GetSystemTimeZones().ToArray());
@@ -326,7 +342,7 @@ namespace ShareX
 
             #region Clipboard upload
 
-            chkClipboardUploadURLContents.Checked = TaskSettings.UploadSettings.ClipboardUploadURLContents;
+            cbClipboardUploadURLContents.Checked = TaskSettings.UploadSettings.ClipboardUploadURLContents;
             cbClipboardUploadShortenURL.Checked = TaskSettings.UploadSettings.ClipboardUploadShortenURL;
             cbClipboardUploadShareURL.Checked = TaskSettings.UploadSettings.ClipboardUploadShareURL;
             cbClipboardUploadAutoIndexFolder.Checked = TaskSettings.UploadSettings.ClipboardUploadAutoIndexFolder;
@@ -806,19 +822,25 @@ namespace ShareX
             UpdateDefaultSettingVisibility();
         }
 
-        private void cbCaptureAutoHideTaskbar_CheckedChanged(object sender, EventArgs e)
+        private void cbShowCursor_CheckedChanged(object sender, EventArgs e)
         {
-            TaskSettings.CaptureSettings.CaptureAutoHideTaskbar = cbCaptureAutoHideTaskbar.Checked;
+            TaskSettings.CaptureSettings.ShowCursor = cbShowCursor.Checked;
         }
 
         private void nudScreenshotDelay_ValueChanged(object sender, EventArgs e)
         {
-            TaskSettings.CaptureSettings.DelayScreenshot = nudScreenshotDelay.Value;
+            TaskSettings.CaptureSettings.ScreenshotDelay = nudScreenshotDelay.Value;
         }
 
-        private void cbScreenshotDelay_CheckedChanged(object sender, EventArgs e)
+        private void cbCaptureTransparent_CheckedChanged(object sender, EventArgs e)
         {
-            TaskSettings.CaptureSettings.IsDelayScreenshot = cbScreenshotDelay.Checked;
+            TaskSettings.CaptureSettings.CaptureTransparent = cbCaptureTransparent.Checked;
+            cbCaptureShadow.Enabled = TaskSettings.CaptureSettings.CaptureTransparent;
+        }
+
+        private void cbCaptureShadow_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.CaptureSettings.CaptureShadow = cbCaptureShadow.Checked;
         }
 
         private void nudCaptureShadowOffset_ValueChanged(object sender, EventArgs e)
@@ -831,20 +853,9 @@ namespace ShareX
             TaskSettings.CaptureSettings.CaptureClientArea = cbCaptureClientArea.Checked;
         }
 
-        private void cbCaptureShadow_CheckedChanged(object sender, EventArgs e)
+        private void cbCaptureAutoHideTaskbar_CheckedChanged(object sender, EventArgs e)
         {
-            TaskSettings.CaptureSettings.CaptureShadow = cbCaptureShadow.Checked;
-        }
-
-        private void cbShowCursor_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskSettings.CaptureSettings.ShowCursor = cbShowCursor.Checked;
-        }
-
-        private void cbCaptureTransparent_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskSettings.CaptureSettings.CaptureTransparent = cbCaptureTransparent.Checked;
-            cbCaptureShadow.Enabled = TaskSettings.CaptureSettings.CaptureTransparent;
+            TaskSettings.CaptureSettings.CaptureAutoHideTaskbar = cbCaptureAutoHideTaskbar.Checked;
         }
 
         private void nudScreenRegionX_ValueChanged(object sender, EventArgs e)
@@ -1029,29 +1040,13 @@ namespace ShareX
 
         #region Screen recorder
 
-        private void UpdateVideoEncoders()
-        {
-            cboEncoder.Items.Clear();
-
-            if (Program.Settings.VideoEncoders.Count > 0)
-            {
-                Program.Settings.VideoEncoders.ForEach(x => cboEncoder.Items.Add(x));
-                cboEncoder.SelectedIndex = TaskSettings.CaptureSettings.VideoEncoderSelected.BetweenOrDefault(0, Program.Settings.VideoEncoders.Count - 1);
-            }
-            else if (!cboEncoder.Items.Contains(Resources.TaskSettingsForm_ConfigureEncoder_Configure_CLI_video_encoders_____))
-            {
-                cboEncoder.Items.Add(Resources.TaskSettingsForm_ConfigureEncoder_Configure_CLI_video_encoders_____);
-                cboEncoder.SelectedIndex = 0;
-            }
-        }
-
         private void btnScreenRecorderFFmpegOptions_Click(object sender, EventArgs e)
         {
             ScreencastOptions options = new ScreencastOptions
             {
+                IsRecording = true,
                 FFmpeg = TaskSettings.CaptureSettings.FFmpegOptions,
-                ScreenRecordFPS = TaskSettings.CaptureSettings.ScreenRecordFPS,
-                GIFFPS = TaskSettings.CaptureSettings.GIFFPS,
+                FPS = TaskSettings.CaptureSettings.ScreenRecordFPS,
                 Duration = TaskSettings.CaptureSettings.ScreenRecordFixedDuration ? TaskSettings.CaptureSettings.ScreenRecordDuration : 0,
                 OutputPath = "output.mp4",
                 CaptureArea = Screen.PrimaryScreen.Bounds,
@@ -1102,31 +1097,44 @@ namespace ShareX
             TaskSettings.CaptureSettings.ScreenRecordShowCursor = cbScreenRecorderShowCursor.Checked;
         }
 
-        private void chkConfirmAbort_CheckedChanged(object sender, EventArgs e)
+        private void cbScreenRecordTwoPassEncoding_CheckedChanged(object sender, EventArgs e)
         {
-            TaskSettings.CaptureSettings.ScreenRecordAskConfirmationOnAbort = cbScreenRecorderConfirmAbort.Checked;
+            TaskSettings.CaptureSettings.ScreenRecordTwoPassEncoding = cbScreenRecordTwoPassEncoding.Checked;
         }
 
-        private void chkRunScreencastCLI_CheckedChanged(object sender, EventArgs e)
+        private void cbScreenRecordConfirmAbort_CheckedChanged(object sender, EventArgs e)
         {
-            TaskSettings.CaptureSettings.RunScreencastCLI = cboEncoder.Enabled = btnEncoderConfig.Enabled = chkRunScreencastCLI.Checked;
-        }
-
-        private void cboEncoder_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TaskSettings.CaptureSettings.VideoEncoderSelected = cboEncoder.SelectedIndex;
-        }
-
-        private void btnEncoderConfig_Click(object sender, EventArgs e)
-        {
-            using (VideoEncodersForm form = new VideoEncodersForm() { Icon = Icon })
-            {
-                form.ShowDialog();
-                UpdateVideoEncoders();
-            }
+            TaskSettings.CaptureSettings.ScreenRecordAskConfirmationOnAbort = cbScreenRecordConfirmAbort.Checked;
         }
 
         #endregion Screen recorder
+
+        #region OCR
+
+        private void cbCaptureOCRDefaultLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TaskSettings.CaptureSettings.OCROptions.DefaultLanguage = (OCRSpaceLanguages)cbCaptureOCRDefaultLanguage.SelectedIndex;
+        }
+
+        private void cbCaptureOCRSilent_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.CaptureSettings.OCROptions.Silent = cbCaptureOCRSilent.Checked;
+
+            cbCaptureOCRAutoCopy.Enabled = !cbCaptureOCRSilent.Checked;
+            cbCaptureOCRProcessOnLoad.Enabled = !cbCaptureOCRSilent.Checked;
+        }
+
+        private void cbCaptureOCRProcessOnLoad_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.CaptureSettings.OCROptions.ProcessOnLoad = cbCaptureOCRProcessOnLoad.Checked;
+        }
+
+        private void cbCaptureOCRAutoCopy_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.CaptureSettings.OCROptions.AutoCopy = cbCaptureOCRAutoCopy.Checked;
+        }
+
+        #endregion OCR
 
         #endregion Capture
 
@@ -1152,14 +1160,45 @@ namespace ShareX
 
             lblNameFormatPatternPreviewActiveWindow.Text = Resources.TaskSettingsForm_txtNameFormatPatternActiveWindow_TextChanged_Preview_ + " " +
                 nameParser.Parse(TaskSettings.UploadSettings.NameFormatPatternActiveWindow);
-
-            lblAutoIncrementNumber.Text = Program.Settings.NameParserAutoIncrementNumber.ToString();
         }
 
         private void chkUseDefaultUploadSettings_CheckedChanged(object sender, EventArgs e)
         {
             TaskSettings.UseDefaultUploadSettings = !chkOverrideUploadSettings.Checked;
             UpdateDefaultSettingVisibility();
+        }
+
+        private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
+        {
+            TaskSettings.UploadSettings.NameFormatPattern = txtNameFormatPattern.Text;
+            UpdateNameFormatPreviews();
+        }
+
+        private void txtNameFormatPatternActiveWindow_TextChanged(object sender, EventArgs e)
+        {
+            TaskSettings.UploadSettings.NameFormatPatternActiveWindow = txtNameFormatPatternActiveWindow.Text;
+            UpdateNameFormatPreviews();
+        }
+
+        private void cbRegionCaptureUseWindowPattern_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.UploadSettings.RegionCaptureUseWindowPattern = cbRegionCaptureUseWindowPattern.Checked;
+        }
+
+        private void cbFileUploadUseNamePattern_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.UploadSettings.FileUploadUseNamePattern = cbFileUploadUseNamePattern.Checked;
+        }
+
+        private void cbFileUploadReplaceProblematicCharacters_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.UploadSettings.FileUploadReplaceProblematicCharacters = cbFileUploadReplaceProblematicCharacters.Checked;
+        }
+
+        private void btnAutoIncrementNumber_Click(object sender, EventArgs e)
+        {
+            Program.Settings.NameParserAutoIncrementNumber = (int)nudAutoIncrementNumber.Value;
+            UpdateNameFormatPreviews();
         }
 
         private void cbNameFormatCustomTimeZone_CheckedChanged(object sender, EventArgs e)
@@ -1181,37 +1220,9 @@ namespace ShareX
             UpdateNameFormatPreviews();
         }
 
-        private void txtNameFormatPattern_TextChanged(object sender, EventArgs e)
+        private void cbClipboardUploadContents_CheckedChanged(object sender, EventArgs e)
         {
-            TaskSettings.UploadSettings.NameFormatPattern = txtNameFormatPattern.Text;
-            UpdateNameFormatPreviews();
-        }
-
-        private void txtNameFormatPatternActiveWindow_TextChanged(object sender, EventArgs e)
-        {
-            TaskSettings.UploadSettings.NameFormatPatternActiveWindow = txtNameFormatPatternActiveWindow.Text;
-            UpdateNameFormatPreviews();
-        }
-
-        private void btnResetAutoIncrementNumber_Click(object sender, EventArgs e)
-        {
-            Program.Settings.NameParserAutoIncrementNumber = 0;
-            UpdateNameFormatPreviews();
-        }
-
-        private void cbFileUploadUseNamePattern_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskSettings.UploadSettings.FileUploadUseNamePattern = cbFileUploadUseNamePattern.Checked;
-        }
-
-        private void cbRegionCaptureUseWindowPattern_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskSettings.UploadSettings.RegionCaptureUseWindowPattern = cbRegionCaptureUseWindowPattern.Checked;
-        }
-
-        private void chkClipboardUploadContents_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskSettings.UploadSettings.ClipboardUploadURLContents = chkClipboardUploadURLContents.Checked;
+            TaskSettings.UploadSettings.ClipboardUploadURLContents = cbClipboardUploadURLContents.Checked;
         }
 
         private void cbClipboardUploadAutoDetectURL_CheckedChanged(object sender, EventArgs e)
@@ -1411,6 +1422,11 @@ namespace ShareX
             }
         }
 
+        private void lvActions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnActionsEdit.Enabled = btnActionsDuplicate.Enabled = btnActionsRemove.Enabled = lvActions.SelectedItems.Count > 0;
+        }
+
         private void lvActions_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             ExternalProgram fileAction = e.Item.Tag as ExternalProgram;
@@ -1519,11 +1535,6 @@ namespace ShareX
         private void txtToolsScreenColorPickerFormat_TextChanged(object sender, EventArgs e)
         {
             TaskSettings.ToolsSettings.ScreenColorPickerFormat = txtToolsScreenColorPickerFormat.Text;
-        }
-
-        private void cbFileUploadReplaceProblematicCharacters_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskSettings.UploadSettings.FileUploadReplaceProblematicCharacters = cbFileUploadReplaceProblematicCharacters.Checked;
         }
 
         #endregion Tools

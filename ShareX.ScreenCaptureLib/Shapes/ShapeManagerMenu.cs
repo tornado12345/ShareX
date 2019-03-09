@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ using ShareX.HelpersLib;
 using ShareX.ScreenCaptureLib.Properties;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -52,7 +51,7 @@ namespace ShareX.ScreenCaptureLib
         private ToolStripMenuItem tsmiArrowHeadsBothSide, tsmiShadow, tsmiShadowColor, tsmiStepUseLetters, tsmiUndo, tsmiDelete, tsmiDeleteAll, tsmiMoveTop,
             tsmiMoveUp, tsmiMoveDown, tsmiMoveBottom, tsmiRegionCapture, tsmiQuickCrop, tsmiShowMagnifier, tsmiImageEditorBackgroundColor;
         private ToolStripLabeledNumericUpDown tslnudBorderSize, tslnudCornerRadius, tslnudCenterPoints, tslnudBlurRadius, tslnudPixelateSize, tslnudStepFontSize,
-            tslnudMagnifierPixelCount;
+            tslnudMagnifierPixelCount, tslnudStartingStepValue;
         private ToolStripLabel tslDragLeft, tslDragRight;
         private ToolStripLabeledComboBox tscbImageInterpolationMode, tscbCursorTypes;
 
@@ -138,17 +137,17 @@ namespace ShareX.ScreenCaptureLib
 
                 if (Form.Mode == RegionCaptureMode.TaskEditor)
                 {
-                    ToolStripButton tsbClose = new ToolStripButton(Resources.ShapeManager_CreateToolbar_ContinueTaskSpaceOrRightClick);
-                    tsbClose.DisplayStyle = ToolStripItemDisplayStyle.Image;
-                    tsbClose.Image = Resources.control;
-                    tsbClose.Click += (sender, e) => Form.CloseWindow(RegionResult.AnnotateContinueTask);
-                    tsMain.Items.Add(tsbClose);
+                    ToolStripButton tsbContinueTask = new ToolStripButton(Resources.ShapeManager_CreateToolbar_ContinueTaskSpaceOrRightClick);
+                    tsbContinueTask.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                    tsbContinueTask.Image = Resources.control;
+                    tsbContinueTask.Click += (sender, e) => Form.CloseWindow(RegionResult.AnnotateContinueTask);
+                    tsMain.Items.Add(tsbContinueTask);
 
-                    ToolStripButton tsbCloseCancel = new ToolStripButton(Resources.ShapeManager_CreateToolbar_CancelTaskEsc);
-                    tsbCloseCancel.DisplayStyle = ToolStripItemDisplayStyle.Image;
-                    tsbCloseCancel.Image = Resources.cross;
-                    tsbCloseCancel.Click += (sender, e) => Form.CloseWindow(RegionResult.AnnotateCancelTask);
-                    tsMain.Items.Add(tsbCloseCancel);
+                    ToolStripButton tsbCancelTask = new ToolStripButton(Resources.ShapeManager_CreateToolbar_CancelTaskEsc);
+                    tsbCancelTask.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                    tsbCancelTask.Image = Resources.cross;
+                    tsbCancelTask.Click += (sender, e) => Form.CloseWindow(RegionResult.AnnotateCancelTask);
+                    tsMain.Items.Add(tsbCancelTask);
 
                     tsMain.Items.Add(new ToolStripSeparator());
                 }
@@ -186,6 +185,16 @@ namespace ShareX.ScreenCaptureLib
                 tsMain.Items.Add(new ToolStripSeparator());
 
                 #endregion Editor mode
+            }
+            else if (Helpers.IsTabletMode())
+            {
+                ToolStripButton tsbClose = new ToolStripButton("Close (Esc)");
+                tsbClose.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                tsbClose.Image = Resources.cross;
+                tsbClose.Click += (sender, e) => Form.CloseWindow();
+                tsMain.Items.Add(tsbClose);
+
+                tsMain.Items.Add(new ToolStripSeparator());
             }
 
             #region Tools
@@ -258,7 +267,14 @@ namespace ShareX.ScreenCaptureLib
                         img = Resources.monitor_image;
                         break;
                     case ShapeType.DrawingSticker:
-                        img = Resources.stamp;
+                        if (MathHelpers.Random(1, 10) == 1)
+                        {
+                            img = Resources.smiley_cool;
+                        }
+                        else
+                        {
+                            img = Resources.smiley_yell;
+                        }
                         break;
                     case ShapeType.DrawingCursor:
                         img = Resources.cursor;
@@ -323,7 +339,7 @@ namespace ShareX.ScreenCaptureLib
                     borderColor = AnnotationOptions.BorderColor;
                 }
 
-                if (ColorPickerForm.PickColor(borderColor, out Color newColor, Form))
+                if (PickColor(borderColor, out Color newColor))
                 {
                     if (shapeType == ShapeType.DrawingTextBackground || shapeType == ShapeType.DrawingSpeechBalloon)
                     {
@@ -373,7 +389,7 @@ namespace ShareX.ScreenCaptureLib
                     fillColor = AnnotationOptions.FillColor;
                 }
 
-                if (ColorPickerForm.PickColor(fillColor, out Color newColor, Form))
+                if (PickColor(fillColor, out Color newColor))
                 {
                     if (shapeType == ShapeType.DrawingTextBackground || shapeType == ShapeType.DrawingSpeechBalloon)
                     {
@@ -402,7 +418,7 @@ namespace ShareX.ScreenCaptureLib
             {
                 Form.Pause();
 
-                if (ColorPickerForm.PickColor(AnnotationOptions.HighlightColor, out Color newColor, Form))
+                if (PickColor(AnnotationOptions.HighlightColor, out Color newColor))
                 {
                     AnnotationOptions.HighlightColor = newColor;
                     UpdateMenu();
@@ -539,6 +555,16 @@ namespace ShareX.ScreenCaptureLib
             };
             tsddbShapeOptions.DropDownItems.Add(tslnudStepFontSize);
 
+            tslnudStartingStepValue = new ToolStripLabeledNumericUpDown(Resources.ShapeManager_CreateToolbar_StartingStepValue);
+            tslnudStartingStepValue.Content.Minimum = 1;
+            tslnudStartingStepValue.Content.Maximum = 10000;
+            tslnudStartingStepValue.Content.ValueChanged = (sender, e) =>
+            {
+                StartingStepNumber = (int)tslnudStartingStepValue.Content.Value;
+                UpdateCurrentShape();
+            };
+            tsddbShapeOptions.DropDownItems.Add(tslnudStartingStepValue);
+
             tsmiStepUseLetters = new ToolStripMenuItem(Resources.ShapeManager_CreateToolbar_UseLetters);
             tsmiStepUseLetters.Checked = false;
             tsmiStepUseLetters.CheckOnClick = true;
@@ -559,12 +585,12 @@ namespace ShareX.ScreenCaptureLib
             };
             tsddbShapeOptions.DropDownItems.Add(tsmiShadow);
 
-            tsmiShadowColor = new ToolStripMenuItem("Drop shadow color...");
+            tsmiShadowColor = new ToolStripMenuItem(Resources.DropShadowColor);
             tsmiShadowColor.Click += (sender, e) =>
             {
                 Form.Pause();
 
-                if (ColorPickerForm.PickColor(AnnotationOptions.ShadowColor, out Color newColor, Form))
+                if (PickColor(AnnotationOptions.ShadowColor, out Color newColor))
                 {
                     AnnotationOptions.ShadowColor = newColor;
                     UpdateMenu();
@@ -723,7 +749,7 @@ namespace ShareX.ScreenCaptureLib
 
                 tsddbImage.DropDownItems.Add(new ToolStripSeparator());
 
-                ToolStripMenuItem tsmiAddImageEffects = new ToolStripMenuItem("Add image effects...");
+                ToolStripMenuItem tsmiAddImageEffects = new ToolStripMenuItem(Resources.ImageEffects);
                 tsmiAddImageEffects.Image = Resources.image_saturation;
                 tsmiAddImageEffects.Click += (sender, e) => AddImageEffects();
                 tsddbImage.DropDownItems.Add(tsmiAddImageEffects);
@@ -823,7 +849,7 @@ namespace ShareX.ScreenCaptureLib
                 {
                     Form.Pause();
 
-                    if (ColorPickerForm.PickColor(Options.ImageEditorBackgroundColor, out Color newColor, Form))
+                    if (PickColor(Options.ImageEditorBackgroundColor, out Color newColor))
                     {
                         Options.ImageEditorBackgroundColor = newColor;
                         UpdateMenu();
@@ -885,6 +911,12 @@ namespace ShareX.ScreenCaptureLib
             tsmiShowCrosshair.Click += (sender, e) => Options.ShowCrosshair = tsmiShowCrosshair.Checked;
             tsddbOptions.DropDownItems.Add(tsmiShowCrosshair);
 
+            ToolStripMenuItem tsmiUseLightResizeNodes = new ToolStripMenuItem(Resources.LightResizeNodes);
+            tsmiUseLightResizeNodes.Checked = Options.UseLightResizeNodes;
+            tsmiUseLightResizeNodes.CheckOnClick = true;
+            tsmiUseLightResizeNodes.Click += (sender, e) => Options.UseLightResizeNodes = tsmiUseLightResizeNodes.Checked;
+            tsddbOptions.DropDownItems.Add(tsmiUseLightResizeNodes);
+
             ToolStripMenuItem tsmiEnableAnimations = new ToolStripMenuItem(Resources.ShapeManager_CreateContextMenu_EnableAnimations);
             tsmiEnableAnimations.Checked = Options.EnableAnimations;
             tsmiEnableAnimations.CheckOnClick = true;
@@ -931,12 +963,12 @@ namespace ShareX.ScreenCaptureLib
 
             tsddbOptions.DropDownItems.Add(new ToolStripSeparator());
 
-            ToolStripMenuItem tsmiKeybinds = new ToolStripMenuItem("Open keybinds web page...");
+            ToolStripMenuItem tsmiKeybinds = new ToolStripMenuItem(Resources.OpenKeybindsPage);
             tsmiKeybinds.Click += (sender, e) =>
             {
                 if (Form.IsFullscreen)
                 {
-                    if (MessageBox.Show(Form, "This window will close before opening the keybinds web page. Do you want to continue?",
+                    if (MessageBox.Show(Form, Resources.ThisWindowWillCloseBeforeOpeningKeybindsPageWantContinue,
                         "ShareX", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         Form.CloseWindow();
@@ -1106,7 +1138,7 @@ namespace ShareX.ScreenCaptureLib
             }
             else if (tsMain.Width < rectScreen.Width)
             {
-                menuForm.Location = new Point(rectScreen.X + rectScreen.Width / 2 - tsMain.Width / 2, rectScreen.Y);
+                menuForm.Location = new Point(rectScreen.X + (rectScreen.Width / 2) - (tsMain.Width / 2), rectScreen.Y);
             }
             else
             {
@@ -1291,6 +1323,7 @@ namespace ShareX.ScreenCaptureLib
             tsbHighlightColor.Image = ImageHelpers.CreateColorPickerIcon(AnnotationOptions.HighlightColor, new Rectangle(0, 0, 16, 16));
 
             tslnudStepFontSize.Content.Value = AnnotationOptions.StepFontSize;
+            tslnudStartingStepValue.Content.Value = StartingStepNumber;
             tsmiStepUseLetters.Checked = AnnotationOptions.StepUseLetters;
 
             tsmiShadow.Checked = AnnotationOptions.Shadow;
@@ -1301,11 +1334,6 @@ namespace ShareX.ScreenCaptureLib
             tslnudCenterPoints.Content.Value = AnnotationOptions.LineCenterPointCount;
 
             tsmiArrowHeadsBothSide.Checked = AnnotationOptions.ArrowHeadsBothSide;
-
-            if (tsbSaveImage != null)
-            {
-                tsbSaveImage.Enabled = !string.IsNullOrEmpty(Form.ImageFilePath) && File.Exists(Form.ImageFilePath);
-            }
 
             switch (shapeType)
             {
@@ -1387,6 +1415,7 @@ namespace ShareX.ScreenCaptureLib
             tslnudCenterPoints.Visible = shapeType == ShapeType.DrawingLine || shapeType == ShapeType.DrawingArrow;
             tsmiArrowHeadsBothSide.Visible = shapeType == ShapeType.DrawingArrow;
             tscbImageInterpolationMode.Visible = shapeType == ShapeType.DrawingImage || shapeType == ShapeType.DrawingImageScreen;
+            tslnudStartingStepValue.Visible = shapeType == ShapeType.DrawingStep;
             tslnudStepFontSize.Visible = tsmiStepUseLetters.Visible = shapeType == ShapeType.DrawingStep;
             tscbCursorTypes.Visible = shapeType == ShapeType.DrawingCursor;
             tslnudBlurRadius.Visible = shapeType == ShapeType.EffectBlur;

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -26,7 +26,6 @@
 #if WindowsStore
 
 using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 
 namespace ShareX
@@ -36,16 +35,16 @@ namespace ShareX
         private const int StartupTargetIndex = 0;
         private readonly StartupTask packageTask = StartupTask.GetForCurrentPackageAsync().GetAwaiter().GetResult()[StartupTargetIndex];
 
-        public StartupTaskState State
+        public StartupState State
         {
-            get => packageTask.State;
+            get => (StartupState)packageTask.State;
             set
             {
-                if (value == StartupTaskState.Enabled)
+                if (value == StartupState.Enabled)
                 {
                     packageTask.RequestEnableAsync().GetAwaiter().GetResult();
                 }
-                else if (value == StartupTaskState.Disabled)
+                else if (value == StartupState.Disabled)
                 {
                     packageTask.Disable();
                 }

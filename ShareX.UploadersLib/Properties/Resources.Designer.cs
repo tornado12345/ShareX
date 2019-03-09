@@ -93,6 +93,16 @@ namespace ShareX.UploadersLib.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon BackblazeB2 {
+            get {
+                object obj = ResourceManager.GetObject("BackblazeB2", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon Bitly {
             get {
                 object obj = ResourceManager.GetObject("Bitly", resourceCulture);
@@ -126,16 +136,6 @@ namespace ShareX.UploadersLib.Properties {
             get {
                 object obj = ResourceManager.GetObject("Chevereto", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon CoinURL {
-            get {
-                object obj = ResourceManager.GetObject("CoinURL", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -213,33 +213,6 @@ namespace ShareX.UploadersLib.Properties {
             get {
                 object obj = ResourceManager.GetObject("folder_network", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Connecting to {0}.
-        /// </summary>
-        internal static string FTPClientForm_FTPClientForm_Connecting_to__0_ {
-            get {
-                return ResourceManager.GetString("FTPClientForm_FTPClientForm_Connecting_to__0_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ShareX FTP client.
-        /// </summary>
-        internal static string FTPClientForm_FTPClientForm_ShareX_FTP_client {
-            get {
-                return ResourceManager.GetString("FTPClientForm_FTPClientForm_ShareX_FTP_client", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Directory name to create.
-        /// </summary>
-        internal static string FTPClientForm_FTPCreateDirectory_Directory_name_to_create {
-            get {
-                return ResourceManager.GetString("FTPClientForm_FTPCreateDirectory_Directory_name_to_create", resourceCulture);
             }
         }
         
@@ -378,6 +351,16 @@ namespace ShareX.UploadersLib.Properties {
         internal static string KeyFileNameEditor_EditValue_Browse_for_a_key_file___ {
             get {
                 return ResourceManager.GetString("KeyFileNameEditor_EditValue_Browse_for_a_key_file___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Kutt {
+            get {
+                object obj = ResourceManager.GetObject("Kutt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -658,6 +641,16 @@ namespace ShareX.UploadersLib.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon Teknik {
+            get {
+                object obj = ResourceManager.GetObject("Teknik", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon TinyPic {
             get {
                 object obj = ResourceManager.GetObject("TinyPic", resourceCulture);
@@ -685,39 +678,21 @@ namespace ShareX.UploadersLib.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional, only used if you didn&apos;t set a bucket when you made the key.
+        /// </summary>
+        internal static string txtB2BucketWatermark {
+            get {
+                return ResourceManager.GetString("txtB2BucketWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Upaste {
             get {
                 object obj = ResourceManager.GetObject("Upaste", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A header with the same name already exists..
-        /// </summary>
-        internal static string UploadersConfigForm_A_header_with_the_same_name_already_exists {
-            get {
-                return ResourceManager.GetString("UploadersConfigForm_A_header_with_the_same_name_already_exists", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://aws.amazon.com/s3/storage-classes/.
-        /// </summary>
-        internal static string UploadersConfigForm_AmazonS3StorageClassHelpURL {
-            get {
-                return ResourceManager.GetString("UploadersConfigForm_AmazonS3StorageClassHelpURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An argument with the same name already exists..
-        /// </summary>
-        internal static string UploadersConfigForm_An_argument_with_the_same_name_already_exists {
-            get {
-                return ResourceManager.GetString("UploadersConfigForm_An_argument_with_the_same_name_already_exists", resourceCulture);
             }
         }
         
@@ -764,15 +739,6 @@ namespace ShareX.UploadersLib.Properties {
         internal static string UploadersConfigForm_Error {
             get {
                 return ResourceManager.GetString("UploadersConfigForm_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FTP client only supports FTP or FTPS..
-        /// </summary>
-        internal static string UploadersConfigForm_FTPOpenClient_FTP_client_only_supports_FTP_or_FTPS_ {
-            get {
-                return ResourceManager.GetString("UploadersConfigForm_FTPOpenClient_FTP_client_only_supports_FTP_or_FTPS_", resourceCulture);
             }
         }
         

@@ -122,7 +122,7 @@
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Streamable" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\streamable.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\Streamable.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UploadersConfigForm_LoadSettings_Selected_folder_" xml:space="preserve">
     <value>Selected folder:</value>
@@ -243,19 +243,10 @@ Created folders:</value>
     <value>..\Favicons\Box.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Vgyme" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\vgyme.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\Vgyme.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UploadersConfigForm_FTPOpenClient_Unable_to_find_valid_FTP_account_" xml:space="preserve">
     <value>Unable to find valid FTP account.</value>
-  </data>
-  <data name="FTPClientForm_FTPCreateDirectory_Directory_name_to_create" xml:space="preserve">
-    <value>Directory name to create</value>
-  </data>
-  <data name="FTPClientForm_FTPClientForm_ShareX_FTP_client" xml:space="preserve">
-    <value>ShareX FTP client</value>
-  </data>
-  <data name="Dropbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Favicons\Dropbox.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SendSpace" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Favicons\SendSpace.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -269,9 +260,6 @@ Created folders:</value>
   <data name="TinyPic" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Favicons\TinyPic.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="FTPClientForm_FTPClientForm_Connecting_to__0_" xml:space="preserve">
-    <value>Connecting to {0}</value>
-  </data>
   <data name="UploadersConfigForm_oAuthJira_RefreshButtonClicked_Refresh_authorization_is_not_supported_" xml:space="preserve">
     <value>Refresh authorization is not supported.</value>
   </data>
@@ -284,17 +272,11 @@ Created folders:</value>
   <data name="Lithiio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Favicons\Lithiio.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UploadersConfigForm_FTPOpenClient_FTP_client_only_supports_FTP_or_FTPS_" xml:space="preserve">
-    <value>FTP client only supports FTP or FTPS.</value>
-  </data>
   <data name="UploadersConfigForm_MegaConfigureTab_Configured" xml:space="preserve">
     <value>Configured</value>
   </data>
   <data name="puush" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Favicons\puush.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CoinURL" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Favicons\CoinURL.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Chevereto" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Favicons\Chevereto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -354,25 +336,16 @@ Created folders:</value>
     <value>..\Favicons\AzureStorage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Plik" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\plik.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\Plik.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Gfycat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\gfycat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\Gfycat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="OAuthControl_OAuthControl_PasteVerificationCodeHere" xml:space="preserve">
     <value>Paste verification code here</value>
   </data>
-  <data name="UploadersConfigForm_An_argument_with_the_same_name_already_exists" xml:space="preserve">
-    <value>An argument with the same name already exists.</value>
-  </data>
-  <data name="UploadersConfigForm_A_header_with_the_same_name_already_exists" xml:space="preserve">
-    <value>A header with the same name already exists.</value>
-  </data>
   <data name="GooglePhotos" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\googlephotos.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="UploadersConfigForm_AmazonS3StorageClassHelpURL" xml:space="preserve">
-    <value>https://aws.amazon.com/s3/storage-classes/</value>
+    <value>..\Favicons\GooglePhotos.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UploadersConfigForm_ConnectSFTPAccount_Key_file_not_found" xml:space="preserve">
     <value>Key file does not exist.</value>
@@ -405,12 +378,27 @@ Created folders:</value>
     <value>Login failed.</value>
   </data>
   <data name="Firebase" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\firebase.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\Firebase.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="YouTube" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\youtube.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\YouTube.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GoogleCloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\favicons\googlecloud.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Favicons\GoogleCloud.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BackblazeB2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Favicons\BackblazeB2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Kutt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Favicons\Kutt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="txtB2BucketWatermark" xml:space="preserve">
+    <value>Optional, only used if you didn't set a bucket when you made the key</value>
+  </data>
+  <data name="Dropbox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Favicons\Dropbox.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Teknik" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Favicons\Teknik.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

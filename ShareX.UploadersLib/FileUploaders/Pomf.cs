@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -58,28 +58,19 @@ namespace ShareX.UploadersLib.FileUploaders
 
     public class Pomf : FileUploader
     {
-        // Pomf clones: https://docs.google.com/spreadsheets/d/1kh1TZdtyX7UlRd55OBxf7DB-JGj2rsfWckI0FPQRYhE
-        // More clones: https://github.com/tsudoko/long-live-pomf/blob/master/long-live-pomf.md
         public static List<PomfUploader> Uploaders = new List<PomfUploader>()
         {
             //new PomfUploader("https://pomf.se/upload.php"),
-            new PomfUploader("https://comfy.moe/upload.php"),
-            new PomfUploader("https://doko.moe/upload.php"),
-            new PomfUploader("https://edfile.pro/upload/archive"),
-            //new PomfUploader("https://filebox.moe/upload.php"),
-            new PomfUploader("http://glop.me/upload.php", "http://gateway.glop.me/ipfs"),
-            new PomfUploader("https://maro.xyz/upload.php", "https://a.maro.xyz/"),
+            new PomfUploader("https://edfile.pro/api/upload"),
             new PomfUploader("https://mixtape.moe/upload.php"),
-            new PomfUploader("https://pomf.cat/upload.php", "https://a.pomf.cat"),
-            new PomfUploader("https://pomf.space/api/upload"),
             new PomfUploader("https://pomf.pyonpyon.moe/upload.php"),
-            new PomfUploader("https://pomfe.co/upload.php", "https://a.pomfe.co"),
-            new PomfUploader("http://reich.io/upload.php"),
-            new PomfUploader("https://safe.moe/api/upload"),
-            //new PomfUploader("https://sugoi.vidyagam.es/upload.php"), - dangerous site
             new PomfUploader("https://up.asis.io/upload.php", "http://dl.asis.io"),
-            new PomfUploader("https://void.cat/upload.php"),
-            new PomfUploader("https://vidga.me/upload.php")
+            new PomfUploader("https://api.put.re/upload"),
+            new PomfUploader("https://yuu.sh/api/upload"),
+            new PomfUploader("https://filuboksi.fi/upload.php"),
+            new PomfUploader("https://dmca.gripe/api/upload"),
+            new PomfUploader("https://safe.fiery.me/api/upload"),
+            new PomfUploader("https://pomf.fun/upload.php")
         };
 
         public PomfUploader Uploader { get; private set; }

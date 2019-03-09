@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2018 ShareX Team
+    Copyright (c) 2007-2019 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -26,6 +26,7 @@
 /* https://github.com/matthewburnett */
 
 using Newtonsoft.Json;
+using ShareX.HelpersLib;
 using ShareX.UploadersLib.Properties;
 using System.Collections.Generic;
 using System.Drawing;
@@ -60,7 +61,7 @@ namespace ShareX.UploadersLib.URLShorteners
     public class FirebaseRequest
     {
         public DynamicLinkInfo dynamicLinkInfo { get; set; }
-        public Suffix suffix { get; set; }
+        public FirebaseSuffix suffix { get; set; }
     }
 
     public class DynamicLinkInfo
@@ -69,7 +70,7 @@ namespace ShareX.UploadersLib.URLShorteners
         public string link { get; set; }
     }
 
-    public class Suffix
+    public class FirebaseSuffix
     {
         public string option { get; set; }
     }
@@ -90,34 +91,38 @@ namespace ShareX.UploadersLib.URLShorteners
         {
             UploadResult result = new UploadResult { URL = url };
 
-            FirebaseRequest request = new FirebaseRequest
+            FirebaseRequest requestOptions = new FirebaseRequest
             {
                 dynamicLinkInfo = new DynamicLinkInfo
                 {
-                    dynamicLinkDomain = DynamicLinkDomain + ".app.goo.gl",
+                    dynamicLinkDomain = URLHelpers.RemovePrefixes(DynamicLinkDomain),
                     link = url
                 }
             };
 
-            string requesturl = "https://firebasedynamiclinks.googleapis.com/v1/shortLinks";
-
-            Dictionary<string, string> args = new Dictionary<string, string>
-            {
-                { "key", WebAPIKey }
-            };
-
             if (IsShort)
             {
-                request.suffix = new Suffix
+                requestOptions.suffix = new FirebaseSuffix
                 {
                     option = "SHORT"
                 };
             }
 
-            string requestjson = JsonConvert.SerializeObject(request);
+            Dictionary<string, string> args = new Dictionary<string, string>
+            {
+                { "key", WebAPIKey },
+                { "fields", "shortLink" }
+            };
 
-            result.Response = SendRequest(HttpMethod.POST, requesturl, requestjson, ContentTypeJSON, args);
-            result.ShortenedURL = JsonConvert.DeserializeObject<FirebaseResponse>(result.Response).shortLink;
+            string serializedRequestOptions = JsonConvert.SerializeObject(requestOptions);
+            result.Response = SendRequest(HttpMethod.POST, "https://firebasedynamiclinks.googleapis.com/v1/shortLinks", serializedRequestOptions, UploadHelpers.ContentTypeJSON, args);
+
+            FirebaseResponse firebaseResponse = JsonConvert.DeserializeObject<FirebaseResponse>(result.Response);
+
+            if (firebaseResponse != null)
+            {
+                result.ShortenedURL = firebaseResponse.shortLink;
+            }
 
             return result;
         }
