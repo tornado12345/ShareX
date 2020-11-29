@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ namespace ShareX
 {
     public class ImageInfo : IDisposable
     {
-        public Image Image { get; set; }
+        public Bitmap Image { get; set; }
         public string WindowTitle { get; set; }
         public string ProcessName { get; set; }
 
@@ -39,7 +39,7 @@ namespace ShareX
         {
         }
 
-        public ImageInfo(Image image)
+        public ImageInfo(Bitmap image)
         {
             Image = image;
         }

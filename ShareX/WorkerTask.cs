@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -42,9 +43,11 @@ namespace ShareX
     public class WorkerTask : IDisposable
     {
         public delegate void TaskEventHandler(WorkerTask task);
+        public delegate void TaskImageEventHandler(WorkerTask task, Bitmap image);
         public delegate void UploaderServiceEventHandler(IUploaderService uploaderService);
 
         public event TaskEventHandler StatusChanged, UploadStarted, UploadProgressChanged, UploadCompleted, TaskCompleted;
+        public event TaskImageEventHandler ImageReady;
         public event UploaderServiceEventHandler UploadersConfigWindowRequested;
 
         public TaskInfo Info { get; private set; }
@@ -53,10 +56,12 @@ namespace ShareX
         public bool IsWorking => Status == TaskStatus.Preparing || Status == TaskStatus.Working || Status == TaskStatus.Stopping;
         public bool StopRequested { get; private set; }
         public bool RequestSettingUpdate { get; private set; }
+        public bool EarlyURLCopied { get; private set; }
         public Stream Data { get; private set; }
-        public Image Image { get; private set; }
+        public Bitmap Image { get; private set; }
+        public bool KeepImage { get; set; }
+        public string Text { get; private set; }
 
-        private string tempText;
         private ThreadWorker threadWorker;
         private GenericUploader uploader;
         private TaskReferenceHelper taskReferenceHelper;
@@ -149,7 +154,7 @@ namespace ShareX
             task.Info.Job = TaskJob.TextUpload;
             task.Info.DataType = EDataType.Text;
             task.Info.FileName = TaskHelpers.GetFilename(taskSettings, taskSettings.AdvancedSettings.TextFileExtension);
-            task.tempText = text;
+            task.Text = text;
             return task;
         }
 
@@ -279,6 +284,22 @@ namespace ShareX
             }
         }
 
+        public void ShowErrorWindow()
+        {
+            if (Info != null && Info.Result != null && Info.Result.IsError)
+            {
+                string errors = Info.Result.ErrorsToString();
+
+                if (!string.IsNullOrEmpty(errors))
+                {
+                    using (ErrorForm form = new ErrorForm(Resources.UploadInfoManager_ShowErrors_Upload_errors, errors, Program.LogsFilePath, Links.URL_ISSUES, false))
+                    {
+                        form.ShowDialog();
+                    }
+                }
+            }
+        }
+
         private void ThreadDoWork()
         {
             CreateTaskReferenceHelper();
@@ -287,9 +308,11 @@ namespace ShareX
             {
                 StopRequested = !DoThreadJob();
 
+                OnImageReady();
+
                 if (!StopRequested)
                 {
-                    if (Info.IsUploadJob && !Program.Settings.DisableUpload)
+                    if (Info.IsUploadJob && TaskHelpers.IsUploadAllowed())
                     {
                         DoUploadJob();
                     }
@@ -301,7 +324,14 @@ namespace ShareX
             }
             finally
             {
-                Dispose(!(Info.DataType == EDataType.Image && Info.TaskSettings.GeneralSettings.PopUpNotification == PopUpNotificationType.ToastNotification));
+                KeepImage = Image != null && Info.TaskSettings.GeneralSettings.PopUpNotification == PopUpNotificationType.ToastNotification;
+
+                Dispose();
+
+                if (EarlyURLCopied && (StopRequested || Info.Result == null || string.IsNullOrEmpty(Info.Result.URL)) && ClipboardHelpers.ContainsText())
+                {
+                    ClipboardHelpers.Clear();
+                }
 
                 if (Info.Job == TaskJob.Job && Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.DeleteFile) && !string.IsNullOrEmpty(Info.FilePath) && File.Exists(Info.FilePath))
                 {
@@ -531,7 +561,7 @@ namespace ShareX
 
                 DoFileJobs();
             }
-            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(tempText))
+            else if (Info.Job == TaskJob.TextUpload && !string.IsNullOrEmpty(Text))
             {
                 DoTextJobs();
             }
@@ -562,7 +592,7 @@ namespace ShareX
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.AddImageEffects))
             {
-                Image = TaskHelpers.AddImageEffects(Image, Info.TaskSettings.ImageSettingsReference);
+                Image = TaskHelpers.ApplyImageEffects(Image, Info.TaskSettings.ImageSettingsReference);
 
                 if (Image == null)
                 {
@@ -583,7 +613,7 @@ namespace ShareX
 
             if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.CopyImageToClipboard))
             {
-                ClipboardHelpers.CopyImage(Image);
+                ClipboardHelpers.CopyImage(Image, Info.FileName);
                 DebugHelper.WriteLine("Image copied to clipboard.");
             }
 
@@ -601,7 +631,7 @@ namespace ShareX
 
                 if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.SaveImageToFile))
                 {
-                    string filePath = TaskHelpers.HandleExistsFile(Info.TaskSettings.CaptureFolder, Info.FileName, Info.TaskSettings);
+                    string filePath = TaskHelpers.HandleExistsFile(Info.TaskSettings.GetScreenshotsFolder(), Info.FileName, Info.TaskSettings);
 
                     if (!string.IsNullOrEmpty(filePath))
                     {
@@ -623,7 +653,7 @@ namespace ShareX
                         }
                         else
                         {
-                            initialDirectory = Info.TaskSettings.CaptureFolder;
+                            initialDirectory = Info.TaskSettings.GetScreenshotsFolder();
                         }
 
                         bool imageSaved;
@@ -667,7 +697,7 @@ namespace ShareX
                     else
                     {
                         thumbnailFilename = Info.FileName;
-                        thumbnailFolder = Info.TaskSettings.CaptureFolder;
+                        thumbnailFolder = Info.TaskSettings.GetScreenshotsFolder();
                     }
 
                     Info.ThumbnailFilePath = TaskHelpers.CreateThumbnail(Image, thumbnailFolder, thumbnailFilename, Info.TaskSettings);
@@ -697,10 +727,15 @@ namespace ShareX
                             Data.Dispose();
                         }
 
+                        string fileName = Info.FileName;
+
                         foreach (ExternalProgram fileAction in actions)
                         {
                             Info.FilePath = fileAction.Run(Info.FilePath);
                         }
+
+                        string extension = Helpers.GetFilenameExtension(Info.FilePath);
+                        Info.FileName = Helpers.ChangeFilenameExtension(fileName, extension);
 
                         LoadFileStream();
                     }
@@ -722,7 +757,7 @@ namespace ShareX
 
                 if (Info.TaskSettings.AfterCaptureJob.HasFlag(AfterCaptureTasks.ScanQRCode) && Info.DataType == EDataType.Image)
                 {
-                    QRCodeForm.DecodeFile(Info.FilePath).ShowDialog();
+                    QRCodeForm.OpenFormDecodeFromFile(Info.FilePath).ShowDialog();
                 }
             }
         }
@@ -731,18 +766,18 @@ namespace ShareX
         {
             if (Info.TaskSettings.AdvancedSettings.TextTaskSaveAsFile)
             {
-                string filePath = TaskHelpers.HandleExistsFile(Info.TaskSettings.CaptureFolder, Info.FileName, Info.TaskSettings);
+                string filePath = TaskHelpers.HandleExistsFile(Info.TaskSettings.GetScreenshotsFolder(), Info.FileName, Info.TaskSettings);
 
                 if (!string.IsNullOrEmpty(filePath))
                 {
                     Info.FilePath = filePath;
                     Helpers.CreateDirectoryFromFilePath(Info.FilePath);
-                    File.WriteAllText(Info.FilePath, tempText, Encoding.UTF8);
+                    File.WriteAllText(Info.FilePath, Text, Encoding.UTF8);
                     DebugHelper.WriteLine("Text saved to file: " + Info.FilePath);
                 }
             }
 
-            byte[] byteArray = Encoding.UTF8.GetBytes(tempText);
+            byte[] byteArray = Encoding.UTF8.GetBytes(Text);
             Data = new MemoryStream(byteArray);
         }
 
@@ -750,6 +785,12 @@ namespace ShareX
         {
             try
             {
+                if (Info.TaskSettings.UploadSettings.URLRegexReplace)
+                {
+                    Info.Result.URL = Regex.Replace(Info.Result.URL, Info.TaskSettings.UploadSettings.URLRegexReplacePattern,
+                        Info.TaskSettings.UploadSettings.URLRegexReplaceReplacement);
+                }
+
                 if (Info.TaskSettings.AdvancedSettings.ResultForceHTTPS)
                 {
                     Info.Result.ForceHTTPS();
@@ -845,7 +886,11 @@ namespace ShareX
 
                 if (Info.TaskSettings.AfterUploadJob.HasFlag(AfterUploadTasks.CopyURLToClipboard) && Info.TaskSettings.AdvancedSettings.EarlyCopyURL)
                 {
-                    uploader.EarlyURLCopyRequested += url => ClipboardHelpers.CopyText(url);
+                    uploader.EarlyURLCopyRequested += url =>
+                    {
+                        ClipboardHelpers.CopyText(url);
+                        EarlyURLCopied = true;
+                    };
                 }
 
                 fileName = URLHelpers.RemoveBidiControlCharacters(fileName);
@@ -969,7 +1014,7 @@ namespace ShareX
         {
             string url = Info.Result.URL.Trim();
             Info.Result.URL = "";
-            Info.FilePath = TaskHelpers.HandleExistsFile(Info.TaskSettings.CaptureFolder, Info.FileName, Info.TaskSettings);
+            Info.FilePath = TaskHelpers.HandleExistsFile(Info.TaskSettings.GetScreenshotsFolder(), Info.FileName, Info.TaskSettings);
 
             if (!string.IsNullOrEmpty(Info.FilePath))
             {
@@ -1050,6 +1095,27 @@ namespace ShareX
             }
         }
 
+        private void OnImageReady()
+        {
+            if (ImageReady != null)
+            {
+                Bitmap image = null;
+
+                if (Program.Settings.TaskViewMode == TaskViewMode.ThumbnailView && Image != null)
+                {
+                    image = (Bitmap)Image.Clone();
+                }
+
+                threadWorker.InvokeAsync(() =>
+                {
+                    using (image)
+                    {
+                        ImageReady(this, image);
+                    }
+                });
+            }
+        }
+
         private void OnUploadStarted()
         {
             if (UploadStarted != null)
@@ -1110,7 +1176,7 @@ namespace ShareX
             }
         }
 
-        private void Dispose(bool shouldDisposeImage)
+        public void Dispose()
         {
             if (Data != null)
             {
@@ -1118,16 +1184,11 @@ namespace ShareX
                 Data = null;
             }
 
-            if (Image != null && shouldDisposeImage)
+            if (!KeepImage && Image != null)
             {
                 Image.Dispose();
                 Image = null;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
     }
 }

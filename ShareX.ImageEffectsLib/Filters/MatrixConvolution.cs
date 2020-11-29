@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -56,7 +56,7 @@ namespace ShareX.ImageEffectsLib
         [DefaultValue(1.0)]
         public double Factor { get; set; }
 
-        [DefaultValue(0)]
+        [DefaultValue((byte)0)]
         public byte Offset { get; set; }
 
         public MatrixConvolution()
@@ -64,9 +64,9 @@ namespace ShareX.ImageEffectsLib
             this.ApplyDefaultPropertyValues();
         }
 
-        public override Image Apply(Image img)
+        public override Bitmap Apply(Bitmap bmp)
         {
-            using (img)
+            using (bmp)
             {
                 ConvolutionMatrix cm = new ConvolutionMatrix();
                 cm[0, 0] = X0Y0 / Factor;
@@ -79,7 +79,7 @@ namespace ShareX.ImageEffectsLib
                 cm[2, 1] = X1Y2 / Factor;
                 cm[2, 2] = X2Y2 / Factor;
                 cm.Offset = Offset;
-                return cm.Apply(img);
+                return cm.Apply(bmp);
             }
         }
     }

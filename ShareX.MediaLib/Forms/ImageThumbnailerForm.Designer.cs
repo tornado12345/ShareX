@@ -60,6 +60,7 @@
             this.chImages});
             this.lvImages.FullRowSelect = true;
             this.lvImages.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvImages.HideSelection = false;
             resources.ApplyResources(this.lvImages, "lvImages");
             this.lvImages.Name = "lvImages";
             this.lvImages.UseCompatibleStateImageBehavior = false;
@@ -184,7 +185,8 @@
             // 
             this.AcceptButton = this.btnGenerate;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.lblQualityPercentage);
             this.Controls.Add(this.nudQuality);
             this.Controls.Add(this.lblQuality);

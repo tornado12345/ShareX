@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -52,14 +52,13 @@ namespace ShareX.UploadersLib
         public UploadersConfig Config { get; private set; }
 
         private bool customUploaderPauseLoad;
-        private URLType customUploaderURLType = URLType.URL;
+        private CustomUploaderURLType customUploaderURLType = CustomUploaderURLType.URL;
 
         public CustomUploaderSettingsForm(UploadersConfig config)
         {
             Config = config;
 
             InitializeComponent();
-            Icon = ShareXResources.Icon;
 
             /*
             CodeMenuItem[] inputCodeMenuItems = new CodeMenuItem[]
@@ -88,15 +87,17 @@ namespace ShareX.UploadersLib
                 new CodeMenuItem("$base64:input$", "Base64 encode input")
             };
 
-            CodeMenu.Create(rtbResultURL, outputCodeMenuItems);
-            CodeMenu.Create(rtbResultThumbnailURL, outputCodeMenuItems);
-            CodeMenu.Create(rtbResultDeletionURL, outputCodeMenuItems);
+            new CodeMenu(rtbResultURL, outputCodeMenuItems);
+            new CodeMenu(rtbResultThumbnailURL, outputCodeMenuItems);
+            new CodeMenu(rtbResultDeletionURL, outputCodeMenuItems);
+            new CodeMenu(rtbResultErrorMessage, outputCodeMenuItems);
 
             rtbRequestURL.AddContextMenu();
             rtbData.AddContextMenu();
             rtbResultURL.AddContextMenu();
             rtbResultThumbnailURL.AddContextMenu();
             rtbResultDeletionURL.AddContextMenu();
+            rtbResultErrorMessage.AddContextMenu();
             rtbResult.AddContextMenu();
             rtbResponseInfo.AddContextMenu();
             rtbResponseText.AddContextMenu();
@@ -104,6 +105,8 @@ namespace ShareX.UploadersLib
             CustomUploaderAddDestinationTypes();
             cbRequestMethod.Items.AddRange(Enum.GetNames(typeof(HttpMethod)));
             cbBody.Items.AddRange(Helpers.GetEnumDescriptions<CustomUploaderBody>());
+
+            ShareXResources.ApplyTheme(this);
 
             CustomUploaderLoadTab();
         }
@@ -215,12 +218,14 @@ namespace ShareX.UploadersLib
                 }
             }
 
-            rtbResultURL.Text = uploader.URL ?? "";
+            rtbResultURL.Text = uploader.URL;
             CustomUploaderSyntaxHighlight(rtbResultURL);
-            rtbResultThumbnailURL.Text = uploader.ThumbnailURL ?? "";
+            rtbResultThumbnailURL.Text = uploader.ThumbnailURL;
             CustomUploaderSyntaxHighlight(rtbResultThumbnailURL);
-            rtbResultDeletionURL.Text = uploader.DeletionURL ?? "";
+            rtbResultDeletionURL.Text = uploader.DeletionURL;
             CustomUploaderSyntaxHighlight(rtbResultDeletionURL);
+            rtbResultErrorMessage.Text = uploader.ErrorMessage;
+            CustomUploaderSyntaxHighlight(rtbResultErrorMessage);
 
             CustomUploaderUpdateStates();
         }
@@ -289,6 +294,20 @@ namespace ShareX.UploadersLib
             CustomUploaderLoad(CustomUploaderItem.Init());
         }
 
+        private void CustomUploaderSerialize(CustomUploaderItem cui, string folderPath)
+        {
+            try
+            {
+                string filePath = Path.Combine(folderPath, cui.GetFileName());
+                JsonHelpers.SerializeToFile(cui, filePath, DefaultValueHandling.Ignore, NullValueHandling.Ignore);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+                MessageBox.Show(Resources.ExportFailed + "\n\n" + e, "ShareX - " + "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void CustomUploaderExportAll()
         {
             if (Config.CustomUploadersList != null && Config.CustomUploadersList.Count > 0)
@@ -299,9 +318,7 @@ namespace ShareX.UploadersLib
                     {
                         foreach (CustomUploaderItem cui in Config.CustomUploadersList)
                         {
-                            string json = eiCustomUploaders.Serialize(cui);
-                            string filePath = Path.Combine(fsd.FileName, cui.GetFileName());
-                            File.WriteAllText(filePath, json, Encoding.UTF8);
+                            CustomUploaderSerialize(cui, fsd.FileName);
                         }
                     }
                 }
@@ -323,16 +340,12 @@ namespace ShareX.UploadersLib
                     {
                         foreach (string filePath in files)
                         {
-                            CustomUploaderItem cui = JsonHelpers.DeserializeFromFilePath<CustomUploaderItem>(filePath);
+                            CustomUploaderItem cui = JsonHelpers.DeserializeFromFile<CustomUploaderItem>(filePath);
 
                             if (cui != null)
                             {
                                 cui.CheckBackwardCompatibility();
-
-                                string json = eiCustomUploaders.Serialize(cui);
-                                string newFilePath = Path.Combine(folderPath, cui.GetFileName());
-                                File.WriteAllText(newFilePath, json, Encoding.UTF8);
-
+                                CustomUploaderSerialize(cui, folderPath);
                                 updated++;
                             }
                         }
@@ -361,10 +374,11 @@ namespace ShareX.UploadersLib
                 CustomUploaderUpdateList();
             }
 
-#if DEBUG
-            tsmiExportAll.Visible = true;
-            tsmiUpdateFolder.Visible = true;
-#endif
+            if (HelpersOptions.DevMode)
+            {
+                tsmiExportAll.Visible = true;
+                tsmiUpdateFolder.Visible = true;
+            }
 
             CustomUploaderClearFields();
 
@@ -480,8 +494,7 @@ namespace ShareX.UploadersLib
 
                     if (isDuplicate)
                     {
-                        // TODO: Translate
-                        cell.ErrorText = "Duplicate name not allowed.";
+                        cell.ErrorText = Resources.DuplicateNameNotAllowed;
                     }
                     else
                     {
@@ -615,11 +628,11 @@ namespace ShareX.UploadersLib
                     cbURLSharingService.Items.Add(item);
                 }
 
-                cbImageUploader.SelectedIndex = Config.CustomImageUploaderSelected.Between(0, Config.CustomUploadersList.Count - 1);
-                cbTextUploader.SelectedIndex = Config.CustomTextUploaderSelected.Between(0, Config.CustomUploadersList.Count - 1);
-                cbFileUploader.SelectedIndex = Config.CustomFileUploaderSelected.Between(0, Config.CustomUploadersList.Count - 1);
-                cbURLShortener.SelectedIndex = Config.CustomURLShortenerSelected.Between(0, Config.CustomUploadersList.Count - 1);
-                cbURLSharingService.SelectedIndex = Config.CustomURLSharingServiceSelected.Between(0, Config.CustomUploadersList.Count - 1);
+                cbImageUploader.SelectedIndex = Config.CustomImageUploaderSelected.Clamp(0, Config.CustomUploadersList.Count - 1);
+                cbTextUploader.SelectedIndex = Config.CustomTextUploaderSelected.Clamp(0, Config.CustomUploadersList.Count - 1);
+                cbFileUploader.SelectedIndex = Config.CustomFileUploaderSelected.Clamp(0, Config.CustomUploadersList.Count - 1);
+                cbURLShortener.SelectedIndex = Config.CustomURLShortenerSelected.Clamp(0, Config.CustomUploadersList.Count - 1);
+                cbURLSharingService.SelectedIndex = Config.CustomURLSharingServiceSelected.Clamp(0, Config.CustomUploadersList.Count - 1);
             }
         }
 
@@ -630,14 +643,17 @@ namespace ShareX.UploadersLib
             switch (customUploaderURLType)
             {
                 default:
-                case URLType.URL:
+                case CustomUploaderURLType.URL:
                     rtb = rtbResultURL;
                     break;
-                case URLType.ThumbnailURL:
+                case CustomUploaderURLType.ThumbnailURL:
                     rtb = rtbResultThumbnailURL;
                     break;
-                case URLType.DeletionURL:
+                case CustomUploaderURLType.DeletionURL:
                     rtb = rtbResultDeletionURL;
+                    break;
+                case CustomUploaderURLType.ErrorMessage:
+                    rtb = rtbResultErrorMessage;
                     break;
             }
 
@@ -769,32 +785,32 @@ namespace ShareX.UploadersLib
         {
             rtbResponseInfo.ResetText();
 
-            rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Bold);
+            rtbResponseInfo.SetFontBold();
             rtbResponseInfo.AppendText("Status code:\r\n");
-            rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Regular);
+            rtbResponseInfo.SetFontRegular();
             rtbResponseInfo.AppendText($"({(int)responseInfo.StatusCode}) {responseInfo.StatusDescription}");
 
             if (!string.IsNullOrEmpty(responseInfo.ResponseURL))
             {
-                rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Bold);
+                rtbResponseInfo.SetFontBold();
                 rtbResponseInfo.AppendText("\r\n\r\nResponse URL:\r\n");
-                rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Regular);
+                rtbResponseInfo.SetFontRegular();
                 rtbResponseInfo.AppendText(responseInfo.ResponseURL);
             }
 
             if (responseInfo.Headers != null && responseInfo.Headers.Count > 0)
             {
-                rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Bold);
+                rtbResponseInfo.SetFontBold();
                 rtbResponseInfo.AppendText("\r\n\r\nHeaders:\r\n");
-                rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Regular);
+                rtbResponseInfo.SetFontRegular();
                 rtbResponseInfo.AppendText(responseInfo.Headers.ToString().TrimEnd('\r', '\n'));
             }
 
             if (includeResponseText && !string.IsNullOrEmpty(responseInfo.ResponseText))
             {
-                rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Bold);
+                rtbResponseInfo.SetFontBold();
                 rtbResponseInfo.AppendText("\r\n\r\nResponse text:\r\n");
-                rtbResponseInfo.SelectionFont = new Font(rtbResponseInfo.Font, FontStyle.Regular);
+                rtbResponseInfo.SetFontRegular();
                 rtbResponseInfo.AppendText(responseInfo.ResponseText);
             }
         }
@@ -898,7 +914,7 @@ namespace ShareX.UploadersLib
                 {
                     foreach (string filePath in files.Where(x => !string.IsNullOrEmpty(x) && x.EndsWith(".sxcu")))
                     {
-                        CustomUploaderItem cui = JsonHelpers.DeserializeFromFilePath<CustomUploaderItem>(filePath);
+                        CustomUploaderItem cui = JsonHelpers.DeserializeFromFile<CustomUploaderItem>(filePath);
 
                         if (cui != null)
                         {
@@ -1251,7 +1267,7 @@ namespace ShareX.UploadersLib
 
         private void rtbCustomUploaderURL_Enter(object sender, EventArgs e)
         {
-            customUploaderURLType = URLType.URL;
+            customUploaderURLType = CustomUploaderURLType.URL;
         }
 
         private void rtbCustomUploaderURL_TextChanged(object sender, EventArgs e)
@@ -1263,7 +1279,7 @@ namespace ShareX.UploadersLib
 
         private void rtbCustomUploaderThumbnailURL_Enter(object sender, EventArgs e)
         {
-            customUploaderURLType = URLType.ThumbnailURL;
+            customUploaderURLType = CustomUploaderURLType.ThumbnailURL;
         }
 
         private void rtbCustomUploaderThumbnailURL_TextChanged(object sender, EventArgs e)
@@ -1275,7 +1291,7 @@ namespace ShareX.UploadersLib
 
         private void rtbCustomUploaderDeletionURL_Enter(object sender, EventArgs e)
         {
-            customUploaderURLType = URLType.DeletionURL;
+            customUploaderURLType = CustomUploaderURLType.DeletionURL;
         }
 
         private void rtbCustomUploaderDeletionURL_TextChanged(object sender, EventArgs e)
@@ -1283,6 +1299,18 @@ namespace ShareX.UploadersLib
             CustomUploaderItem uploader = CustomUploaderGetSelected();
             if (uploader != null) uploader.DeletionURL = rtbResultDeletionURL.Text;
             CustomUploaderSyntaxHighlight(rtbResultDeletionURL);
+        }
+
+        private void rtbResultErrorMessage_Enter(object sender, EventArgs e)
+        {
+            customUploaderURLType = CustomUploaderURLType.ErrorMessage;
+        }
+
+        private void rtbResultErrorMessage_TextChanged(object sender, EventArgs e)
+        {
+            CustomUploaderItem uploader = CustomUploaderGetSelected();
+            if (uploader != null) uploader.ErrorMessage = rtbResultErrorMessage.Text;
+            CustomUploaderSyntaxHighlight(rtbResultErrorMessage);
         }
 
         private void txtCustomUploaderLog_LinkClicked(object sender, LinkClickedEventArgs e)

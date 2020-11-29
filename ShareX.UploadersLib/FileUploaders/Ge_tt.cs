@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -77,7 +77,7 @@ namespace ShareX.UploadersLib.FileUploaders
             string json = JsonConvert.SerializeObject(args);
 
             string url = URLHelpers.CombineURL(APIURL, "users/login");
-            string response = SendRequest(HttpMethod.POST, url, json, UploadHelpers.ContentTypeJSON);
+            string response = SendRequest(HttpMethod.POST, url, json, RequestHelpers.ContentTypeJSON);
 
             return JsonConvert.DeserializeObject<Ge_ttLogin>(response);
         }
@@ -103,7 +103,7 @@ namespace ShareX.UploadersLib.FileUploaders
 
             string json = JsonConvert.SerializeObject(args2);
 
-            string response = SendRequest(HttpMethod.POST, URLHelpers.CombineURL(APIURL, "files", shareName, "create"), json, UploadHelpers.ContentTypeJSON, args);
+            string response = SendRequest(HttpMethod.POST, URLHelpers.CombineURL(APIURL, "files", shareName, "create"), json, RequestHelpers.ContentTypeJSON, args);
 
             return JsonConvert.DeserializeObject<Ge_ttFile>(response);
         }
@@ -136,7 +136,9 @@ namespace ShareX.UploadersLib.FileUploaders
     public class Ge_ttLogin
     {
         public string Expires { get; set; }
+        [JsonEncrypt]
         public string AccessToken { get; set; }
+        [JsonEncrypt]
         public string RefreshToken { get; set; }
     }
 

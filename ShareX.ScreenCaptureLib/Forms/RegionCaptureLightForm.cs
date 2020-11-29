@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -49,7 +49,7 @@ namespace ShareX.ScreenCaptureLib
             SelectionRectangle.Width, SelectionRectangle.Height);
 
         private Timer timer;
-        private Image backgroundImage;
+        private Bitmap backgroundImage;
         private TextureBrush backgroundBrush;
         private Pen borderDotPen, borderDotPen2;
         private Point currentPosition, positionOnClick;
@@ -162,7 +162,7 @@ namespace ShareX.ScreenCaptureLib
             }
         }
 
-        public Image GetAreaImage()
+        public Bitmap GetAreaImage()
         {
             Rectangle rect = SelectionRectangle0Based;
 
@@ -170,10 +170,10 @@ namespace ShareX.ScreenCaptureLib
             {
                 if (rect.X == 0 && rect.Y == 0 && rect.Width == backgroundImage.Width && rect.Height == backgroundImage.Height)
                 {
-                    return (Image)backgroundImage.Clone();
+                    return (Bitmap)backgroundImage.Clone();
                 }
 
-                return ImageHelpers.CropImage(backgroundImage, rect);
+                return ImageHelpers.CropBitmap(backgroundImage, rect);
             }
 
             return null;

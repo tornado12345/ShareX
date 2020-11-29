@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -61,6 +61,15 @@ namespace ShareX
         private static readonly string ShellCustomUploaderIconValue = $"{ApplicationPath},0";
         private static readonly string ShellCustomUploaderCommandPath = $@"{ShellCustomUploaderAssociatePath}\shell\open\command";
         private static readonly string ShellCustomUploaderCommandValue = $"{ApplicationPath} -CustomUploader \"%1\"";
+
+        private static readonly string ShellImageEffectExtensionPath = @"Software\Classes\.sxie";
+        private static readonly string ShellImageEffectExtensionValue = "ShareX.sxie";
+        private static readonly string ShellImageEffectAssociatePath = $@"Software\Classes\{ShellImageEffectExtensionValue}";
+        private static readonly string ShellImageEffectAssociateValue = "ShareX image effect";
+        private static readonly string ShellImageEffectIconPath = $@"{ShellImageEffectAssociatePath}\DefaultIcon";
+        private static readonly string ShellImageEffectIconValue = $"{ApplicationPath},0";
+        private static readonly string ShellImageEffectCommandPath = $@"{ShellImageEffectAssociatePath}\shell\open\command";
+        private static readonly string ShellImageEffectCommandValue = $"{ApplicationPath} -ImageEffect \"%1\"";
 
         private static readonly string ChromeNativeMessagingHosts = @"SOFTWARE\Google\Chrome\NativeMessagingHosts\com.getsharex.sharex";
         private static readonly string FirefoxNativeMessagingHosts = @"SOFTWARE\Mozilla\NativeMessagingHosts\ShareX";
@@ -214,6 +223,57 @@ namespace ShareX
             RegistryHelpers.RemoveRegistry(ShellCustomUploaderAssociatePath, true);
         }
 
+        public static bool CheckImageEffectExtension()
+        {
+            try
+            {
+                return RegistryHelpers.CheckRegistry(ShellImageEffectExtensionPath, null, ShellImageEffectExtensionValue) &&
+                    RegistryHelpers.CheckRegistry(ShellImageEffectCommandPath, null, ShellImageEffectCommandValue);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+            }
+
+            return false;
+        }
+
+        public static void CreateImageEffectExtension(bool create)
+        {
+            try
+            {
+                if (create)
+                {
+                    UnregisterImageEffectExtension();
+                    RegisterImageEffectExtension();
+                }
+                else
+                {
+                    UnregisterImageEffectExtension();
+                }
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+            }
+        }
+
+        private static void RegisterImageEffectExtension()
+        {
+            RegistryHelpers.CreateRegistry(ShellImageEffectExtensionPath, ShellImageEffectExtensionValue);
+            RegistryHelpers.CreateRegistry(ShellImageEffectAssociatePath, ShellImageEffectAssociateValue);
+            RegistryHelpers.CreateRegistry(ShellImageEffectIconPath, ShellImageEffectIconValue);
+            RegistryHelpers.CreateRegistry(ShellImageEffectCommandPath, ShellImageEffectCommandValue);
+
+            NativeMethods.SHChangeNotify(HChangeNotifyEventID.SHCNE_ASSOCCHANGED, HChangeNotifyFlags.SHCNF_FLUSH, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        private static void UnregisterImageEffectExtension()
+        {
+            RegistryHelpers.RemoveRegistry(ShellImageEffectExtensionPath);
+            RegistryHelpers.RemoveRegistry(ShellImageEffectAssociatePath, true);
+        }
+
         public static bool CheckChromeExtensionSupport()
         {
             try
@@ -253,7 +313,7 @@ namespace ShareX
         {
             Helpers.CreateDirectoryFromFilePath(filepath);
 
-            var manifest = new
+            ChromeManifest manifest = new ChromeManifest()
             {
                 name = "com.getsharex.sharex",
                 description = "ShareX",
@@ -323,7 +383,7 @@ namespace ShareX
         {
             Helpers.CreateDirectoryFromFilePath(filepath);
 
-            var manifest = new
+            FirefoxManifest manifest = new FirefoxManifest()
             {
                 name = "ShareX",
                 description = "ShareX",
@@ -401,6 +461,7 @@ namespace ShareX
             CreateShellContextMenuButton(false);
             CreateEditShellContextMenuButton(false);
             CreateCustomUploaderExtension(false);
+            CreateImageEffectExtension(false);
             CreateSendToMenuButton(false);
         }
     }

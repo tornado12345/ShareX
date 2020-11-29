@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,10 +24,10 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
+using ShareX.MediaLib;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Threading;
 
 namespace ShareX.ScreenCaptureLib
@@ -99,8 +99,8 @@ namespace ShareX.ScreenCaptureLib
         private Screenshot screenshot;
         private Rectangle captureRectangle;
         private ImageCache imgCache;
-        private FFmpegHelper ffmpegCli;
-        private bool stopRequest;
+        private FFmpegCLIManager ffmpeg;
+        private bool stopRequested;
 
         public ScreenRecorder(ScreenRecordOutput outputType, ScreencastOptions options, Screenshot screenshot, Rectangle captureRectangle)
         {
@@ -121,8 +121,11 @@ namespace ShareX.ScreenCaptureLib
             {
                 default:
                 case ScreenRecordOutput.FFmpeg:
-                    ffmpegCli = new FFmpegHelper(Options);
-                    ffmpegCli.RecordingStarted += OnRecordingStarted;
+                    Helpers.CreateDirectoryFromFilePath(Options.OutputPath);
+                    ffmpeg = new FFmpegCLIManager(Options.FFmpeg.FFmpegPath);
+                    ffmpeg.ShowError = true;
+                    ffmpeg.EncodeStarted += OnRecordingStarted;
+                    ffmpeg.EncodeProgressChanged += OnEncodingProgressChanged;
                     break;
                 case ScreenRecordOutput.GIF:
                     imgCache = new HardDiskCache(Options);
@@ -143,11 +146,11 @@ namespace ShareX.ScreenCaptureLib
             if (!IsRecording)
             {
                 IsRecording = true;
-                stopRequest = false;
+                stopRequested = false;
 
                 if (OutputType == ScreenRecordOutput.FFmpeg)
                 {
-                    ffmpegCli.Record();
+                    ffmpeg.Run(Options.GetFFmpegCommands());
                 }
                 else
                 {
@@ -163,7 +166,7 @@ namespace ShareX.ScreenCaptureLib
         {
             try
             {
-                for (int i = 0; !stopRequest && (frameCount == 0 || i < frameCount); i++)
+                for (int i = 0; !stopRequested && (frameCount == 0 || i < frameCount); i++)
                 {
                     Stopwatch timer = Stopwatch.StartNew();
 
@@ -172,7 +175,7 @@ namespace ShareX.ScreenCaptureLib
 
                     imgCache.AddImageAsync(img);
 
-                    if (!stopRequest && (frameCount == 0 || i + 1 < frameCount))
+                    if (!stopRequested && (frameCount == 0 || i + 1 < frameCount))
                     {
                         int sleepTime = delay - (int)timer.ElapsedMilliseconds;
 
@@ -195,11 +198,11 @@ namespace ShareX.ScreenCaptureLib
 
         public void StopRecording()
         {
-            stopRequest = true;
+            stopRequested = true;
 
-            if (ffmpegCli != null)
+            if (ffmpeg != null)
             {
-                ffmpegCli.Close();
+                ffmpeg.Close();
             }
         }
 
@@ -233,37 +236,68 @@ namespace ShareX.ScreenCaptureLib
         public bool FFmpegEncodeVideo(string input, string output)
         {
             Helpers.CreateDirectoryFromFilePath(output);
-            bool result = ffmpegCli.EncodeVideo(input, output);
-            //DebugHelper.WriteLine("Video encoding result:\nInput file size: {0}\nOutput file size: {1}", new FileInfo(input).Length.ToSizeString(), new FileInfo(output).Length.ToSizeString());
-            return result;
+
+            Options.IsRecording = false;
+            Options.IsLossless = false;
+            Options.InputPath = input;
+            Options.OutputPath = output;
+
+            try
+            {
+                ffmpeg.TrackEncodeProgress = true;
+
+                return ffmpeg.Run(Options.GetFFmpegCommands());
+            }
+            finally
+            {
+                ffmpeg.TrackEncodeProgress = false;
+            }
         }
 
-        public bool FFmpegEncodeAsGIF(string sourceFilePath, string targetFilePath, string tempFolder)
+        public bool FFmpegEncodeAsGIF(string input, string output)
         {
-            Helpers.CreateDirectoryFromFilePath(targetFilePath);
-            Helpers.CreateDirectoryFromDirectoryPath(tempFolder);
-            return ffmpegCli.EncodeGIF(sourceFilePath, targetFilePath, tempFolder);
+            Helpers.CreateDirectoryFromFilePath(output);
+
+            try
+            {
+                ffmpeg.TrackEncodeProgress = true;
+
+                // https://ffmpeg.org/ffmpeg-filters.html#palettegen-1
+                // https://ffmpeg.org/ffmpeg-filters.html#paletteuse
+                return ffmpeg.Run($"-i \"{input}\" -lavfi \"palettegen=stats_mode={Options.FFmpeg.GIFStatsMode}[palette]," +
+                    $"[0:v][palette]paletteuse=dither={Options.FFmpeg.GIFDither}" +
+                    $"{(Options.FFmpeg.GIFDither == FFmpegPaletteUseDither.bayer ? ":bayer_scale=" + Options.FFmpeg.GIFBayerScale : "")}\"" +
+                    $" -y \"{output}\"");
+            }
+            finally
+            {
+                ffmpeg.TrackEncodeProgress = false;
+            }
         }
 
         protected void OnRecordingStarted()
         {
-            if (RecordingStarted != null)
-            {
-                RecordingStarted();
-            }
+            RecordingStarted?.Invoke();
         }
 
-        protected void OnEncodingProgressChanged(int progress)
+        protected void OnEncodingProgressChanged(float progress)
         {
-            if (EncodingProgressChanged != null && progress != previousProgress)
+            int currentProgress = (int)progress;
+
+            if (EncodingProgressChanged != null && currentProgress != previousProgress)
             {
-                EncodingProgressChanged(progress);
-                previousProgress = progress;
+                EncodingProgressChanged(currentProgress);
+                previousProgress = currentProgress;
             }
         }
 
         public void Dispose()
         {
+            if (ffmpeg != null)
+            {
+                ffmpeg.Dispose();
+            }
+
             if (imgCache != null)
             {
                 imgCache.Dispose();

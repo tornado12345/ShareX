@@ -127,7 +127,7 @@
     <value>Показывать прогресс на иконке в трее</value>
   </data>
   <data name="cbRememberMainFormPosition.Text" xml:space="preserve">
-    <value>Запоминать расположение главного окна</value>
+    <value>Запоминать положение главного окна</value>
   </data>
   <data name="cbShowTray.Text" xml:space="preserve">
     <value>Показывать иконку в трее</value>
@@ -145,7 +145,7 @@
     <value>Прокси</value>
   </data>
   <data name="btnEditQuickTaskMenu.Text" xml:space="preserve">
-    <value>Редактировать меню быстрых задач</value>
+    <value>Редактировать меню быстрых задач...</value>
   </data>
   <data name="cbShellContextMenu.Text" xml:space="preserve">
     <value>Показывать пункт "Загрузить с помощью ShareX" в контекстном меню проводника Windows</value>
@@ -167,9 +167,6 @@
   </data>
   <data name="lblPersonalFolderPath.Text" xml:space="preserve">
     <value>Персональная папка ShareX:</value>
-  </data>
-  <data name="lblNotePersonalFolderPath.Text" xml:space="preserve">
-    <value>Заметка: Для применения персональной папки нужно перезапустить ShareX.</value>
   </data>
   <data name="tpIntegration.Text" xml:space="preserve">
     <value>Интеграция</value>
@@ -270,9 +267,6 @@
   <data name="btnOpenPersonalFolderPath.Text" xml:space="preserve">
     <value>Открыть...</value>
   </data>
-  <data name="tpExportImport.Text" xml:space="preserve">
-    <value>Экспорт / Импорт</value>
-  </data>
   <data name="btnExport.Text" xml:space="preserve">
     <value>Экспорт...</value>
   </data>
@@ -304,7 +298,7 @@
     <value>Показывать последние задачи первыми в трее</value>
   </data>
   <data name="lblRecentTasksMaxCount.Text" xml:space="preserve">
-    <value>Максимальное количество задач для сохранения</value>
+    <value>Максимальное количество задач для сохранения:</value>
   </data>
   <data name="cbRecentTasksShowInTrayMenu.Text" xml:space="preserve">
     <value>Показывать последние задачи в трее</value>
@@ -347,5 +341,38 @@
   </data>
   <data name="cbEditWithShareX.Text" xml:space="preserve">
     <value>Показывать пункт "Редактировать в ShareX" в контекстном меню проводника Windows</value>
+  </data>
+  <data name="btnPersonalFolderPathApply.Text" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="cbUseWhiteShareXIcon.Text" xml:space="preserve">
+    <value>Использовать белую иконку ShareX</value>
+  </data>
+  <data name="lblExportImportNote.Text" xml:space="preserve">
+    <value>Заметка: Не делитесь этим экспортируемым файлом ни с кем, он может содержать личную информацию, например пароли.</value>
+  </data>
+  <data name="cbExportHistory.Text" xml:space="preserve">
+    <value>История</value>
+  </data>
+  <data name="cbExportSettings.Text" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="tpTheme.Text" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="btnThemeAdd.Text" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="btnThemeRemove.Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="btnThemeReset.Text" xml:space="preserve">
+    <value>Сбросить...</value>
+  </data>
+  <data name="cbUseCustomTheme.Text" xml:space="preserve">
+    <value>Пользовательская тема</value>
+  </data>
+  <data name="tpSettings.Text" xml:space="preserve">
+    <value>Настройки</value>
   </data>
 </root>

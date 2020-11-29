@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -53,7 +53,6 @@ namespace ShareX.ScreenCaptureLib
 
         internal ResizeNode TailNode => Manager.ResizeNodes[(int)NodePosition.Extra];
 
-        // If rectangle average size is 100px then tail width will be 30px
         protected const float TailWidthMultiplier = 0.3f;
 
         public override void OnCreated()

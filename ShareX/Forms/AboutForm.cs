@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -37,28 +37,28 @@ namespace ShareX
         public AboutForm()
         {
             InitializeComponent();
-            Icon = ShareXResources.Icon;
+
             lblProductName.Text = Program.Title;
             pbLogo.Image = ShareXResources.Logo;
 
             rtbShareXInfo.AddContextMenu();
             rtbCredits.AddContextMenu();
 
-#if STEAM || WindowsStore
-            uclUpdate.Visible = false;
-            lblBuild.Visible = true;
+            ShareXResources.ApplyTheme(this);
 
-            if (Program.Build == ShareXBuild.Steam)
-            {
-                lblBuild.Text = "Steam build";
-            }
-            else if (Program.Build == ShareXBuild.MicrosoftStore)
-            {
-                lblBuild.Text = "Microsoft Store build";
-            }
+#if STEAM
+            uclUpdate.Visible = false;
+            lblBuild.Text = "Steam build";
+            lblBuild.Visible = true;
+#elif WindowsStore
+            uclUpdate.Visible = false;
+            lblBuild.Text = "Microsoft Store build";
+            lblBuild.Visible = true;
 #else
             if (!Program.PortableApps)
             {
+                uclUpdate.UpdateLoadingImage();
+
                 UpdateChecker updateChecker = Program.UpdateManager.CreateUpdateChecker();
                 uclUpdate.CheckUpdate(updateChecker);
             }
@@ -73,7 +73,7 @@ namespace ShareX
             lblMike.Text = "McoreD (Michael Delpach)";
 
             rtbShareXInfo.Text = $@"{Resources.AboutForm_AboutForm_Website}: {Links.URL_WEBSITE}
-{Resources.AboutForm_AboutForm_Project_page}: {Links.URL_PROJECT}
+{Resources.AboutForm_AboutForm_Project_page}: {Links.URL_GITHUB}
 {Resources.AboutForm_AboutForm_Changelog}: {Links.URL_CHANGELOG}";
 
             rtbCredits.Text = $@"{Resources.AboutForm_AboutForm_Contributors}:
@@ -98,6 +98,9 @@ https://github.com/ShareX/ShareX/graphs/contributors
 {Resources.AboutForm_AboutForm_Language_uk}: https://github.com/6c6c6
 {Resources.AboutForm_AboutForm_Language_id_ID}: https://github.com/Nicedward
 {Resources.AboutForm_AboutForm_Language_es_MX}: https://github.com/absay
+{Resources.AboutForm_AboutForm_Language_fa_IR}: https://github.com/pourmand1376
+{Resources.AboutForm_AboutForm_Language_pt_PT}: https://github.com/FarewellAngelina
+{Resources.AboutForm_AboutForm_Language_ja_JP}: https://github.com/kanaxx
 
 {Resources.AboutForm_AboutForm_External_libraries}:
 
@@ -106,7 +109,6 @@ SSH.NET: https://github.com/sshnet/SSH.NET
 Icons: http://p.yusukekamiyamane.com
 ImageListView: https://github.com/oozcitak/imagelistview
 FFmpeg: https://www.ffmpeg.org
-Zeranoe FFmpeg: https://ffmpeg.zeranoe.com/builds
 DirectShow video and audio device: https://github.com/rdp/screen-capture-recorder-to-video-windows-free
 FluentFTP: https://github.com/robinrodricks/FluentFTP
 Steamworks.NET: https://github.com/rlabrecque/Steamworks.NET
@@ -115,7 +117,7 @@ ZXing.Net: https://github.com/micjahn/ZXing.Net
 MegaApiClient: https://github.com/gpailler/MegaApiClient
 Blob Emoji: http://blobs.gg
 
-Copyright (c) 2007-2019 ShareX Team";
+Copyright (c) 2007-2020 ShareX Team";
 
             easterEgg = new EasterEggAboutAnimation(cLogo, this);
         }
@@ -138,12 +140,12 @@ Copyright (c) 2007-2019 ShareX Team";
 
         private void pbBerkURL_Click(object sender, EventArgs e)
         {
-            URLHelpers.OpenURL(Links.URL_BERK);
+            URLHelpers.OpenURL(Links.URL_JAEX);
         }
 
         private void pbMikeURL_Click(object sender, EventArgs e)
         {
-            URLHelpers.OpenURL(Links.URL_MIKE);
+            URLHelpers.OpenURL(Links.URL_MCORED);
         }
 
         private void rtb_LinkClicked(object sender, LinkClickedEventArgs e)

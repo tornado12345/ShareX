@@ -19,7 +19,7 @@ namespace ShareX.UploadersLib.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -187,6 +187,24 @@ namespace ShareX.UploadersLib.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duplicate name not allowed..
+        /// </summary>
+        internal static string DuplicateNameNotAllowed {
+            get {
+                return ResourceManager.GetString("DuplicateNameNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export failed..
+        /// </summary>
+        internal static string ExportFailed {
+            get {
+                return ResourceManager.GetString("ExportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Firebase {
@@ -273,6 +291,15 @@ namespace ShareX.UploadersLib.Properties {
             get {
                 object obj = ResourceManager.GetObject("GoogleDrive", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My drive.
+        /// </summary>
+        internal static string GoogleDrive_MyDrive_My_drive {
+            get {
+                return ResourceManager.GetString("GoogleDrive_MyDrive_My_drive", resourceCulture);
             }
         }
         
@@ -375,12 +402,21 @@ namespace ShareX.UploadersLib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon Lithiio {
+        internal static System.Drawing.Bitmap Lithiio {
             get {
                 object obj = ResourceManager.GetObject("Lithiio", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logged in as {0}..
+        /// </summary>
+        internal static string LoggedInAs0 {
+            get {
+                return ResourceManager.GetString("LoggedInAs0", resourceCulture);
             }
         }
         
@@ -411,6 +447,16 @@ namespace ShareX.UploadersLib.Properties {
             get {
                 object obj = ResourceManager.GetObject("Mega", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap navigation_270_button_white {
+            get {
+                object obj = ResourceManager.GetObject("navigation_270_button_white", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -644,16 +690,6 @@ namespace ShareX.UploadersLib.Properties {
         internal static System.Drawing.Icon Teknik {
             get {
                 object obj = ResourceManager.GetObject("Teknik", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon TinyPic {
-            get {
-                object obj = ResourceManager.GetObject("TinyPic", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

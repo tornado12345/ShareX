@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ namespace ShareX
             TaskSettings = taskSettings;
 
             InitializeComponent();
-            Icon = ShareXResources.Icon;
+            ShareXResources.ApplyTheme(this);
 
             ImageList imageList = new ImageList { ColorDepth = ColorDepth.Depth32Bit };
             imageList.Images.Add(Resources.checkbox_uncheck);
@@ -82,6 +82,15 @@ namespace ShareX
         private void AfterCaptureForm_Shown(object sender, EventArgs e)
         {
             this.ForceActivate();
+        }
+
+        private void Continue()
+        {
+            TaskSettings.AfterCaptureJob = GetAfterCaptureTasks();
+            TaskSettings.AfterUploadJob = GetAfterUploadTasks();
+            FileName = txtFileName.Text;
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void CheckItem(ListViewItem lvi, bool check)
@@ -201,11 +210,25 @@ namespace ShareX
             }
         }
 
+        private void txtFileName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtFileName_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                Continue();
+            }
+        }
+
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            TaskSettings.AfterCaptureJob = GetAfterCaptureTasks();
-            TaskSettings.AfterUploadJob = GetAfterUploadTasks();
-            FileName = txtFileName.Text;
+            Continue();
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

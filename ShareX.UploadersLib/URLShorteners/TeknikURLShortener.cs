@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -54,7 +54,7 @@ namespace ShareX.UploadersLib.URLShorteners
         public override TabPage GetUploadersConfigTabPage(UploadersConfigForm form) => form.tpTeknik;
     }
 
-    public sealed class TeknikUrlShortener : URLShortener, IOAuth2Basic
+    public sealed class TeknikUrlShortener : URLShortener, IOAuth2
     {
         public OAuth2Info AuthInfo { get; set; }
         public string APIUrl { get; set; }
@@ -92,6 +92,16 @@ namespace ShareX.UploadersLib.URLShorteners
             }
 
             return ur;
+        }
+
+        public bool RefreshAccessToken()
+        {
+            return teknik.RefreshAccessToken();
+        }
+
+        public bool CheckAuthorization()
+        {
+            return teknik.CheckAuthorization();
         }
     }
 

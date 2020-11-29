@@ -125,10 +125,70 @@
   <data name="scMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="rtbStats.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="rtbStats.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9.75pt</value>
+  </data>
+  <data name="rtbStats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="rtbStats.Size" type="System.Drawing.Size, System.Drawing">
+    <value>544, 635</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="rtbStats.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rtbStats.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;rtbStats.Name" xml:space="preserve">
+    <value>rtbStats</value>
+  </data>
+  <data name="&gt;&gt;rtbStats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rtbStats.Parent" xml:space="preserve">
+    <value>pStats</value>
+  </data>
+  <data name="&gt;&gt;rtbStats.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pStats.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pStats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pStats.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="pStats.Size" type="System.Drawing.Size, System.Drawing">
+    <value>550, 641</value>
+  </data>
+  <data name="pStats.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="pStats.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;pStats.Name" xml:space="preserve">
+    <value>pStats</value>
+  </data>
+  <data name="&gt;&gt;pStats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pStats.Parent" xml:space="preserve">
+    <value>scMain.Panel1</value>
+  </data>
+  <data name="&gt;&gt;pStats.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="chIcon.Text" xml:space="preserve">
     <value />
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="chIcon.Width" type="System.Int32, mscorlib">
     <value>24</value>
   </data>
@@ -166,13 +226,13 @@
     <value>lvHistory</value>
   </data>
   <data name="&gt;&gt;lvHistory.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MyListView, ShareX.HelpersLib, Version=12.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MyListView, ShareX.HelpersLib, Version=13.2.2.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvHistory.Parent" xml:space="preserve">
     <value>scMain.Panel1</value>
   </data>
   <data name="&gt;&gt;lvHistory.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;scMain.Panel1.Name" xml:space="preserve">
     <value>scMain.Panel1</value>
@@ -189,6 +249,33 @@
   <data name="scMain.Panel1MinSize" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
+  <data name="nudMaxItemCount.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="nudMaxItemCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>224, 576</value>
+  </data>
+  <data name="nudMaxItemCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="nudMaxItemCount.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="nudMaxItemCount.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;nudMaxItemCount.Name" xml:space="preserve">
+    <value>nudMaxItemCount</value>
+  </data>
+  <data name="&gt;&gt;nudMaxItemCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudMaxItemCount.Parent" xml:space="preserve">
+    <value>scMain.Panel2</value>
+  </data>
+  <data name="&gt;&gt;nudMaxItemCount.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="pbThumbnail.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
@@ -196,7 +283,7 @@
     <value>8, 8</value>
   </data>
   <data name="pbThumbnail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 384</value>
+    <value>404, 352</value>
   </data>
   <data name="pbThumbnail.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -205,19 +292,82 @@
     <value>pbThumbnail</value>
   </data>
   <data name="&gt;&gt;pbThumbnail.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.MyPictureBox, ShareX.HelpersLib, Version=12.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.MyPictureBox, ShareX.HelpersLib, Version=13.2.2.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pbThumbnail.Parent" xml:space="preserve">
-    <value>panel1</value>
+    <value>scMain.Panel2</value>
   </data>
   <data name="&gt;&gt;pbThumbnail.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
+  </data>
+  <data name="btnShowStats.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="btnShowStats.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnShowStats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 604</value>
+  </data>
+  <data name="btnShowStats.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 24</value>
+  </data>
+  <data name="btnShowStats.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="btnShowStats.Text" xml:space="preserve">
+    <value>Show stats</value>
+  </data>
+  <data name="&gt;&gt;btnShowStats.Name" xml:space="preserve">
+    <value>btnShowStats</value>
+  </data>
+  <data name="&gt;&gt;btnShowStats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnShowStats.Parent" xml:space="preserve">
+    <value>scMain.Panel2</value>
+  </data>
+  <data name="&gt;&gt;btnShowStats.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblMaxItemCount.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="lblMaxItemCount.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblMaxItemCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 580</value>
+  </data>
+  <data name="lblMaxItemCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 13</value>
+  </data>
+  <data name="lblMaxItemCount.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblMaxItemCount.Text" xml:space="preserve">
+    <value>Maximum item limit:</value>
+  </data>
+  <data name="&gt;&gt;lblMaxItemCount.Name" xml:space="preserve">
+    <value>lblMaxItemCount</value>
+  </data>
+  <data name="&gt;&gt;lblMaxItemCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMaxItemCount.Parent" xml:space="preserve">
+    <value>scMain.Panel2</value>
+  </data>
+  <data name="&gt;&gt;lblMaxItemCount.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="gbFilters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
+    <value>Bottom, Left</value>
   </data>
   <data name="lblURLFilter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblURLFilter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblURLFilter.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 48</value>
@@ -247,7 +397,7 @@
     <value>96, 44</value>
   </data>
   <data name="txtURLFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>296, 20</value>
   </data>
   <data name="txtURLFilter.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -266,6 +416,9 @@
   </data>
   <data name="lblFilenameFilter.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lblFilenameFilter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblFilenameFilter.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 24</value>
@@ -292,10 +445,10 @@
     <value>2</value>
   </data>
   <data name="cbHostFilterSelection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 168</value>
+    <value>168, 142</value>
   </data>
   <data name="cbHostFilterSelection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 21</value>
+    <value>224, 21</value>
   </data>
   <data name="cbHostFilterSelection.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -316,7 +469,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnRemoveFilters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 200</value>
+    <value>168, 168</value>
   </data>
   <data name="btnRemoveFilters.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 24</value>
@@ -343,7 +496,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnApplyFilters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 200</value>
+    <value>16, 168</value>
   </data>
   <data name="btnApplyFilters.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 24</value>
@@ -367,10 +520,10 @@
     <value>5</value>
   </data>
   <data name="cbTypeFilterSelection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 142</value>
+    <value>168, 118</value>
   </data>
   <data name="cbTypeFilterSelection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 21</value>
+    <value>224, 21</value>
   </data>
   <data name="cbTypeFilterSelection.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -394,7 +547,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbHostFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 170</value>
+    <value>16, 144</value>
   </data>
   <data name="cbHostFilter.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 17</value>
@@ -424,7 +577,7 @@
     <value>NoControl</value>
   </data>
   <data name="cbTypeFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 144</value>
+    <value>16, 120</value>
   </data>
   <data name="cbTypeFilter.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 17</value>
@@ -448,10 +601,10 @@
     <value>8</value>
   </data>
   <data name="dtpFilterFrom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 92</value>
+    <value>168, 70</value>
   </data>
   <data name="dtpFilterFrom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>224, 20</value>
   </data>
   <data name="dtpFilterFrom.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -475,7 +628,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblFilterFrom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 96</value>
+    <value>93, 74</value>
   </data>
   <data name="lblFilterFrom.Size" type="System.Drawing.Size, System.Drawing">
     <value>33, 13</value>
@@ -505,7 +658,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblFilterTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 120</value>
+    <value>93, 98</value>
   </data>
   <data name="lblFilterTo.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 13</value>
@@ -559,10 +712,10 @@
     <value>12</value>
   </data>
   <data name="dtpFilterTo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 116</value>
+    <value>168, 94</value>
   </data>
   <data name="dtpFilterTo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>224, 20</value>
   </data>
   <data name="dtpFilterTo.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -583,7 +736,7 @@
     <value>96, 20</value>
   </data>
   <data name="txtFilenameFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 20</value>
+    <value>296, 20</value>
   </data>
   <data name="txtFilenameFilter.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -601,10 +754,10 @@
     <value>14</value>
   </data>
   <data name="gbFilters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 400</value>
+    <value>8, 368</value>
   </data>
   <data name="gbFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 234</value>
+    <value>404, 200</value>
   </data>
   <data name="gbFilters.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -619,34 +772,10 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;gbFilters.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;gbFilters.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>425, 641</value>
-  </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>scMain.Panel2</value>
   </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;gbFilters.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;scMain.Panel2.Name" xml:space="preserve">
     <value>scMain.Panel2</value>
@@ -679,7 +808,7 @@
     <value>scMain</value>
   </data>
   <data name="&gt;&gt;scMain.Type" xml:space="preserve">
-    <value>ShareX.HelpersLib.SplitContainerCustomSplitter, ShareX.HelpersLib, Version=12.3.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>ShareX.HelpersLib.SplitContainerCustomSplitter, ShareX.HelpersLib, Version=13.2.2.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;scMain.Parent" xml:space="preserve">
     <value>$this</value>
@@ -691,7 +820,7 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>981, 641</value>

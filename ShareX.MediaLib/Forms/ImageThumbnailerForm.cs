@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using ShareX.HelpersLib;
+using ShareX.MediaLib.Properties;
 using System;
 using System.Drawing;
 using System.IO;
@@ -36,7 +37,7 @@ namespace ShareX.MediaLib
         public ImageThumbnailerForm()
         {
             InitializeComponent();
-            Icon = ShareXResources.Icon;
+            ShareXResources.ApplyTheme(this);
         }
 
         private void UpdateEnabled()
@@ -165,11 +166,11 @@ namespace ShareX.MediaLib
 
                         if (File.Exists(filePath))
                         {
-                            using (Image img = ImageHelpers.LoadImage(filePath))
+                            using (Bitmap bmp = ImageHelpers.LoadImage(filePath))
                             {
-                                if (img != null)
+                                if (bmp != null)
                                 {
-                                    using (Image thumbnail = ImageHelpers.CreateThumbnail(img, width, height))
+                                    using (Bitmap thumbnail = ImageHelpers.CreateThumbnail(bmp, width, height))
                                     {
                                         string filename = Path.GetFileNameWithoutExtension(filePath);
                                         string outputPath = Path.Combine(outputFolder, outputFilename.Replace("$filename", filename));
@@ -182,8 +183,7 @@ namespace ShareX.MediaLib
                     }
 
                     Cursor = Cursors.Default;
-                    // TODO: Translate
-                    MessageBox.Show("Thumbnails successfully generated.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(Resources.ThumbnailsSuccessfullyGenerated, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {

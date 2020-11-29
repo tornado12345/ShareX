@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -109,10 +109,10 @@ namespace ShareX.UploadersLib.FileUploaders
             string url = URLHelpers.CombineURL(Host, "remote.php/webdav", encodedPath);
             url = URLHelpers.FixPrefix(url);
 
-            NameValueCollection headers = UploadHelpers.CreateAuthenticationHeader(Username, Password);
+            NameValueCollection headers = RequestHelpers.CreateAuthenticationHeader(Username, Password);
             headers["OCS-APIREQUEST"] = "true";
 
-            string response = SendRequest(HttpMethod.PUT, url, stream, UploadHelpers.GetMimeType(fileName), null, headers);
+            string response = SendRequest(HttpMethod.PUT, url, stream, RequestHelpers.GetMimeType(fileName), null, headers);
 
             UploadResult result = new UploadResult(response);
 
@@ -166,7 +166,7 @@ namespace ShareX.UploadersLib.FileUploaders
             string url = URLHelpers.CombineURL(Host, "ocs/v1.php/apps/files_sharing/api/v1/shares?format=json");
             url = URLHelpers.FixPrefix(url);
 
-            NameValueCollection headers = UploadHelpers.CreateAuthenticationHeader(Username, Password);
+            NameValueCollection headers = RequestHelpers.CreateAuthenticationHeader(Username, Password);
             headers["OCS-APIREQUEST"] = "true";
 
             string response = SendRequestMultiPart(url, args, headers);

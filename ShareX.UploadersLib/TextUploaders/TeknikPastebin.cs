@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -47,17 +47,21 @@ namespace ShareX.UploadersLib.TextUploaders
         {
             return new TeknikPaster(config.TeknikOAuth2Info, config.TeknikAuthUrl)
             {
-                APIUrl = config.TeknikPasteAPIUrl
+                APIUrl = config.TeknikPasteAPIUrl,
+                ExpirationUnit = config.TeknikExpirationUnit,
+                ExpirationLength = config.TeknikExpirationLength
             };
         }
 
         public override TabPage GetUploadersConfigTabPage(UploadersConfigForm form) => form.tpTeknik;
     }
 
-    public sealed class TeknikPaster : TextUploader, IOAuth2Basic
+    public sealed class TeknikPaster : TextUploader, IOAuth2
     {
         public OAuth2Info AuthInfo { get; set; }
         public string APIUrl { get; set; }
+        public TeknikExpirationUnit ExpirationUnit { get; set; }
+        public int ExpirationLength { get; set; }
 
         private Teknik teknik;
 
@@ -77,10 +81,22 @@ namespace ShareX.UploadersLib.TextUploaders
             return teknik.GetAuthorizationURL();
         }
 
+        public bool RefreshAccessToken()
+        {
+            return teknik.RefreshAccessToken();
+        }
+
+        public bool CheckAuthorization()
+        {
+            return teknik.CheckAuthorization();
+        }
+
         public override UploadResult UploadText(string text, string fileName)
         {
             Dictionary<string, string> args = new Dictionary<string, string>();
             args.Add("code", text);
+            args.Add("expirationUnit", ExpirationUnit.ToString());
+            args.Add("expirationLength", ExpirationLength.ToString());
 
             string response = SendRequestMultiPart(APIUrl, args, teknik.GetAuthHeaders());
             TeknikPasteResponseWrapper apiResponse = JsonConvert.DeserializeObject<TeknikPasteResponseWrapper>(response);

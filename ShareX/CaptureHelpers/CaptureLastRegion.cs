@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -39,10 +39,10 @@ namespace ShareX
                 case RegionCaptureType.Default:
                     if (RegionCaptureForm.LastRegionFillPath != null)
                     {
-                        using (Image screenshot = TaskHelpers.GetScreenshot(taskSettings).CaptureFullscreen())
+                        using (Bitmap screenshot = TaskHelpers.GetScreenshot(taskSettings).CaptureFullscreen())
                         {
-                            Image img = RegionCaptureTasks.ApplyRegionPathToImage(screenshot, RegionCaptureForm.LastRegionFillPath, out _);
-                            return new ImageInfo(img);
+                            Bitmap bmp = RegionCaptureTasks.ApplyRegionPathToImage(screenshot, RegionCaptureForm.LastRegionFillPath, out _);
+                            return new ImageInfo(bmp);
                         }
                     }
                     else
@@ -52,10 +52,10 @@ namespace ShareX
                 case RegionCaptureType.Light:
                     if (!RegionCaptureLightForm.LastSelectionRectangle0Based.IsEmpty)
                     {
-                        using (Image screenshot = TaskHelpers.GetScreenshot(taskSettings).CaptureFullscreen())
+                        using (Bitmap screenshot = TaskHelpers.GetScreenshot(taskSettings).CaptureFullscreen())
                         {
-                            Image img = ImageHelpers.CropImage(screenshot, RegionCaptureLightForm.LastSelectionRectangle0Based);
-                            return new ImageInfo(img);
+                            Bitmap bmp = ImageHelpers.CropBitmap(screenshot, RegionCaptureLightForm.LastSelectionRectangle0Based);
+                            return new ImageInfo(bmp);
                         }
                     }
                     else
@@ -65,10 +65,10 @@ namespace ShareX
                 case RegionCaptureType.Transparent:
                     if (!RegionCaptureTransparentForm.LastSelectionRectangle0Based.IsEmpty)
                     {
-                        using (Image screenshot = TaskHelpers.GetScreenshot(taskSettings).CaptureFullscreen())
+                        using (Bitmap screenshot = TaskHelpers.GetScreenshot(taskSettings).CaptureFullscreen())
                         {
-                            Image img = ImageHelpers.CropImage(screenshot, RegionCaptureTransparentForm.LastSelectionRectangle0Based);
-                            return new ImageInfo(img);
+                            Bitmap bmp = ImageHelpers.CropBitmap(screenshot, RegionCaptureTransparentForm.LastSelectionRectangle0Based);
+                            return new ImageInfo(bmp);
                         }
                     }
                     else

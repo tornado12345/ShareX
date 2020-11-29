@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -58,14 +58,23 @@ namespace ShareX.UploadersLib
             ServicePointManager.DefaultConnectionLimit = 25;
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.UseNagleAlgorithm = false;
+
+            if (Helpers.IsWindows7())
+            {
+                try
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                }
+                catch (NotSupportedException)
+                {
+                    DebugHelper.WriteLine("Unable to configure TLS 1.2 as the default security protocol.");
+                }
+            }
         }
 
         protected void OnProgressChanged(ProgressManager progress)
         {
-            if (ProgressChanged != null)
-            {
-                ProgressChanged(progress);
-            }
+            ProgressChanged?.Invoke(progress);
         }
 
         protected void OnEarlyURLCopyRequested(string url)
@@ -106,7 +115,7 @@ namespace ShareX.UploadersLib
             }
         }
 
-        protected string SendRequest(HttpMethod method, string url, Dictionary<string, string> args = null, NameValueCollection headers = null, CookieCollection cookies = null)
+        internal string SendRequest(HttpMethod method, string url, Dictionary<string, string> args = null, NameValueCollection headers = null, CookieCollection cookies = null)
         {
             return SendRequest(method, url, (Stream)null, null, args, headers, cookies);
         }
@@ -137,7 +146,7 @@ namespace ShareX.UploadersLib
         {
             string query = URLHelpers.CreateQueryString(args);
 
-            return SendRequest(method, url, query, UploadHelpers.ContentTypeURLEncoded, null, headers, cookies);
+            return SendRequest(method, url, query, RequestHelpers.ContentTypeURLEncoded, null, headers, cookies);
         }
 
         protected bool SendRequestDownload(HttpMethod method, string url, Stream downloadStream, Dictionary<string, string> args = null,
@@ -162,9 +171,9 @@ namespace ShareX.UploadersLib
         protected string SendRequestMultiPart(string url, Dictionary<string, string> args, NameValueCollection headers = null, CookieCollection cookies = null,
             HttpMethod method = HttpMethod.POST)
         {
-            string boundary = UploadHelpers.CreateBoundary();
-            string contentType = UploadHelpers.ContentTypeMultipartFormData + "; boundary=" + boundary;
-            byte[] data = UploadHelpers.MakeInputContent(boundary, args);
+            string boundary = RequestHelpers.CreateBoundary();
+            string contentType = RequestHelpers.ContentTypeMultipartFormData + "; boundary=" + boundary;
+            byte[] data = RequestHelpers.MakeInputContent(boundary, args);
 
             using (MemoryStream stream = new MemoryStream())
             {
@@ -178,7 +187,7 @@ namespace ShareX.UploadersLib
         }
 
         protected UploadResult SendRequestFile(string url, Stream data, string fileName, string fileFormName, Dictionary<string, string> args = null,
-            NameValueCollection headers = null, CookieCollection cookies = null, HttpMethod method = HttpMethod.POST, string contentType = UploadHelpers.ContentTypeMultipartFormData,
+            NameValueCollection headers = null, CookieCollection cookies = null, HttpMethod method = HttpMethod.POST, string contentType = RequestHelpers.ContentTypeMultipartFormData,
             string relatedData = null)
         {
             UploadResult result = new UploadResult();
@@ -188,22 +197,22 @@ namespace ShareX.UploadersLib
 
             try
             {
-                string boundary = UploadHelpers.CreateBoundary();
+                string boundary = RequestHelpers.CreateBoundary();
                 contentType += "; boundary=" + boundary;
 
-                byte[] bytesArguments = UploadHelpers.MakeInputContent(boundary, args, false);
+                byte[] bytesArguments = RequestHelpers.MakeInputContent(boundary, args, false);
                 byte[] bytesDataOpen;
 
                 if (relatedData != null)
                 {
-                    bytesDataOpen = UploadHelpers.MakeRelatedFileInputContentOpen(boundary, "application/json; charset=UTF-8", relatedData, fileName);
+                    bytesDataOpen = RequestHelpers.MakeRelatedFileInputContentOpen(boundary, "application/json; charset=UTF-8", relatedData, fileName);
                 }
                 else
                 {
-                    bytesDataOpen = UploadHelpers.MakeFileInputContentOpen(boundary, fileFormName, fileName);
+                    bytesDataOpen = RequestHelpers.MakeFileInputContentOpen(boundary, fileFormName, fileName);
                 }
 
-                byte[] bytesDataClose = UploadHelpers.MakeFileInputContentClose(boundary);
+                byte[] bytesDataClose = RequestHelpers.MakeFileInputContentClose(boundary);
 
                 long contentLength = bytesArguments.Length + bytesDataOpen.Length + data.Length + bytesDataClose.Length;
 
@@ -263,7 +272,7 @@ namespace ShareX.UploadersLib
                 }
                 contentLength = Math.Min(contentLength, data.Length - contentPosition);
 
-                string contentType = UploadHelpers.GetMimeType(fileName);
+                string contentType = RequestHelpers.GetMimeType(fileName);
 
                 if (headers == null)
                 {
@@ -486,7 +495,7 @@ namespace ShareX.UploadersLib
         {
             LastResponseInfo = null;
 
-            HttpWebRequest request = UploadHelpers.CreateWebRequest(method, url, headers, cookies, contentType, contentLength);
+            HttpWebRequest request = RequestHelpers.CreateWebRequest(method, url, headers, cookies, contentType, contentLength);
             currentWebRequest = request;
             return request;
         }

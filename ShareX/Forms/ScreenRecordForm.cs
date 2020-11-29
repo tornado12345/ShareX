@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -52,6 +52,7 @@ namespace ShareX
         private Rectangle borderRectangle0Based;
         private bool activateWindow;
         private float duration;
+        private static int lastIconStatus = -1;
 
         public ScreenRecordForm(Rectangle regionRectangle, TaskSettings taskSettings, bool activateWindow = true, float duration = 0)
         {
@@ -305,7 +306,39 @@ namespace ShareX
 
         public void ChangeStateProgress(int progress)
         {
-            niTray.Text = string.Format("ShareX - {0} ({1}%)", Resources.ScreenRecordForm_StartRecording_Encoding___, progress);
+            niTray.Text = $"ShareX - {Resources.ScreenRecordForm_StartRecording_Encoding___} {progress}%";
+
+            if (niTray.Visible && lastIconStatus != progress)
+            {
+                Icon icon;
+
+                if (progress >= 0)
+                {
+                    try
+                    {
+                        icon = TaskHelpers.GetProgressIcon(progress, Color.FromArgb(140, 0, 36));
+                    }
+                    catch (Exception e)
+                    {
+                        DebugHelper.WriteException(e);
+                        progress = -1;
+                        if (lastIconStatus == progress) return;
+                        icon = Resources.camcorder_pencil.ToIcon();
+                    }
+                }
+                else
+                {
+                    icon = Resources.camcorder_pencil.ToIcon();
+                }
+
+                using (Icon oldIcon = niTray.Icon)
+                {
+                    niTray.Icon = icon;
+                    oldIcon.DisposeHandle();
+                }
+
+                lastIconStatus = progress;
+            }
         }
     }
 }

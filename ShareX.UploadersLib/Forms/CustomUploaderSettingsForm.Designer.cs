@@ -99,6 +99,9 @@
             this.pData = new System.Windows.Forms.Panel();
             this.rtbData = new System.Windows.Forms.RichTextBox();
             this.tpResponse = new System.Windows.Forms.TabPage();
+            this.pResultErrorMessage = new System.Windows.Forms.Panel();
+            this.rtbResultErrorMessage = new System.Windows.Forms.RichTextBox();
+            this.lblResultErrorMessage = new System.Windows.Forms.Label();
             this.lblParseResponse = new System.Windows.Forms.Label();
             this.pResultDeletionURL = new System.Windows.Forms.Panel();
             this.rtbResultDeletionURL = new System.Windows.Forms.RichTextBox();
@@ -162,6 +165,7 @@
             this.pBodyData.SuspendLayout();
             this.pData.SuspendLayout();
             this.tpResponse.SuspendLayout();
+            this.pResultErrorMessage.SuspendLayout();
             this.pResultDeletionURL.SuspendLayout();
             this.pResultThumbnailURL.SuspendLayout();
             this.pResultURL.SuspendLayout();
@@ -367,6 +371,7 @@
             resources.ApplyResources(this.eiCustomUploaders, "eiCustomUploaders");
             this.eiCustomUploaders.Name = "eiCustomUploaders";
             this.eiCustomUploaders.ObjectType = null;
+            this.eiCustomUploaders.SerializationBinder = null;
             this.eiCustomUploaders.ExportRequested += new ShareX.HelpersLib.ExportImportControl.ExportEventHandler(this.eiCustomUploaders_ExportRequested);
             this.eiCustomUploaders.ImportRequested += new ShareX.HelpersLib.ExportImportControl.ImportEventHandler(this.eiCustomUploaders_ImportRequested);
             this.eiCustomUploaders.ImportCompleted += new System.Action(this.eiCustomUploaders_ImportCompleted);
@@ -460,7 +465,7 @@
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -509,7 +514,7 @@
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -623,7 +628,7 @@
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -714,6 +719,8 @@
             // 
             // tpResponse
             // 
+            this.tpResponse.Controls.Add(this.pResultErrorMessage);
+            this.tpResponse.Controls.Add(this.lblResultErrorMessage);
             this.tpResponse.Controls.Add(this.lblParseResponse);
             this.tpResponse.Controls.Add(this.pResultDeletionURL);
             this.tpResponse.Controls.Add(this.lblResultDeletionURL);
@@ -725,6 +732,27 @@
             resources.ApplyResources(this.tpResponse, "tpResponse");
             this.tpResponse.Name = "tpResponse";
             this.tpResponse.UseVisualStyleBackColor = true;
+            // 
+            // pResultErrorMessage
+            // 
+            this.pResultErrorMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pResultErrorMessage.Controls.Add(this.rtbResultErrorMessage);
+            resources.ApplyResources(this.pResultErrorMessage, "pResultErrorMessage");
+            this.pResultErrorMessage.Name = "pResultErrorMessage";
+            // 
+            // rtbResultErrorMessage
+            // 
+            this.rtbResultErrorMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbResultErrorMessage.DetectUrls = false;
+            resources.ApplyResources(this.rtbResultErrorMessage, "rtbResultErrorMessage");
+            this.rtbResultErrorMessage.Name = "rtbResultErrorMessage";
+            this.rtbResultErrorMessage.TextChanged += new System.EventHandler(this.rtbResultErrorMessage_TextChanged);
+            this.rtbResultErrorMessage.Enter += new System.EventHandler(this.rtbResultErrorMessage_Enter);
+            // 
+            // lblResultErrorMessage
+            // 
+            resources.ApplyResources(this.lblResultErrorMessage, "lblResultErrorMessage");
+            this.lblResultErrorMessage.Name = "lblResultErrorMessage";
             // 
             // lblParseResponse
             // 
@@ -907,7 +935,7 @@
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -1072,7 +1100,6 @@
             this.ttHelpTip.AutoPopDelay = 30000;
             this.ttHelpTip.BackColor = System.Drawing.SystemColors.Window;
             this.ttHelpTip.InitialDelay = 500;
-            this.ttHelpTip.IsBalloon = true;
             this.ttHelpTip.ReshowDelay = 100;
             this.ttHelpTip.UseAnimation = false;
             this.ttHelpTip.UseFading = false;
@@ -1081,7 +1108,7 @@
             // 
             this.AllowDrop = true;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.tcCustomUploader);
             this.Controls.Add(this.lblDestinationType);
@@ -1131,6 +1158,7 @@
             this.pData.ResumeLayout(false);
             this.tpResponse.ResumeLayout(false);
             this.tpResponse.PerformLayout();
+            this.pResultErrorMessage.ResumeLayout(false);
             this.pResultDeletionURL.ResumeLayout(false);
             this.pResultThumbnailURL.ResumeLayout(false);
             this.pResultURL.ResumeLayout(false);
@@ -1263,5 +1291,8 @@
         private System.Windows.Forms.Panel pResponseInfo;
         private System.Windows.Forms.RichTextBox rtbResponseInfo;
         private System.Windows.Forms.ToolStripMenuItem tsmiUpdateFolder;
+        private System.Windows.Forms.Panel pResultErrorMessage;
+        private System.Windows.Forms.RichTextBox rtbResultErrorMessage;
+        private System.Windows.Forms.Label lblResultErrorMessage;
     }
 }

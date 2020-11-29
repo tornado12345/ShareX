@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -94,6 +94,9 @@ namespace ShareX.HelpersLib
             }
         }
 
+        [DefaultValue(false)]
+        public bool AutoSelectChild { get; set; }
+
         public TabToTreeView()
         {
             InitializeComponent();
@@ -140,28 +143,57 @@ namespace ShareX.HelpersLib
         private void tvMain_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TabPage tabPage = e.Node.Tag as TabPage;
-            SelectTab(tabPage);
-            OnTabChanged(tabPage);
+
+            if (tabPage != null)
+            {
+                if (AutoSelectChild && tabPage.Controls.Count == 1 && tabPage.Controls[0] is TabControl)
+                {
+                    SelectChildNode();
+                }
+                else
+                {
+                    SelectTabPage(tabPage);
+                }
+            }
         }
 
-        public void SelectTab(TabPage tabPage)
+        private void SelectTabPage(TabPage tabPage)
         {
             if (tabPage != null)
             {
-                tvMain.BeginUpdate();
                 tcMain.Visible = true;
                 tcMain.TabPages.Clear();
                 tcMain.TabPages.Add(tabPage);
                 tvMain.Focus();
-                tvMain.EndUpdate();
+
+                OnTabChanged(tabPage);
             }
         }
 
-        public void SelectChild()
+        public void NavigateToTabPage(TabPage tabPage)
         {
-            if (tvMain.SelectedNode.Nodes.Count > 0)
+            if (tabPage != null)
             {
-                tvMain.SelectedNode = tvMain.SelectedNode.Nodes[0];
+                foreach (TreeNode node in tvMain.Nodes.All())
+                {
+                    TabPage nodeTabPage = node.Tag as TabPage;
+
+                    if (nodeTabPage == tabPage)
+                    {
+                        tvMain.SelectedNode = node;
+                        return;
+                    }
+                }
+            }
+        }
+
+        public void SelectChildNode()
+        {
+            TreeNode node = tvMain.SelectedNode;
+
+            if (node != null && node.Nodes.Count > 0)
+            {
+                tvMain.SelectedNode = node.Nodes[0];
             }
         }
 

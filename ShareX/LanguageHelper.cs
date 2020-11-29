@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -98,11 +98,20 @@ namespace ShareX
                 case SupportedLanguage.Italian:
                     icon = Resources.it;
                     break;
+                case SupportedLanguage.Japanese:
+                    icon = Resources.jp;
+                    break;
                 case SupportedLanguage.Korean:
                     icon = Resources.kr;
                     break;
                 case SupportedLanguage.MexicanSpanish:
                     icon = Resources.mx;
+                    break;
+                case SupportedLanguage.Persian:
+                    icon = Resources.ir;
+                    break;
+                case SupportedLanguage.Portuguese:
+                    icon = Resources.pt;
                     break;
                 case SupportedLanguage.PortugueseBrazil:
                     icon = Resources.br;
@@ -161,11 +170,20 @@ namespace ShareX
                 case SupportedLanguage.Italian:
                     cultureName = "it-IT";
                     break;
+                case SupportedLanguage.Japanese:
+                    cultureName = "ja-JP";
+                    break;
                 case SupportedLanguage.Korean:
                     cultureName = "ko-KR";
                     break;
                 case SupportedLanguage.MexicanSpanish:
                     cultureName = "es-MX";
+                    break;
+                case SupportedLanguage.Persian:
+                    cultureName = "fa-IR";
+                    break;
+                case SupportedLanguage.Portuguese:
+                    cultureName = "pt-PT";
                     break;
                 case SupportedLanguage.PortugueseBrazil:
                     cultureName = "pt-BR";

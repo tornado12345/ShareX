@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -24,7 +24,9 @@
 #endregion License Information (GPL v3)
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ShareX.HelpersLib
@@ -319,22 +321,22 @@ namespace ShareX.HelpersLib
 
         public static double ValidColor(double number)
         {
-            return number.Between(0, 1);
+            return number.Clamp(0, 1);
         }
 
         public static int ValidColor(int number)
         {
-            return number.Between(0, 255);
+            return number.Clamp(0, 255);
         }
 
         public static byte ValidColor(byte number)
         {
-            return number.Between(0, 255);
+            return number.Clamp<byte>(0, 255);
         }
 
         public static Color RandomColor()
         {
-            return Color.FromArgb(MathHelpers.Random(255), MathHelpers.Random(255), MathHelpers.Random(255));
+            return Color.FromArgb(RandomFast.Next(255), RandomFast.Next(255), RandomFast.Next(255));
         }
 
         public static bool ParseColor(string text, out Color color)
@@ -381,7 +383,22 @@ namespace ShareX.HelpersLib
 
         public static Color VisibleColor(Color color, Color lightColor, Color darkColor)
         {
-            return PerceivedBrightness(color) > 130 ? darkColor : lightColor;
+            if (IsLightColor(color))
+            {
+                return darkColor;
+            }
+
+            return lightColor;
+        }
+
+        public static bool IsLightColor(Color color)
+        {
+            return PerceivedBrightness(color) > 130;
+        }
+
+        public static bool IsDarkColor(Color color)
+        {
+            return !IsLightColor(color);
         }
 
         public static Color Lerp(Color from, Color to, float amount)
@@ -419,6 +436,31 @@ namespace ShareX.HelpersLib
         public static Color DarkerColor(Color color, float amount)
         {
             return Lerp(color, Color.Black, amount);
+        }
+
+        public static List<Color> GetKnownColors()
+        {
+            List<Color> colors = new List<Color>();
+
+            for (KnownColor knownColor = KnownColor.AliceBlue; knownColor <= KnownColor.YellowGreen; knownColor++)
+            {
+                Color color = Color.FromKnownColor(knownColor);
+                colors.Add(color);
+            }
+
+            return colors;
+        }
+
+        public static Color FindClosestKnownColor(Color color)
+        {
+            List<Color> colors = GetKnownColors();
+            return colors.Aggregate(Color.Black, (accu, curr) => ColorDifference(color, curr) < ColorDifference(color, accu) ? curr : accu);
+        }
+
+        public static string GetColorName(Color color)
+        {
+            Color knownColor = FindClosestKnownColor(color);
+            return Helpers.GetProperName(knownColor.Name);
         }
     }
 }

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="UploadTask_DoUploadJob_You_are_attempting_to_upload_a_large_file" xml:space="preserve">
-    <value>Está intentando subir un archivo de gran tamaño. ¿Está seguro de que desea continuar?</value>
+    <value>Está intentando subir un archivo de gran tamaño. ¿Desea continuar?</value>
   </data>
   <data name="ScreenRecordForm_StartRecording_Encoding___" xml:space="preserve">
     <value>Codificando...</value>
@@ -127,16 +127,13 @@
     <value>¿Está seguro de que desea subir {0} archivos?</value>
   </data>
   <data name="BeforeUploadControl_AddDestination_Custom" xml:space="preserve">
-    <value>Personalizar</value>
+    <value>Personalizado</value>
   </data>
   <data name="UploadTask_Stop_Stopping" xml:space="preserve">
     <value>Deteniendo</value>
   </data>
   <data name="UploadTask_CreateURLShortenerTask_Shorten_URL___0__" xml:space="preserve">
     <value>Acortar enlace ({0})</value>
-  </data>
-  <data name="ScreenRecordForm_StartRecording_There_is_no_valid_CLI_video_encoder_selected_" xml:space="preserve">
-    <value>No hay ventana de comandos de codificador de video válida seleccionada.</value>
   </data>
   <data name="ActionsToolbar_OpenAtShareXStartup" xml:space="preserve">
     <value>Abrir al iniciar ShareX</value>
@@ -157,7 +154,7 @@
     <value>Error de FFmpeg</value>
   </data>
   <data name="ActionsToolbar_Edit" xml:space="preserve">
-    <value>Editar..</value>
+    <value>Editar...</value>
   </data>
   <data name="AboutForm_AboutForm_Language_vi_VN" xml:space="preserve">
     <value>Vietnamita</value>
@@ -167,9 +164,6 @@
   </data>
   <data name="QRCodeForm_InputTextToEncode" xml:space="preserve">
     <value>Introducir texto a codificar</value>
-  </data>
-  <data name="TaskHelpers_OpenFTPClient_Unable_to_find_valid_FTP_account_" xml:space="preserve">
-    <value>No se puede encontrar una cuenta de FTP válida.</value>
   </data>
   <data name="AboutForm_AboutForm_Contributors" xml:space="preserve">
     <value>Colaboradores</value>
@@ -253,10 +247,7 @@ Por favor seleccione un atajo de teclado diferente o salga de la aplicación que
     <value>Esperando...</value>
   </data>
   <data name="TaskSettingsForm_UpdateUploaderMenuNames_Image_uploader___0_" xml:space="preserve">
-    <value>Servidor para imágenes: {0}</value>
-  </data>
-  <data name="ScreenRecordForm_StartRecording_CLI_video_encoder_file_does_not_exist__" xml:space="preserve">
-    <value>Archivo de codificador de video CLI no existe:</value>
+    <value>Servidor de imágenes: {0}</value>
   </data>
   <data name="TaskHelpers_OpenQuickScreenColorPicker_Copied_to_clipboard___0_" xml:space="preserve">
     <value>Copiado al portapapeles: {0}</value>
@@ -334,9 +325,6 @@ aquí</value>
   <data name="AboutForm_AboutForm_Language_pt_BR" xml:space="preserve">
     <value>Portugués (Brasil)</value>
   </data>
-  <data name="EncoderProgramForm_btnOK_Click_Path_can_t_be_empty_" xml:space="preserve">
-    <value>La ubicación no puede estar vacía.</value>
-  </data>
   <data name="TaskSettingsForm_UpdateUploaderMenuNames_File_uploader___0_" xml:space="preserve">
     <value>Servidor para archivos: {0}</value>
   </data>
@@ -345,9 +333,6 @@ aquí</value>
   </data>
   <data name="TaskHelpers_TweetMessage_Tweet_successfully_sent_" xml:space="preserve">
     <value>Tuit publicado con éxito.</value>
-  </data>
-  <data name="EncoderProgramForm_btnPathBrowse_Click_Choose_encoder_path" xml:space="preserve">
-    <value>Elegir ubicación del codificador</value>
   </data>
   <data name="Program_WritePersonalPathConfig_Cant_access_to_file" xml:space="preserve">
     <value>No se puede acceder al archivo "{0}". 
@@ -367,9 +352,6 @@ Ejecute ShareX como administrador y cambie la ubicación de la carpeta personal.
   </data>
   <data name="MainForm_UpdateWorkflowsMenu_You_can_add_workflows_from_hotkey_settings___" xml:space="preserve">
     <value>Los flujos de trabajo pueden agregarse en la configuración de los atajos de teclado...</value>
-  </data>
-  <data name="TaskHelpers_OpenFTPClient_FTP_client_only_supports_FTP_or_FTPS_" xml:space="preserve">
-    <value>El cliente FTP solo soporta FTP o FTPS.</value>
   </data>
   <data name="AboutForm_AboutForm_Language_ru" xml:space="preserve">
     <value>Ruso</value>
@@ -408,9 +390,6 @@ Ejecute ShareX como administrador y cambie la ubicación de la carpeta personal.
   <data name="AutoCaptureForm_Execute_Start" xml:space="preserve">
     <value>Iniciar</value>
   </data>
-  <data name="EncoderProgramForm_btnOK_Click_Extension_can_t_be_empty_" xml:space="preserve">
-    <value>La extensión no puede estar vacía.</value>
-  </data>
   <data name="UploadManager_UploadFolder_Folder_upload" xml:space="preserve">
     <value>Subir carpeta</value>
   </data>
@@ -419,9 +398,6 @@ Ejecute ShareX como administrador y cambie la ubicación de la carpeta personal.
   </data>
   <data name="TaskSettingsForm_UpdateUploaderMenuNames_After_capture___0_" xml:space="preserve">
     <value>Después de capturar: {0}</value>
-  </data>
-  <data name="TaskSettingsForm_ConfigureEncoder_Configure_CLI_video_encoders_____" xml:space="preserve">
-    <value>Configurar codificadores de video CLI ---&gt;</value>
   </data>
   <data name="TaskSettingsForm_UpdateUploaderMenuNames_URL_shortener___0_" xml:space="preserve">
     <value>Acortador de enlaces: {0}</value>
@@ -482,10 +458,10 @@ Elija "No" para cancelar y deshabilitar la subida automática.</value>
     <value>La configuración de {0} no es válida o no se encuentra. Favor de revisar "Configuraciones de destinos".</value>
   </data>
   <data name="ChromeForm_btnUnregister_Click_Chrome_support_disabled_" xml:space="preserve">
-    <value>Soporte de Chrome deshabilitado.</value>
+    <value>Soporte para Chrome deshabilitado.</value>
   </data>
   <data name="ChromeForm_btnRegister_Click_Chrome_support_enabled_" xml:space="preserve">
-    <value>Soporte de Chrome habilitado.</value>
+    <value>Soporte para Chrome habilitado.</value>
   </data>
   <data name="ActionsToolbar_Tip" xml:space="preserve">
     <value>Mantener pulsado clic izq. para arrastrar
@@ -554,5 +530,55 @@ Clic medio para cerrar</value>
   </data>
   <data name="ApplicationSettingsForm_btnResetSettings_Click_WouldYouLikeToResetShareXSettings" xml:space="preserve">
     <value>¿Desea restablecer la configuración de ShareX?</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_EnabledByPolicy_Text" xml:space="preserve">
+    <value>El inicio ha sido habilitado por su organización</value>
+  </data>
+  <data name="OCRForm_AutoCompleteFail" xml:space="preserve">
+    <value>Ocurrió un error al procesar el OCR, o no se ha producido ningún texto.</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_uk" xml:space="preserve">
+    <value>Ucraniano</value>
+  </data>
+  <data name="OCRForm_AutoComplete" xml:space="preserve">
+    <value>El resultado del OCR ha sido copiado al portapapeles.</value>
+  </data>
+  <data name="ScreenshotDelay0S" xml:space="preserve">
+    <value>Aplazar captura: {0} s</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_id_ID" xml:space="preserve">
+    <value>Indonesio</value>
+  </data>
+  <data name="AboutForm_AboutForm_Language_es_MX" xml:space="preserve">
+    <value>Español mexicano</value>
+  </data>
+  <data name="ApplicationSettingsForm_cbStartWithWindows_DisabledByPolicy_Text" xml:space="preserve">
+    <value>El inicio ha sido deshabilitado por su organización</value>
+  </data>
+  <data name="MainForm_UploadDebugLogWarning" xml:space="preserve">
+    <value>El registro de depuración podría contener información sensible. ¿Desea continuar?</value>
+  </data>
+  <data name="OCRForm_AutoProcessing" xml:space="preserve">
+    <value>El OCR está en proceso.</value>
+  </data>
+  <data name="PleaseNoteThatShareXIsUsingOCRSpaceSOnlineAPIToPerformOpticalCharacterRecognitionDoYouGivePermissionToShareXToUploadImagesToThisService" xml:space="preserve">
+    <value>Tome en cuenta que ShareX emplea la API pública de OCR.space para realizar el reconocimiento óptico de caracteres. ¿Desea otorgarle permiso a ShareX de subir imágenes a tal servicio?</value>
+  </data>
+  <data name="ShareXConfirmation" xml:space="preserve">
+    <value>ShareX - Confirmación</value>
+  </data>
+  <data name="ShareXNeedsToBeRestartedForThePersonalFolderChangesToApply" xml:space="preserve">
+    <value>ShareX debe reiniciarse para que los cambios a la carpeta personal surtan efecto.
+
+¿Desea reiniciar ShareX?</value>
+  </data>
+  <data name="ShareXOpticalCharacterRecognition" xml:space="preserve">
+    <value>ShareX - Reconocimiento óptico de caracteres (OCR)</value>
+  </data>
+  <data name="SwitchToListView" xml:space="preserve">
+    <value>Cambiar a vista de lista</value>
+  </data>
+  <data name="SwitchToThumbnailView" xml:space="preserve">
+    <value>Cambiar a vista de miniaturas</value>
   </data>
 </root>

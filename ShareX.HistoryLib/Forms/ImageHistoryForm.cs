@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using View = Manina.Windows.Forms.View;
 
@@ -47,17 +48,27 @@ namespace ShareX.HistoryLib
         public ImageHistoryForm(string historyPath, ImageHistorySettings settings, Action<string> uploadFile = null, Action<string> editImage = null)
         {
             InitializeComponent();
-            Icon = ShareXResources.Icon;
+            tsMain.Renderer = new ToolStripRoundedEdgeRenderer();
 
             HistoryPath = historyPath;
             Settings = settings;
 
-            tsMain.Renderer = new CustomToolStripProfessionalRenderer();
             ilvImages.View = (View)Settings.ViewMode;
             ilvImages.ThumbnailSize = Settings.ThumbnailSize;
 
+            if (ShareXResources.UseCustomTheme)
+            {
+                ilvImages.BorderStyle = BorderStyle.None;
+                ilvImages.Colors.BackColor = ShareXResources.Theme.LightBackgroundColor;
+                ilvImages.Colors.BorderColor = ShareXResources.Theme.BorderColor;
+                ilvImages.Colors.ForeColor = ShareXResources.Theme.TextColor;
+                ilvImages.Colors.SelectedForeColor = ShareXResources.Theme.TextColor;
+                ilvImages.Colors.UnFocusedForeColor = ShareXResources.Theme.TextColor;
+            }
+
             him = new HistoryItemManager(uploadFile, editImage);
             him.GetHistoryItems += him_GetHistoryItems;
+            ilvImages.ContextMenuStrip = him.cmsHistory;
 
             defaultTitle = Text;
 
@@ -66,19 +77,21 @@ namespace ShareX.HistoryLib
                 tstbSearch.Text = Settings.SearchText;
             }
 
+            ShareXResources.ApplyTheme(this);
+
             Settings.WindowState.AutoHandleFormState(this);
         }
 
         private void UpdateTitle(int total, int filtered)
         {
-            Text = $"{defaultTitle} (Total: {total.ToString("N0")} - Filtered: {filtered.ToString("N0")})";
+            Text = $"{defaultTitle} (Total: {total:N0} - Filtered: {filtered:N0})";
         }
 
         private void RefreshHistoryItems()
         {
             UpdateSearchText();
             ilvImages.Items.Clear();
-            ImageListViewItem[] ilvItems = GetHistoryItems().Select(hi => new ImageListViewItem(hi.Filepath) { Tag = hi }).ToArray();
+            ImageListViewItem[] ilvItems = GetHistoryItems().Select(hi => new ImageListViewItem(hi.FilePath) { Tag = hi }).ToArray();
             ilvImages.Items.AddRange(ilvItems);
         }
 
@@ -100,19 +113,27 @@ namespace ShareX.HistoryLib
         {
             if (history == null)
             {
-                history = new HistoryManager(HistoryPath);
+                history = new HistoryManagerJSON(HistoryPath);
             }
 
             List<HistoryItem> historyItems = history.GetHistoryItems();
             List<HistoryItem> filteredHistoryItems = new List<HistoryItem>();
 
+            Regex regex = null;
+
+            if (!string.IsNullOrEmpty(SearchText))
+            {
+                string pattern = Regex.Escape(SearchText).Replace("\\?", ".").Replace("\\*", ".*");
+                regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            }
+
             for (int i = historyItems.Count - 1; i >= 0; i--)
             {
                 HistoryItem hi = historyItems[i];
 
-                if (!string.IsNullOrEmpty(hi.Filepath) && Helpers.IsImageFile(hi.Filepath) &&
-                    (string.IsNullOrEmpty(SearchText) || hi.Filename.Contains(SearchText, StringComparison.InvariantCultureIgnoreCase)) &&
-                    (!Settings.FilterMissingFiles || File.Exists(hi.Filepath)))
+                if (!string.IsNullOrEmpty(hi.FilePath) && Helpers.IsImageFile(hi.FilePath) &&
+                    (regex == null || regex.IsMatch(hi.FileName)) &&
+                    (!Settings.FilterMissingFiles || File.Exists(hi.FilePath)))
                 {
                     filteredHistoryItems.Add(hi);
 
@@ -152,17 +173,9 @@ namespace ShareX.HistoryLib
             }
         }
 
-        private void ilvImages_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                him.cmsHistory.Show(ilvImages, e.X + 1, e.Y + 1);
-            }
-        }
-
         private void ilvImages_SelectionChanged(object sender, EventArgs e)
         {
-            him.RefreshInfo();
+            him.UpdateSelectedHistoryItem();
         }
 
         private void ilvImages_ItemDoubleClick(object sender, ItemClickEventArgs e)

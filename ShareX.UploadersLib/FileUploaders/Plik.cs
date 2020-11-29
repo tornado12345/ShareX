@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -77,7 +77,7 @@ namespace ShareX.UploadersLib.FileUploaders
             metaDataReq.Files = new UploadMetadataRequestFile0();
             metaDataReq.Files.File0 = new UploadMetadataRequestFile();
             metaDataReq.Files.File0.FileName = fileName;
-            metaDataReq.Files.File0.FileType = UploadHelpers.GetMimeType(fileName);
+            metaDataReq.Files.File0.FileType = RequestHelpers.GetMimeType(fileName);
             metaDataReq.Files.File0.FileSize = Convert.ToInt32(stream.Length);
             metaDataReq.Removable = Settings.Removable;
             metaDataReq.OneShot = Settings.OneShot;
@@ -101,7 +101,7 @@ namespace ShareX.UploadersLib.FileUploaders
             string metaDataResp = SendRequest(HttpMethod.POST, Settings.URL + "/upload", JsonConvert.SerializeObject(metaDataReq), headers: requestHeaders);
             UploadMetadataResponse metaData = JsonConvert.DeserializeObject<UploadMetadataResponse>(metaDataResp);
             requestHeaders["x-uploadtoken"] = metaData.uploadToken;
-            string url = $"{Settings.URL}/file/{metaData.id}/{metaData.files.First().Value.id.ToString()}/{fileName}";
+            string url = $"{Settings.URL}/file/{metaData.id}/{metaData.files.First().Value.id}/{fileName}";
             UploadResult FileDatReq = SendRequestFile(url, stream, fileName, "file", headers: requestHeaders);
 
             return ConvertResult(metaData, FileDatReq);
@@ -112,7 +112,7 @@ namespace ShareX.UploadersLib.FileUploaders
             UploadResult result = new UploadResult(fileDataReq.Response);
             UploadMetadataResponse fileData = JsonConvert.DeserializeObject<UploadMetadataResponse>(fileDataReq.Response);
             UploadMetadataResponseFile actFile = metaData.files.First().Value;
-            result.URL = $"{Settings.URL}/file/{metaData.id}/{actFile.id.ToString()}/{actFile.fileName}";
+            result.URL = $"{Settings.URL}/file/{metaData.id}/{actFile.id}/{actFile.fileName}";
             return result;
         }
 

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -25,10 +25,10 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using ShareX.HelpersLib.Properties;
 using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +52,8 @@ namespace ShareX.HelpersLib
         // Can't use generic class because not works in form designer
         public Type ObjectType { get; set; }
 
+        public ISerializationBinder SerializationBinder { get; set; }
+
         [DefaultValue(false)]
         public bool ExportIgnoreDefaultValue { get; set; }
 
@@ -68,29 +70,14 @@ namespace ShareX.HelpersLib
             InitializeComponent();
         }
 
-        public string Serialize(object obj)
+        private string Serialize(object obj)
         {
             if (obj != null)
             {
                 try
                 {
-                    StringBuilder sb = new StringBuilder(256);
-                    StringWriter stringWriter = new StringWriter(sb, CultureInfo.InvariantCulture);
-
-                    using (JsonTextWriter textWriter = new JsonTextWriter(stringWriter))
-                    {
-                        textWriter.Formatting = Formatting.Indented;
-
-                        JsonSerializer serializer = new JsonSerializer();
-                        serializer.ContractResolver = new WritablePropertiesOnlyResolver();
-                        serializer.Converters.Add(new StringEnumConverter());
-                        serializer.DefaultValueHandling = ExportIgnoreDefaultValue ? DefaultValueHandling.Ignore : DefaultValueHandling.Include;
-                        serializer.NullValueHandling = ExportIgnoreNull ? NullValueHandling.Ignore : NullValueHandling.Include;
-                        serializer.TypeNameHandling = TypeNameHandling.Auto;
-                        serializer.Serialize(textWriter, obj, ObjectType);
-                    }
-
-                    return stringWriter.ToString();
+                    return JsonHelpers.SerializeToString(obj, ExportIgnoreDefaultValue ? DefaultValueHandling.Ignore : DefaultValueHandling.Include,
+                        ExportIgnoreNull ? NullValueHandling.Ignore : NullValueHandling.Include, SerializationBinder);
                 }
                 catch (Exception e)
                 {
@@ -161,7 +148,7 @@ namespace ShareX.HelpersLib
             }
         }
 
-        public object Deserialize(string json)
+        private object Deserialize(string json)
         {
             try
             {
@@ -169,9 +156,13 @@ namespace ShareX.HelpersLib
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Converters.Add(new StringEnumConverter());
-                    serializer.Error += (sender, e) => e.ErrorContext.Handled = true;
                     serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
                     serializer.TypeNameHandling = TypeNameHandling.Auto;
+                    if (SerializationBinder != null)
+                    {
+                        serializer.SerializationBinder = SerializationBinder;
+                    }
+                    serializer.Error += (sender, e) => e.ErrorContext.Handled = true;
                     return serializer.Deserialize(textReader, ObjectType);
                 }
             }
@@ -209,14 +200,25 @@ namespace ShareX.HelpersLib
             }
         }
 
-        private void tsmiImportClipboard_Click(object sender, EventArgs e)
+        private void ImportJson(string json)
         {
-            if (Clipboard.ContainsText())
+            if (!string.IsNullOrEmpty(json))
             {
-                string json = Clipboard.GetText();
                 OnImportRequested(json);
                 OnImportCompleted();
             }
+        }
+
+        private void tsmiImportClipboard_Click(object sender, EventArgs e)
+        {
+            string json = ClipboardHelpers.GetText(true);
+            ImportJson(json);
+        }
+
+        private void ImportFile(string filePath)
+        {
+            string json = File.ReadAllText(filePath, Encoding.UTF8);
+            OnImportRequested(json);
         }
 
         private void tsmiImportFile_Click(object sender, EventArgs e)
@@ -234,8 +236,7 @@ namespace ShareX.HelpersLib
                 {
                     foreach (string filename in ofd.FileNames)
                     {
-                        string json = File.ReadAllText(filename, Encoding.UTF8);
-                        OnImportRequested(json);
+                        ImportFile(filename);
                     }
 
                     OnImportCompleted();

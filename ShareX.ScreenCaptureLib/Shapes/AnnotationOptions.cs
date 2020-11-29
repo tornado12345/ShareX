@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using ShareX.HelpersLib;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -51,7 +52,7 @@ namespace ShareX.ScreenCaptureLib
         public int LineCenterPointCount { get; set; } = 1;
 
         // Arrow drawing
-        public bool ArrowHeadsBothSide { get; set; } = false;
+        public ArrowHeadDirection ArrowHeadDirection { get; set; } = ArrowHeadDirection.End;
 
         // Text (Outline) drawing
         public TextDrawingOptions TextOutlineOptions { get; set; } = new TextDrawingOptions()
@@ -74,7 +75,7 @@ namespace ShareX.ScreenCaptureLib
         public Color TextFillColor { get; set; } = PrimaryColor;
 
         // Image drawing
-        public ImageEditorInterpolationMode ImageInterpolationMode = ImageEditorInterpolationMode.NearestNeighbor;
+        public ImageInterpolationMode ImageInterpolationMode = ImageInterpolationMode.NearestNeighbor;
         public string LastImageFilePath { get; set; }
 
         // Step drawing
@@ -83,6 +84,9 @@ namespace ShareX.ScreenCaptureLib
         public Color StepFillColor { get; set; } = PrimaryColor;
         public int StepFontSize { get; set; } = 18;
         public bool StepUseLetters { get; set; } = false;
+
+        // Magnify drawing
+        public int MagnifyStrength { get; set; } = 200;
 
         // Sticker drawing
         public List<StickerPackInfo> StickerPacks = new List<StickerPackInfo>()

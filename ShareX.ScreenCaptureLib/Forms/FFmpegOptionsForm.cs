@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -45,9 +45,10 @@ namespace ShareX.ScreenCaptureLib
 
         public FFmpegOptionsForm(ScreencastOptions options)
         {
-            InitializeComponent();
-            Icon = ShareXResources.Icon;
             Options = options;
+
+            InitializeComponent();
+            ShareXResources.ApplyTheme(this);
 
             eiFFmpeg.ObjectType = typeof(FFmpegOptions);
             cboVideoCodec.Items.AddRange(Helpers.GetEnumDescriptions<FFmpegVideoCodec>());
@@ -58,6 +59,7 @@ namespace ShareX.ScreenCaptureLib
             cbGIFDither.Items.AddRange(Helpers.GetEnumDescriptions<FFmpegPaletteUseDither>());
             cbAMFUsage.Items.AddRange(Helpers.GetEnums<FFmpegAMFUsage>().Select(x => $"{x} ({x.GetDescription()})").ToArray());
             cbAMFQuality.Items.AddRange(Helpers.GetEnums<FFmpegAMFQuality>().Select(x => $"{x} ({x.GetDescription()})").ToArray());
+            cbQSVPreset.Items.AddRange(Helpers.GetEnumDescriptions<FFmpegQSVPreset>());
         }
 
         private async Task SettingsLoad()
@@ -106,10 +108,15 @@ namespace ShareX.ScreenCaptureLib
             // GIF
             cbGIFStatsMode.SelectedIndex = (int)Options.FFmpeg.GIFStatsMode;
             cbGIFDither.SelectedIndex = (int)Options.FFmpeg.GIFDither;
+            nudGIFBayerScale.SetValue(Options.FFmpeg.GIFBayerScale);
 
             // AMF
             cbAMFUsage.SelectedIndex = (int)Options.FFmpeg.AMF_usage;
             cbAMFQuality.SelectedIndex = (int)Options.FFmpeg.AMF_quality;
+
+            // QuickSync
+            nudQSVBitrate.SetValue(Options.FFmpeg.QSV_bitrate);
+            cbQSVPreset.SelectedIndex = (int)Options.FFmpeg.QSV_preset;
 
             // AAC
             tbAACBitrate.Value = Options.FFmpeg.AAC_bitrate / 32;
@@ -118,7 +125,7 @@ namespace ShareX.ScreenCaptureLib
             tbVorbis_qscale.Value = Options.FFmpeg.Vorbis_qscale;
 
             // MP3
-            tbMP3_qscale.Value = FFmpegHelper.libmp3lame_qscale_end - Options.FFmpeg.MP3_qscale;
+            tbMP3_qscale.Value = FFmpegCLIManager.mp3_max - Options.FFmpeg.MP3_qscale;
 
 #if WindowsStore
             btnTest.Visible = false;
@@ -143,19 +150,22 @@ namespace ShareX.ScreenCaptureLib
 
             await Task.Run(() =>
             {
-                using (FFmpegHelper ffmpeg = new FFmpegHelper(Options))
+                if (File.Exists(Options.FFmpeg.FFmpegPath))
                 {
-                    devices = ffmpeg.GetDirectShowDevices();
+                    using (FFmpegCLIManager ffmpeg = new FFmpegCLIManager(Options.FFmpeg.FFmpegPath))
+                    {
+                        devices = ffmpeg.GetDirectShowDevices();
+                    }
                 }
             });
 
             if (!IsDisposed)
             {
                 cboVideoSource.Items.Clear();
-                cboVideoSource.Items.Add(FFmpegHelper.SourceNone);
-                cboVideoSource.Items.Add(FFmpegHelper.SourceGDIGrab);
+                cboVideoSource.Items.Add(FFmpegCLIManager.SourceNone);
+                cboVideoSource.Items.Add(FFmpegCLIManager.SourceGDIGrab);
                 cboAudioSource.Items.Clear();
-                cboAudioSource.Items.Add(FFmpegHelper.SourceNone);
+                cboAudioSource.Items.Add(FFmpegCLIManager.SourceNone);
 
                 if (devices != null)
                 {
@@ -163,16 +173,24 @@ namespace ShareX.ScreenCaptureLib
                     cboAudioSource.Items.AddRange(devices.AudioDevices.ToArray());
                 }
 
-                if (selectDevices && cboVideoSource.Items.Contains(FFmpegHelper.SourceVideoDevice))
+                if (selectDevices && cboVideoSource.Items.Contains(FFmpegCLIManager.SourceVideoDevice))
                 {
-                    Options.FFmpeg.VideoSource = FFmpegHelper.SourceVideoDevice;
+                    Options.FFmpeg.VideoSource = FFmpegCLIManager.SourceVideoDevice;
+                }
+                else if (!cboVideoSource.Items.Contains(Options.FFmpeg.VideoSource))
+                {
+                    Options.FFmpeg.VideoSource = FFmpegCLIManager.SourceGDIGrab;
                 }
 
                 cboVideoSource.Text = Options.FFmpeg.VideoSource;
 
-                if (selectDevices && cboAudioSource.Items.Contains(FFmpegHelper.SourceAudioDevice))
+                if (selectDevices && cboAudioSource.Items.Contains(FFmpegCLIManager.SourceAudioDevice))
                 {
-                    Options.FFmpeg.AudioSource = FFmpegHelper.SourceAudioDevice;
+                    Options.FFmpeg.AudioSource = FFmpegCLIManager.SourceAudioDevice;
+                }
+                else if (!cboAudioSource.Items.Contains(Options.FFmpeg.AudioSource))
+                {
+                    Options.FFmpeg.AudioSource = FFmpegCLIManager.SourceNone;
                 }
 
                 cboAudioSource.Text = Options.FFmpeg.AudioSource;
@@ -188,6 +206,7 @@ namespace ShareX.ScreenCaptureLib
                 lblAACQuality.Text = string.Format(Resources.FFmpegOptionsForm_UpdateUI_Bitrate___0_k, Options.FFmpeg.AAC_bitrate);
                 lblVorbisQuality.Text = Resources.FFmpegOptionsForm_UpdateUI_Quality_ + " " + Options.FFmpeg.Vorbis_qscale;
                 lblMP3Quality.Text = Resources.FFmpegOptionsForm_UpdateUI_Quality_ + " " + Options.FFmpeg.MP3_qscale;
+                lblOpusQuality.Text = string.Format(Resources.FFmpegOptionsForm_UpdateUI_Bitrate___0_k, Options.FFmpeg.Opus_bitrate);
 
                 bool isValidAudioCodec = true;
                 FFmpegVideoCodec videoCodec = (FFmpegVideoCodec)cboVideoCodec.SelectedIndex;
@@ -196,7 +215,7 @@ namespace ShareX.ScreenCaptureLib
                 {
                     FFmpegAudioCodec audioCodec = (FFmpegAudioCodec)cboAudioCodec.SelectedIndex;
 
-                    if (audioCodec != FFmpegAudioCodec.libvorbis)
+                    if (audioCodec != FFmpegAudioCodec.libvorbis && audioCodec != FFmpegAudioCodec.libopus)
                     {
                         isValidAudioCodec = false;
                     }
@@ -210,6 +229,7 @@ namespace ShareX.ScreenCaptureLib
                     txtCommandLinePreview.Text = Options.GetFFmpegArgs();
                 }
 
+                nudGIFBayerScale.Visible = (Options.FFmpeg.GIFDither == FFmpegPaletteUseDither.bayer);
                 UpdateFFmpegPathUI();
             }
         }
@@ -231,6 +251,7 @@ namespace ShareX.ScreenCaptureLib
             }
 
             txtFFmpegPath.BackColor = backColor;
+            txtFFmpegPath.ForeColor = SystemColors.ControlText;
 #endif
         }
 
@@ -280,7 +301,7 @@ namespace ShareX.ScreenCaptureLib
 
         private async void btnInstallHelperDevices_Click(object sender, EventArgs e)
         {
-            string filePath = Helpers.GetAbsolutePath(FFmpegHelper.DeviceSetupPath);
+            string filePath = Helpers.GetAbsolutePath("Recorder-devices-setup.exe");
 
             if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
             {
@@ -335,6 +356,7 @@ namespace ShareX.ScreenCaptureLib
                         tcFFmpegVideoCodecs.SelectedIndex = 0;
                         break;
                     case FFmpegVideoCodec.libvpx:
+                    case FFmpegVideoCodec.libvpx_vp9:
                         tcFFmpegVideoCodecs.SelectedIndex = 1;
                         break;
                     case FFmpegVideoCodec.libxvid:
@@ -350,6 +372,10 @@ namespace ShareX.ScreenCaptureLib
                     case FFmpegVideoCodec.h264_amf:
                     case FFmpegVideoCodec.hevc_amf:
                         tcFFmpegVideoCodecs.SelectedIndex = 5;
+                        break;
+                    case FFmpegVideoCodec.h264_qsv:
+                    case FFmpegVideoCodec.hevc_qsv:
+                        tcFFmpegVideoCodecs.SelectedIndex = 6;
                         break;
                 }
             }
@@ -369,11 +395,14 @@ namespace ShareX.ScreenCaptureLib
                     case FFmpegAudioCodec.libvoaacenc:
                         tcFFmpegAudioCodecs.SelectedIndex = 0;
                         break;
-                    case FFmpegAudioCodec.libvorbis:
+                    case FFmpegAudioCodec.libopus:
                         tcFFmpegAudioCodecs.SelectedIndex = 1;
                         break;
-                    case FFmpegAudioCodec.libmp3lame:
+                    case FFmpegAudioCodec.libvorbis:
                         tcFFmpegAudioCodecs.SelectedIndex = 2;
+                        break;
+                    case FFmpegAudioCodec.libmp3lame:
+                        tcFFmpegAudioCodecs.SelectedIndex = 3;
                         break;
                 }
             }
@@ -429,6 +458,12 @@ namespace ShareX.ScreenCaptureLib
             UpdateUI();
         }
 
+        private void nudGIFBayerScale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Options.FFmpeg.GIFBayerScale = (int)nudGIFBayerScale.Value;
+            UpdateUI();
+        }
+
         private void cbAMFUsage_SelectedIndexChanged(object sender, EventArgs e)
         {
             Options.FFmpeg.AMF_usage = (FFmpegAMFUsage)cbAMFUsage.SelectedIndex;
@@ -441,9 +476,27 @@ namespace ShareX.ScreenCaptureLib
             UpdateUI();
         }
 
+        private void cbQSVPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Options.FFmpeg.QSV_preset = (FFmpegQSVPreset)cbQSVPreset.SelectedIndex;
+            UpdateUI();
+        }
+
+        private void nudQSVBitrate_ValueChanged(object sender, EventArgs e)
+        {
+            Options.FFmpeg.QSV_bitrate = (int)nudQSVBitrate.Value;
+            UpdateUI();
+        }
+
         private void tbAACBitrate_ValueChanged(object sender, EventArgs e)
         {
             Options.FFmpeg.AAC_bitrate = tbAACBitrate.Value * 32;
+            UpdateUI();
+        }
+
+        private void tbOpusBirate_ValueChanged(object sender, EventArgs e)
+        {
+            Options.FFmpeg.Opus_bitrate = tbOpusBitrate.Value * 32;
             UpdateUI();
         }
 
@@ -455,7 +508,7 @@ namespace ShareX.ScreenCaptureLib
 
         private void tbMP3_qscale_ValueChanged(object sender, EventArgs e)
         {
-            Options.FFmpeg.MP3_qscale = FFmpegHelper.libmp3lame_qscale_end - tbMP3_qscale.Value;
+            Options.FFmpeg.MP3_qscale = FFmpegCLIManager.mp3_max - tbMP3_qscale.Value;
             UpdateUI();
         }
 
@@ -467,12 +520,12 @@ namespace ShareX.ScreenCaptureLib
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
-            FFmpegDownloader.DownloadFFmpeg(true, DownloaderForm_InstallRequested);
+            FFmpegGitHubDownloader.DownloadFFmpeg(true, DownloaderForm_InstallRequested);
         }
 
         private void DownloaderForm_InstallRequested(string filePath)
         {
-            bool result = FFmpegDownloader.ExtractFFmpeg(filePath, DefaultToolsFolder);
+            bool result = FFmpegGitHubDownloader.ExtractFFmpeg(filePath, DefaultToolsFolder);
 
             if (result)
             {

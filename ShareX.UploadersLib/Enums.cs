@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -35,8 +35,6 @@ namespace ShareX.UploadersLib
         Imgur,
         [Description("ImageShack")]
         ImageShack,
-        [Description("TinyPic")]
-        TinyPic,
         [Description("Flickr")]
         Flickr,
         [Description("Photobucket")]
@@ -181,6 +179,8 @@ namespace ShareX.UploadersLib
         FirebaseDynamicLinks,
         [Description("Kutt")]
         Kutt,
+        [Description("Zero Width Shortener")]
+        ZeroWidthShortener,
         CustomURLShortener // Localized
     }
 
@@ -192,8 +192,6 @@ namespace ShareX.UploadersLib
         Twitter,
         [Description("Facebook")]
         Facebook,
-        [Description("Google+")]
-        GooglePlus,
         [Description("Reddit")]
         Reddit,
         [Description("Pinterest")]
@@ -342,11 +340,12 @@ namespace ShareX.UploadersLib
         LoginFailed
     }
 
-    public enum URLType
+    public enum CustomUploaderURLType
     {
         URL,
         ThumbnailURL,
-        DeletionURL
+        DeletionURL,
+        ErrorMessage
     }
 
     public enum YouTubeVideoPrivacy // Localized
@@ -354,5 +353,15 @@ namespace ShareX.UploadersLib
         Public,
         Unlisted,
         Private
+    }
+
+    public enum BoxShareAccessLevel
+    {
+        [Description("Public - People with the link")]
+        Open,
+        [Description("Company - People in your company")]
+        Company,
+        [Description("Collaborators - Invited people only")]
+        Collaborators
     }
 }

@@ -2,7 +2,7 @@
 
 /*
     ShareX - A program that allows you to take screenshots and share any file type
-    Copyright (c) 2007-2019 ShareX Team
+    Copyright (c) 2007-2020 ShareX Team
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -44,8 +44,8 @@ namespace ShareX.HelpersLib
     {
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (action == null) throw new ArgumentNullException("action");
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (action == null) throw new ArgumentNullException(nameof(action));
 
             foreach (T item in source)
             {
@@ -272,7 +272,7 @@ namespace ShareX.HelpersLib
                     tsmiRedo.Enabled = !rtb.ReadOnly && rtb.CanRedo;
                     tsmiCut.Enabled = !rtb.ReadOnly && rtb.SelectionLength > 0;
                     tsmiCopy.Enabled = rtb.SelectionLength > 0;
-                    tsmiPaste.Enabled = !rtb.ReadOnly && Clipboard.ContainsText();
+                    tsmiPaste.Enabled = !rtb.ReadOnly && ClipboardHelpers.ContainsText();
                     tsmiDelete.Enabled = !rtb.ReadOnly && rtb.SelectionLength > 0;
                     tsmiSelectAll.Enabled = rtb.TextLength > 0 && rtb.SelectionLength < rtb.TextLength;
                 };
@@ -296,7 +296,7 @@ namespace ShareX.HelpersLib
 
         public static void SaveJPG(this Image img, Stream stream, int quality)
         {
-            quality = quality.Between(0, 100);
+            quality = quality.Clamp(0, 100);
             EncoderParameters encoderParameters = new EncoderParameters(1);
             encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
             img.Save(stream, ImageFormat.Jpeg.GetCodecInfo(), encoderParameters);
@@ -566,12 +566,23 @@ namespace ShareX.HelpersLib
 
         public static void DisableMenuCloseOnClick(this ToolStripDropDownItem tsddi)
         {
-            tsddi.DropDown.Closing += (sender, e) => e.Cancel = e.CloseReason == ToolStripDropDownCloseReason.ItemClicked;
+            tsddi.DropDown.Closing -= DisableMenuCloseOnClick_DropDown_Closing;
+            tsddi.DropDown.Closing += DisableMenuCloseOnClick_DropDown_Closing;
+        }
+
+        private static void DisableMenuCloseOnClick_DropDown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            e.Cancel = e.CloseReason == ToolStripDropDownCloseReason.ItemClicked;
         }
 
         public static void SetValue(this NumericUpDown nud, decimal number)
         {
-            nud.Value = number.Between(nud.Minimum, nud.Maximum);
+            nud.Value = number.Clamp(nud.Minimum, nud.Maximum);
+        }
+
+        public static void SetValue(this TrackBar tb, int number)
+        {
+            tb.Value = number.Clamp(tb.Minimum, tb.Maximum);
         }
 
         public static bool IsValidImage(this PictureBox pb)
@@ -645,6 +656,16 @@ namespace ShareX.HelpersLib
             return new Point(rect.X + (rect.Width / 2), rect.Y + (rect.Height / 2));
         }
 
+        public static int Area(this Rectangle rect)
+        {
+            return rect.Width * rect.Height;
+        }
+
+        public static int Perimeter(this Rectangle rect)
+        {
+            return 2 * (rect.Width + rect.Height);
+        }
+
         public static Point Restrict(this Point point, Rectangle rect)
         {
             point.X = Math.Max(point.X, rect.X);
@@ -693,6 +714,135 @@ namespace ShareX.HelpersLib
         {
             PropertyInfo pi = dgv.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
             pi.SetValue(dgv, value, null);
+        }
+
+        public static void AppendLine(this RichTextBox rtb, string value = "")
+        {
+            rtb.AppendText(value + Environment.NewLine);
+        }
+
+        public static void SetFontRegular(this RichTextBox rtb)
+        {
+            rtb.SelectionFont = new Font(rtb.Font, FontStyle.Regular);
+        }
+
+        public static void SetFontBold(this RichTextBox rtb)
+        {
+            rtb.SelectionFont = new Font(rtb.Font, FontStyle.Bold);
+        }
+
+        public static void SupportCustomTheme(this ListView lv)
+        {
+            if (!lv.OwnerDraw)
+            {
+                lv.OwnerDraw = true;
+
+                lv.DrawItem += (sender, e) =>
+                {
+                    e.DrawDefault = true;
+                };
+
+                lv.DrawSubItem += (sender, e) =>
+                {
+                    e.DrawDefault = true;
+                };
+
+                lv.DrawColumnHeader += (sender, e) =>
+                {
+                    if (ShareXResources.UseCustomTheme)
+                    {
+                        using (Brush brush = new SolidBrush(ShareXResources.Theme.BackgroundColor))
+                        {
+                            e.Graphics.FillRectangle(brush, e.Bounds);
+                        }
+
+                        TextRenderer.DrawText(e.Graphics, e.Header.Text, e.Font, e.Bounds.LocationOffset(2, 0).SizeOffset(-4, 0), ShareXResources.Theme.TextColor,
+                            TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+
+                        if (e.Bounds.Right < lv.ClientRectangle.Right)
+                        {
+                            using (Pen pen = new Pen(ShareXResources.Theme.SeparatorDarkColor))
+                            using (Pen pen2 = new Pen(ShareXResources.Theme.SeparatorLightColor))
+                            {
+                                e.Graphics.DrawLine(pen, e.Bounds.Right - 2, e.Bounds.Top, e.Bounds.Right - 2, e.Bounds.Bottom - 1);
+                                e.Graphics.DrawLine(pen2, e.Bounds.Right - 1, e.Bounds.Top, e.Bounds.Right - 1, e.Bounds.Bottom - 1);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        e.DrawDefault = true;
+                    }
+                };
+            }
+        }
+
+        public static List<T> Range<T>(this List<T> source, int start, int end)
+        {
+            List<T> list = new List<T>();
+
+            if (start > end)
+            {
+                for (int i = start; i >= end; i--)
+                {
+                    list.Add(source[i]);
+                }
+            }
+            else
+            {
+                for (int i = start; i <= end; i++)
+                {
+                    list.Add(source[i]);
+                }
+            }
+
+            return list;
+        }
+
+        public static List<T> Range<T>(this List<T> source, T start, T end)
+        {
+            int startIndex = source.IndexOf(start);
+            if (startIndex == -1) return new List<T>();
+
+            int endIndex = source.IndexOf(end);
+            if (endIndex == -1) return new List<T>();
+
+            return Range(source, startIndex, endIndex);
+        }
+
+        public static T CloneSafe<T>(this T obj) where T : class, ICloneable
+        {
+            try
+            {
+                if (obj != null)
+                {
+                    return obj.Clone() as T;
+                }
+            }
+            catch (Exception e)
+            {
+                DebugHelper.WriteException(e);
+            }
+
+            return null;
+        }
+
+        public static IEnumerable<TreeNode> All(this TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                yield return node;
+
+                foreach (TreeNode child in node.Nodes.All())
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        public static bool IsTransparent(this Color color)
+        {
+            return color.A < 255;
         }
     }
 }
